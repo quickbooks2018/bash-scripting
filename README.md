@@ -243,3 +243,9 @@ srwxr-xr-x 1 kasm-user kasm-user 0 Jan 15 02:00 /home/kasm-user/.k8slens/cli.soc
 ```
 
 - Shell test with small s means file exists and it is a socket file and it is not zero size or grater than zero size
+
+- To get all the option for test command
+
+```bash
+man test
+```

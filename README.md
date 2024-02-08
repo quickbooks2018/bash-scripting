@@ -252,16 +252,16 @@ man test
 
 - Note: In All Linux System user id of root is 0.
 - Note: variable PS1 is used to change the prompt of the shell.
-- /etc/profile is the file that is executed when the user logs in.
-- /etc/bashrc is the file that is executed when the user opens the terminal.
-- /etc/skel is the directory that contains the default configuration files for the user.
+- /etc/profile is the file that is executed when the user logs in. (system wide)
+- /etc/bashrc is the file that is executed when the user opens the terminal. (system wide)
+- /etc/skel is the directory that contains the default configuration files for the user. (system wide)
 - /etc/passwd is the file that contains the user information.
 - /etc/shadow is the file that contains the password information.
 
 - Note: Use ssh cloud_user@localhost to login to the server. because sudo su username is not working as a full shell powers.
 
-- Note: .profile or .bash_profile is the file that is executed when the user logs in.
-- Note: .bashrc is the file that is executed when the user opens the terminal.
+- Note: .profile or .bash_profile is the file that is executed when the user logs in. (user specific)
+- Note: .bashrc is the file that is executed when the user opens the terminal. (user specific)
 
 ```explain
 It's common practice to source .bashrc from .bash_profile to ensure that the shell environment is consistent across login and non-login shells. This is done by adding a line in .bash_profile like source ~/.bashrc or . ~/.bashrc, so the configurations in .bashrc are also applied at login.

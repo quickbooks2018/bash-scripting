@@ -259,3 +259,10 @@ man test
 - /etc/shadow is the file that contains the password information.
 
 - Note: Use ssh cloud_user@localhost to login to the server. because sudo su username is not working as a full shell powers.
+
+- Note: .profile or .bash_profile is the file that is executed when the user logs in.
+- Note: .bashrc is the file that is executed when the user opens the terminal.
+
+```explain
+It's common practice to source .bashrc from .bash_profile to ensure that the shell environment is consistent across login and non-login shells. This is done by adding a line in .bash_profile like source ~/.bashrc or . ~/.bashrc, so the configurations in .bashrc are also applied at login.
+```

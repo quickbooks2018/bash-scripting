@@ -300,3 +300,47 @@ cat -s file1
 ```
 
 - Note: tac is a separate command and it is not available in all the Linux distributions, separate package is required to install tac command.
+
+### Expression in Bash
+
+- Example 1
+
+```bash
+expr 1 + 1
+```
+
+- Example 2
+
+```bash
+expr 1 - 1
+```
+
+- Example 3 (Note: \ is used to escape the special character *)
+
+```bash
+expr 10 \* 100
+```
+
+- Example 4
+
+```bash
+expr 100 / 10
+```
+
+- Note: expr unlike bash uses boolean operators like <, >, <=, >=, =, !=, match, substr, index, length, +, -, *, /, %, and \.
+- Note: expr 1 means true and expr 0 means false.
+- Note: bash 0 means true and bash 1 means false.
+
+- expr length of the string
+- Example 1
+
+```bash Note: space is also counted
+expr length "Hello World"
+```
+
+- expr substr of the string
+- Example 1
+
+```bash Note: 1 is the starting position and 5 is the length of the string
+expr substr "Hello World" 1 5
+```

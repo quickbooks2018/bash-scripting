@@ -266,3 +266,37 @@ man test
 ```explain
 It's common practice to source .bashrc from .bash_profile to ensure that the shell environment is consistent across login and non-login shells. This is done by adding a line in .bash_profile like source ~/.bashrc or . ~/.bashrc, so the configurations in .bashrc are also applied at login.
 ```
+
+### Cat perform concatenation (merging) of files and display on the standard output.
+
+- Example 1
+
+```bash
+cat file1 file2 > file3
+```
+
+- Number of lines in file1
+
+```bash
+cat -n file1
+```
+
+- reverse the file
+
+```bash
+tac file1
+```
+
+- cat show blank lines
+
+```bash
+cat -A file1
+```
+
+- cat remove blank lines
+
+```bash
+cat -s file1
+```
+
+- Note: tac is a separate command and it is not available in all the Linux distributions, separate package is required to install tac command.

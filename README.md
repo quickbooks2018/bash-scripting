@@ -349,3 +349,10 @@ expr substr "Hello World" 1 5
 ```bash
 -eq (equal), -ne (not equal), -lt (less than), -le (less than or equal), -gt (greater than), -ge (greater than or equal), -ne (not equal) 
 ```
+
+- Tesing Sting in Bash
+```bash
+test asim = asim; echo $?
+
+test asim = asimg; echo $?
+```

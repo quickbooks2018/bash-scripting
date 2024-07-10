@@ -355,4 +355,6 @@ expr substr "Hello World" 1 5
 test asim = asim; echo $?
 
 test asim = asimg; echo $?
+
+test asim != asimg; echo $?
 ```

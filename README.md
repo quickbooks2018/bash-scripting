@@ -344,3 +344,8 @@ expr length "Hello World"
 ```bash Note: 1 is the starting position and 5 is the length of the string
 expr substr "Hello World" 1 5
 ```
+
+- Testing Integer in Bash
+```bash
+-eq (equal), -ne (not equal), -lt (less than), -le (less than or equal), -gt (greater than), -ge (greater than or equal), -ne (not equal) 
+```

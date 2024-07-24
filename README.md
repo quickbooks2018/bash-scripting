@@ -364,3 +364,8 @@ test asim != asimg; echo $?
 test -e /etc/passwd; echo $?
 test file1 -nt file2; echo $?
 ```
+
+- Run Bash scripts with making them executable
+```bash
+sudo scriptname.sh
+```

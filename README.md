@@ -369,3 +369,7 @@ test file1 -nt file2; echo $?
 ```bash
 sudo scriptname.sh
 ```
+
+- && and || (Meaning)
+- Note: ls -l && echo "Hello World" # here second commands depends on the succesful status of first command
+- Note: ls -z || echo "Hello World" # here second commands depends on the unsuccesful status of first command

@@ -378,3 +378,19 @@ sudo scriptname.sh
 ```bash
 echo "$HELLO"
 ```
+
+- User Input with read command
+```bash
+#!/bin/bash
+
+echo -n "What is your name? "
+read name
+echo "your name is $name right."
+#END
+```
+- Postional Parameters Note: $0 is reserve for script name
+```bash
+#!/bin/bash
+echo "script name is $(basename $0)"
+#END
+```

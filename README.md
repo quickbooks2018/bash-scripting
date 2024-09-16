@@ -527,3 +527,10 @@ arg 3
 ```bash
 >> file.txt 2>&1
 ```
+- User Input with read
+```bash
+#!/bin/bash
+
+read -p "Enter your name: " name
+echo "Hello, $name!"
+```

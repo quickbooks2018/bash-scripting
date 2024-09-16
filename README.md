@@ -427,3 +427,8 @@ line2
 line3
 abc
 ```
+
+- how to make variable readonly in bash script
+```bash
+readonly NAME='Hello'
+```

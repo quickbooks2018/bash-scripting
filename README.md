@@ -432,3 +432,18 @@ abc
 ```bash
 readonly NAME='Hello'
 ```
+
+- function in bash
+```bash
+#!/bin/bash
+# Functions in bash
+
+function showdate () {
+  echo "Today is $(date +%F\ %r)"
+}
+
+# call the function
+showdate
+
+#END
+```

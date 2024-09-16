@@ -447,3 +447,20 @@ showdate
 
 #END
 ```
+
+- Number of arguments passed to a bash script
+```bash
+#!/bin/bash
+
+# pass arguments to the script
+
+echo "Hello, $1 $2 $3"
+echo "Number of arguments passed: $#"
+
+# End of the script
+
+# result I pass 4
+➜  /mnt ./hello.sh asim qasim taha papa
+Hello, asim qasim taha
+Number of arguments passed: 4
+```

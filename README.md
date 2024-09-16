@@ -394,3 +394,10 @@ echo "your name is $name right."
 echo "script name is $(basename $0)"
 #END
 ```
+- what is current shell?
+```bash
+➜  /mnt echo $0
+zsh
+➜  /mnt echo $SHELL
+/bin/bash
+```

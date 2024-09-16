@@ -523,3 +523,7 @@ arg 1
 arg 2
 arg 3
 ```
+- how to append and stdout and stderr in a file.txt
+```bash
+>> file.txt 2>&1
+```

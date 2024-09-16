@@ -567,3 +567,8 @@ cat /etc/shells
 /bin/zsh
 /usr/bin/zsh
 ```
+- What is $$
+```bash
+#!/bin/bash
+echo "The current process ID is $$"
+```

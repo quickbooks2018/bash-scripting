@@ -401,3 +401,15 @@ zsh
 ➜  /mnt echo $SHELL
 /bin/bash
 ```
+- how to change current shell
+```bash
+chsh
+
+Changing the login shell for root
+Enter the new value, or press ENTER for the default
+        Login Shell [/usr/bin/zsh]: /bin/bash
+
+type bash
+type sudo -i
+type echo $0
+```

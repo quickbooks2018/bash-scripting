@@ -464,3 +464,62 @@ echo "Number of arguments passed: $#"
 Hello, asim qasim taha
 Number of arguments passed: 4
 ```
+
+- difference between $@ and $* in shell scripting
+```bash
+The difference between $@ and $* in shell scripting comes into play when handling positional parameters, especially when arguments contain spaces. Here’s a breakdown with examples:
+
+$*:
+Treats all the positional parameters as a single string.
+If the parameters are quoted, it merges all arguments into a single string.
+$@:
+Treats each positional parameter as separate strings.
+When quoted, it retains each parameter as a distinct argument.
+
+In practice, "$@" is often preferred because it correctly handles arguments that include spaces.
+
+# without quotes
+#!/bin/bash
+for arg in $*; do
+    echo "$arg"
+done
+
+for arg in $@; do
+    echo "$arg"
+done
+
+./hello.sh "arg 1" "arg 2" "arg 3"
+arg
+1
+arg
+2
+arg
+3
+arg
+1
+arg
+2
+arg
+3
+
+# with quotes
+#!/bin/bash
+echo 'Using "$*"'
+for arg in "$*"; do
+    echo "$arg"
+done
+
+echo 'Using "$@"'
+for arg in "$@"; do
+    echo "$arg"
+done
+
+# result
+ ./hello.sh "arg 1" "arg 2" "arg 3"
+Using "$*"
+arg 1 arg 2 arg 3
+Using "$@"
+arg 1
+arg 2
+arg 3
+```

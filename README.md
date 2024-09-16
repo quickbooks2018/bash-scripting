@@ -551,3 +551,19 @@ If you modify the contents of the file via one path (either the original or the 
 If the original file is deleted, the hard link still maintains access to the file data because it shares the inode with the original file.
 Hard links cannot be created for directories and generally have to be on the same filesystem.
 ```
+- How many shells are available in your Linux box?
+```bash
+cat /etc/shells
+# /etc/shells: valid login shells
+/bin/sh
+/bin/bash
+/usr/bin/bash
+/bin/rbash
+/usr/bin/rbash
+/usr/bin/sh
+/bin/dash
+/usr/bin/dash
+/usr/bin/tmux
+/bin/zsh
+/usr/bin/zsh
+```

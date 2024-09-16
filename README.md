@@ -572,3 +572,9 @@ cat /etc/shells
 #!/bin/bash
 echo "The current process ID is $$"
 ```
+- types of loop
+```bash
+for loop
+while loop
+until loop
+```

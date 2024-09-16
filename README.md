@@ -413,3 +413,17 @@ type bash
 type sudo -i
 type echo $0
 ```
+
+- how to write multi line comment in bash
+```bash
+<<comment
+line1
+line2
+comment
+
+<<abc
+line1
+line2
+line3
+abc
+```

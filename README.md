@@ -534,3 +534,20 @@ arg 3
 read -p "Enter your name: " name
 echo "Hello, $name!"
 ```
+
+- What is hard link and soft link?
+```bash
+Soft Link (Symbolic Link):
+A soft link (or symbolic link) is similar to a shortcut in Windows. It points to the original file but is not a copy of the file.
+It has a different inode number than the original file.
+If the original file is deleted or moved, the soft link becomes a broken link (dead link), meaning it will no longer point to a valid file.
+Soft links can span across different filesystems (for example, you can create a soft link from one partition to a file on another partition).
+They can link to directories as well as files.
+
+Hard Link:
+A hard link is essentially a copy of the original file's reference in the filesystem, but it still points to the same inode (file data).
+Both the original file and the hard link share the same inode number, meaning they are essentially the same file in the eyes of the filesystem.
+If you modify the contents of the file via one path (either the original or the hard link), the changes will be reflected in both locations since they point to the same inode.
+If the original file is deleted, the hard link still maintains access to the file data because it shares the inode with the original file.
+Hard links cannot be created for directories and generally have to be on the same filesystem.
+```

@@ -578,3 +578,12 @@ for loop
 while loop
 until loop
 ```
+- for loop example, either put list or command in place list `command` or $(command)
+```bash
+list=' 1 2 3'
+
+for i in $list
+do
+ echo $i
+done
+```

@@ -685,3 +685,19 @@ hello world#
 ➜  /mnt echo "hello world"
 hello world
 ```
+- While loop example
+```bash
+#!/bin/bash
+
+NUM=1
+MAX=20
+
+while [ "$NUM" -le "$MAX" ]
+do
+  sleep 1
+  echo "Number: $NUM"
+  let   "NUM += 1"
+done
+
+#END
+```

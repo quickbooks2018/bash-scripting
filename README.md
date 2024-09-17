@@ -587,3 +587,18 @@ do
  echo $i
 done
 ```
+- Nested for loop example
+```bash
+#!/bin/bash
+
+list1='1 2 3 4 5 6 7 8 9 10'
+list2='11 12 13 14 15 16 17 18 19 20'
+
+for i in $list1
+do
+    for j in $list2
+    do
+        echo "i is $i and j is $j"
+    done
+done
+```

@@ -602,7 +602,7 @@ do
     done
 done
 ```
-- Combine or Concatenate
+- Combine or Concatenate  example1
 ```bash
 #!/bin/bash
 
@@ -614,4 +614,46 @@ combined_list="$list1 $list2"
 
 # Print the combined list
 echo "Combined list: $combined_list"
+```
+- Combine the lists example2
+```bash
+#!/bin/bash
+
+list1='1 2 3 4 5 6 7 8 9 10'
+list2='11 12 13 14 15 16 17 18 19 20'
+
+combined_list=''
+
+# Loop over list1 and append its elements to combined_list
+for i in $list1
+do
+    combined_list="$combined_list $i"
+done
+
+# Loop over list2 and append its elements to combined_list
+for j in $list2
+do
+    combined_list="$combined_list $j"
+done
+
+# Print the combined list
+echo "Combined list: $combined_list"
+```
+
+- Combine the lists elements rather than combine lists example3
+Nested loops go through every combination of i from list1 and j from list2, printing each pair.
+This approach is more useful when you want to work with combinations or pairs of elements rather than creating a single combined list.
+```bash
+#!/bin/bash
+
+list1='1 2 3 4 5 6 7 8 9 10'
+list2='11 12 13 14 15 16 17 18 19 20'
+
+for i in $list1
+do
+  for j in $list2
+  do
+    echo "Combine $i $j"
+  done
+done
 ```

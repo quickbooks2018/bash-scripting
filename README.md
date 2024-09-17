@@ -676,3 +676,12 @@ echo "Total Users in System are $COUNT"
 
 #END
 ```
+
+- printf does not add a newline automatically. You must explicitly specify \n when you want a newline.
+- echo does add a newline automatically at the end of the output, unless you use the -n option.
+```bash
+➜  /mnt printf "hello world"
+hello world#
+➜  /mnt echo "hello world"
+hello world
+```

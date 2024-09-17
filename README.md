@@ -657,3 +657,22 @@ do
   done
 done
 ```
+
+- COUNT number of users in system
+```bash
+#!/bin/bash
+
+# cat /etc/passwd | awk -F ':' '{print $1}' | wc -l
+# Above command will give you the total number of users in the system
+USERS=$(cat /etc/passwd | awk -F ':' '{print $1}')
+COUNT=0
+for i in $USERS
+do
+  echo $i
+  let "COUNT += 1"
+done
+
+echo "Total Users in System are $COUNT"
+
+#END
+```

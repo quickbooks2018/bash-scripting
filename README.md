@@ -752,4 +752,20 @@ grep -ir 'failed' /var/log/*.log ---> from here, I will picked the exact name ex
 awk '/Failed/ {print $0}' /var/log/*.log
 ```
 
+- Create 1GB file and mount it at /mnt
+if=/dev/zero: This uses /dev/zero as the input file, which is a special file that provides a continuous stream of zero bytes.
+of=/mnt/1GBfile: This specifies the output file (1GBfile) that will be created in the /mnt directory.
+bs=1M: This sets the block size to 1 megabyte.
+count=1024: This specifies the number of blocks to write. With 1 MB block size, writing 1024 blocks results in a file size of 1 GB (1024 MB).
 
+sense, count in dd behaves somewhat similarly to an iteration in Terraform, like when using count in Terraform to create multiple instances of a resource.
+```bash
+resource "aws_instance" "example" {
+  count = 3
+  # This creates 3 instances
+}
+```
+
+```bash
+dd if=/dev/zero of=/mnt/1GBfile bs=1M count=1024 status=progress
+```

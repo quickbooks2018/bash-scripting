@@ -769,6 +769,12 @@ grep -ir 'failed' /var/log/*.log ---> from here, I will picked the exact name ex
 
 awk '/Failed/ {print $0}' /var/log/*.log
 ```
+- failed login attempts (Note: this info stored in btmp file, which is the binary file, to read binary use below command
+```bash
+lastb
+lastb -adF
+lastb |  awk  '{print $1,$3}'
+```
 
 - Create 1GB file and mount it at /mnt
 if=/dev/zero: This uses /dev/zero as the input file, which is a special file that provides a continuous stream of zero bytes.

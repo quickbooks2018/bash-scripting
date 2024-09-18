@@ -685,7 +685,7 @@ hello world#
 ➜  /mnt echo "hello world"
 hello world
 ```
-- While loop example (In While loops, you test for true condition)
+- While loop example (In While loops, test for true condition)
 ```bash
 #!/bin/bash
 
@@ -697,6 +697,23 @@ do
   sleep 1
   echo "Number: $NUM"
   let   "NUM += 1"
+done
+
+#END
+```
+
+- Until loop is opposite of while loop (In Until loop, test for false condition)
+```bash
+#!/bin/bash
+
+NUM=100
+MIN=20
+
+until [ "$NUM" -lt "$MIN" ]
+do
+  sleep 1
+  echo "Number: $NUM"
+  let   "NUM -= 1"
 done
 
 #END

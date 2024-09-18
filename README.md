@@ -537,6 +537,7 @@ echo "Hello, $name!"
 
 - What is hard link and soft link?
 ```bash
+Note: For both Soft and Hard link ---> new file must not exist
 Soft Link (Symbolic Link):
 A soft link (or symbolic link) is similar to a shortcut in Windows. It points to the original file but is not a copy of the file.
 It has a different inode number than the original file.

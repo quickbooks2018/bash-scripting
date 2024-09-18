@@ -685,7 +685,7 @@ hello world#
 ➜  /mnt echo "hello world"
 hello world
 ```
-- While loop example
+- While loop example (In While loops, you test for true condition)
 ```bash
 #!/bin/bash
 

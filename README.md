@@ -740,3 +740,16 @@ done
 
 #END
 ```
+
+- log parsing in linux box
+```bash
+grep -ir 'failed' /var/log/*.log ---> from here, I will picked the exact name example CASE SENSITIVE
+
+
+/var/log/auth.log:Sep 16 09:05:15 d8d3ed90041c sshd[3480]: Failed password for ubuntu from 171.22.31.58 port 43708 ssh2
+/var/log/auth.log:Sep 16 09:06:02 d8d3ed90041c sshd[3501]: Failed password for ubuntu from 171.22.31.58 port 53166 ssh2
+
+awk '/Failed/ {print $0}' /var/log/*.log
+```
+
+

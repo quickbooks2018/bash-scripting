@@ -538,6 +538,23 @@ echo "Hello, $name!"
 - What is hard link and soft link?
 ```bash
 Note: For both Soft and Hard link ---> new file must not exist
+
+➜  /mnt stat bash.sh
+
+  File: bash.sh
+  Size: 314             Blocks: 0          IO Block: 4096   regular file
+Device: 53h/83d Inode: 16325548649240654  Links: 2
+Access: (0777/-rwxrwxrwx)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2024-09-18 03:19:20.228497100 +0000
+Modify: 2024-09-18 03:19:10.471517800 +0000
+Change: 2024-09-18 03:19:10.474686200 +0000
+ Birth: -
+
+➜  /mnt ls -i bash.sh
+
+16325548649240654 bash.sh
+
+
 Soft Link (Symbolic Link):
 A soft link (or symbolic link) is similar to a shortcut in Windows. It points to the original file but is not a copy of the file.
 It has a different inode number than the original file.

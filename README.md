@@ -789,7 +789,7 @@ lastb -adF
 lastb |  awk  '{print $1,$3}'
 ```
 
-- Create 1GB file and mount it at /mnt
+- Create 1GB file at /mnt
 if=/dev/zero: This uses /dev/zero as the input file, which is a special file that provides a continuous stream of zero bytes.
 of=/mnt/1GBfile: This specifies the output file (1GBfile) that will be created in the /mnt directory.
 bs=1M: This sets the block size to 1 megabyte.
@@ -805,4 +805,11 @@ resource "aws_instance" "example" {
 
 ```bash
 dd if=/dev/zero of=/mnt/1GBfile bs=1M count=1024 status=progress
+```
+- Create 1GB file at /mnt
+The truncate command is used to change the size of a file. If you need to reduce the size of a log file (app.log), the command will remove data from the end of the file.
+Note: Truncating removes data from the end of the file. Any removed data is permanently deleted and cannot be recovered.
+```bash
+truncate -s 1024M app.log
+truncate -s 10M app.log
 ```

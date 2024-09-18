@@ -770,6 +770,7 @@ grep -ir 'failed' /var/log/*.log ---> from here, I will picked the exact name ex
 awk '/Failed/ {print $0}' /var/log/*.log
 ```
 - failed login attempts (Note: this info stored in btmp file, which is the binary file, to read binary use below command
+btmp (which logs failed login attempts), wtmp tracks successful logins and logouts, along with system reboots and shutdowns.
 ```bash
 lastb
 lastb -adF

@@ -717,4 +717,26 @@ do
 done
 
 #END
+
+
+#!/bin/bash
+
+
+# Until loop example system is UP or DOWN
+
+STATUS=1
+SERVER='192.168.1.8'
+until [ "$STATUS" -eq "0" ] # this is false, so it will run the loop
+do
+  ping -c 3 $SERVER > /dev/null 2>&1
+  STATUS=$?
+  if [ "$STATUS" -eq "0" ]; then
+    echo "Server is UP"
+  else
+    echo "Server is DOWN"
+  fi
+
+done
+
+#END
 ```

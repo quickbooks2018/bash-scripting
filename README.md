@@ -813,3 +813,49 @@ Note: Truncating removes data from the end of the file. Any removed data is perm
 truncate -s 1024M app.log
 truncate -s 10M app.log
 ```
+
+- Bash Logs Abstract
+- From CLI we can send error to a file example:
+- 0 std in 
+- 1 is std out
+- 2 is std error
+  
+```bash
+./hello.sh 2> logs-erros.txt
+```
+```bash
+#!/bin/bash
+# Purpose: Log Abstract
+
+# Variables
+mydate=$(date +%b\ %d)
+log1='/var/log/syslog'
+log2='/var/log/auth.log'
+myscript_name=`basename $0`
+myscript_erros="${myscript_name}-erros.txt"
+
+for i in $log{1,2}
+do
+  if [ -e $i ] && [ -s $i ]
+  then
+  echo $i BEGIN
+
+  grep -E "$mydate" $i 2> $myscript_erros
+
+  echo $i END
+
+  else
+  echo "Log file not found"
+  exit 1
+  fi
+
+done
+
+# Remove Error file if empty (STD ERR)
+if [ -e $myscript_erros ] && [ ! -s $myscript_erros ]
+then
+  rm -f $myscript_erros
+fi
+
+#END
+```

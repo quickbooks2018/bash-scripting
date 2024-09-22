@@ -882,3 +882,19 @@ du -h -d 1 ~/Desktop/sand-box
  32K    /Users/asim/Desktop/sand-box/.idea
  26G    /Users/asim/Desktop/sand-box
 ```
+
+- Replace values insie a file
+```bash
+sed 's/global/UNIQ/g' search.txt (only shows the output)
+
+hello
+hi
+UNIQ
+
+root@d8d3ed90041c:/tmp# cat search.txt 
+hello
+hi
+global
+
+sed -i 's/global/UNIQ/g' search.txt (make it persistent)
+```

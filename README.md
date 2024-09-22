@@ -898,3 +898,29 @@ global
 
 sed -i 's/global/UNIQ/g' search.txt (make it persistent)
 ```
+- list of insatlled packages
+```bash
+apt list --installed (debian)
+rpm -qa (fedora)
+```
+- find & grep
+```bash
+/ (recursive)
+
+find / -type d | grep "directory name" && find / -type f | grep "file name"
+
+find / -type d | grep "abid"
+
+find / -type f | grep "abid"
+
+# Present Directory (recursive)
+
+find . -type d | grep "abid"
+
+find . -type f | grep "abid"
+
+
+
+# Specific Word
+grep -irow database
+```

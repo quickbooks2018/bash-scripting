@@ -924,3 +924,39 @@ find . -type f | grep "abid"
 # Specific Word
 grep -irow database
 ```
+
+- how to upgrade kernel on linux (ubuntu)
+```bash
+To update your kernel to a newer version on Ubuntu 22.04 (Jammy Jellyfish), you can follow these steps:
+
+Step 1: Update the system and package index
+First, ensure your system is fully updated.
+
+
+sudo apt update
+sudo apt upgrade -y
+Step 2: Install linux-generic-hwe-22.04 package
+Ubuntu offers a Hardware Enablement (HWE) kernel, which provides newer kernel versions. You can install the latest HWE kernel by running:
+
+
+sudo apt install linux-generic-hwe-22.04
+This will install the latest available kernel for Ubuntu 22.04.
+
+Step 3: Reboot your system
+After installing the new kernel, reboot your system to load the newly installed kernel.
+
+
+sudo reboot
+Step 4: Verify the kernel version
+Once the system reboots, check the new kernel version by running:
+
+
+uname -r
+This should display the updated kernel version.
+
+Step 5: Optional - Remove old kernels
+You can remove old kernels to free up space. Use the autoremove command to clean up unused packages, including older kernel versions.
+
+
+sudo apt autoremove --purge
+```

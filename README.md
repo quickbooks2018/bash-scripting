@@ -883,7 +883,7 @@ du -h -d 1 ~/Desktop/sand-box
  26G    /Users/asim/Desktop/sand-box
 ```
 
-- Replace values insie a file
+- Replace values inside a file
 ```bash
 sed 's/global/UNIQ/g' search.txt (only shows the output)
 

@@ -860,3 +860,25 @@ fi
 
 #END
 ```
+
+- Disk Usage and Depth (breakdown)
+```bash
+du -hs ~/Desktop/sand-box
+
+ 26G    /Users/asim/Desktop/sand-box
+
+du -h -d 1 ~/Desktop/sand-box
+
+ 22G    /Users/asim/Desktop/sand-box/Muhammad-Asim
+502M    /Users/asim/Desktop/sand-box/gcp-terraform-modules
+1.7M    /Users/asim/Desktop/sand-box/traefik-kubernetes-ingress
+ 18M    /Users/asim/Desktop/sand-box/community-prometheus
+4.0K    /Users/asim/Desktop/sand-box/gcp
+4.0K    /Users/asim/Desktop/sand-box/kind
+2.0G    /Users/asim/Desktop/sand-box/devops-springboot-github-actions-project
+188K    /Users/asim/Desktop/sand-box/bitnami-kafka-kraft
+ 91M    /Users/asim/Desktop/sand-box/tmp
+786M    /Users/asim/Desktop/sand-box/istio-ambient-mesh
+ 32K    /Users/asim/Desktop/sand-box/.idea
+ 26G    /Users/asim/Desktop/sand-box
+```

@@ -1104,7 +1104,7 @@ fi
 ```bash
 #!/bin/bash
 
-world_countries=("Pakistan" "India" "China")
+world_countries=("Pakistan" "India" "China" "England")
 
 for i in "${world_countries[@]}"
 do
@@ -1119,4 +1119,10 @@ do
         fi
 done
 #END
+
+root@d8d3ed90041c:~# ./app.sh 
+Welcome to Pakistan
+Welcome to India
+China
+England
 ``` 

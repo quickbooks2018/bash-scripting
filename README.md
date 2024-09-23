@@ -1021,3 +1021,7 @@ bash -ux hello.sh
 file exists
 ```
 
+- test service is listining on port 443
+```bash
+netstat -aplntu | grep :443 | awk -F ':' '{print $4}' | tr -d '[:space:]' && echo
+```

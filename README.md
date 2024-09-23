@@ -960,3 +960,13 @@ You can remove old kernels to free up space. Use the autoremove command to clean
 
 sudo apt autoremove --purge
 ```
+
+- find the largest file on the system
+```bash
+find /root -type f -exec du -h {} + | sort -rh | head -n 1
+Explanation:
+
+find /root -type f: Finds only files (not directories) in the /root directory.
+-exec du -h {} +: Executes the du command in human-readable format for each file found.
+sort -rh | head -n 1: Sorts by size in reverse order and shows the largest file.
+```

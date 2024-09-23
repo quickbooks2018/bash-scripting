@@ -999,3 +999,25 @@ done
 #END
 ```
 
+- test with if elase
+- help test to get all the options
+```bash
+#!/bin/bash
+# Purpose: if else logic
+
+FILE='/root/install-docker.sh'
+if [ -e $FILE ]
+then
+        echo "file exists" 
+else
+        echo "Not found"
+fi
+#END
+
+bash -ux hello.sh
+
++ '[' -e /root/install-docker.sh ']'
++ echo 'file exists'
+file exists
+```
+

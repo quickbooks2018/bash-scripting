@@ -1039,3 +1039,22 @@ else
         echo "Nginx Service is Down"
 fi
 ```
+
+- Check the status of previous command and decisions on the basis of exit status
+```bash
+!/bin/bash
+
+# command
+netstat -aplntu | grep 443 > /dev/null
+
+# check the status of previous command
+nginx_status="$?"
+
+# logic
+if [ "$nginx_status" = "0" ]
+then
+        echo "Nginx Service is Running"
+else
+        echo "Nginx Service is Down"
+fi
+```

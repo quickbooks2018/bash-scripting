@@ -980,13 +980,17 @@ In short, using + allows find to gather multiple files and pass them in a single
 ```
 
 - if else logic
+Explanation:
+${world_countries[@]}: This expands to all elements of the array, which allows the for loop to iterate over each country individually.
+"$world_countries" without [@] treats the entire array as a single string, so only the first element (Pakistan) was being processed.
+
 ```bash
 #!/bin/bash
 # Purpose: if elase logic
 
-list_countries=("Pakistan" "India" "Canada" "England")
+world_countries=("Pakistan" "India" "Canada" "England")
 
-for i in "${list_countries[@]}"
+for i in "${world_countries[@]}"
 do
    if [ "$i" = "Pakistan" ]
    then
@@ -1095,3 +1099,24 @@ else
         echo "Nginx Service is Down"
 fi
 ```
+
+- if elif
+```bash
+#!/bin/bash
+
+world_countries=("Pakistan" "India" "China")
+
+for i in "${world_countries[@]}"
+do
+        if [ "$i" = "Pakistan" ]
+        then
+                echo Welcome to Pakistan
+        elif [ "$i" = "India" ]
+        then
+                echo "Welcome to India"
+        else
+                echo $i
+        fi
+done
+#END
+``` 

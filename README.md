@@ -1040,12 +1040,12 @@ else
 fi
 ```
 
-- Check the status of previous command and decisions on the basis of exit status
+- Check the status of previous command and decisions on the basis of exit status (netstat -ant)
 ```bash
 !/bin/bash
 
 # command
-netstat -aplntu | grep 443 > /dev/null
+netstat -ant | grep :443 | grep -i listen > /dev/null
 
 # check the status of previous command
 nginx_status="$?"

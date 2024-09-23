@@ -1058,3 +1058,40 @@ else
         echo "Nginx Service is Down"
 fi
 ```
+
+- Nested if use case is dependency base checking if parent IF is down then no need to additional checks
+Example:
+Here’s an example to illustrate the advantage of nesting:
+
+Without nesting: If Nginx is down, you might still check SonarQube, which could result in confusion because it makes no sense to check for SonarQube when the primary service is down.
+
+With nesting: You avoid unnecessary checks and provide logical output that makes sense for service dependencies.
+```bash
+#!/bin/bash
+
+netstat -ant | grep 443 | grep -i listen > /dev/null
+
+# check the status of previous command
+nginx_status="$?"
+
+
+if [ "$nginx_status" = "0" ]
+then
+        echo "Nginx Service is Running"
+
+
+        netstat -ant | grep :9000 | grep -i listen > /dev/null
+        # check the status of sonarqube
+        sonarqube_status="$?"
+
+
+        if [ "$sonarqube_status" = "0" ]
+        then
+                echo "Sonarqube is running"
+        else
+                echo "Sonarqube is not running"
+        fi
+else
+        echo "Nginx Service is Down"
+fi
+```

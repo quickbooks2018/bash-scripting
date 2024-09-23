@@ -963,7 +963,7 @@ sudo apt autoremove --purge
 
 - find the largest file on the system
 ```bash
-find /root -type f -exec du -h {} + | sort -rh | head -n 1
+find /root -type f -exec du -hs {} + | sort -hr | head -n 1
 Explanation:
 
 find /root -type f: Finds only files (not directories) in the /root directory.

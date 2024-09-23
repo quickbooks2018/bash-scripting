@@ -979,3 +979,23 @@ The {} and + in the find command have specific meanings:
 In short, using + allows find to gather multiple files and pass them in a single du invocation, improving performance, especially when dealing with a large number of files.
 ```
 
+- if else logic
+```bash
+#!/bin/bash
+# Purpose: if elase logic
+
+list_countries=("Pakistan" "India" "Canada" "England")
+
+for i in "${list_countries[@]}"
+do
+   if [ "$i" = "Pakistan" ]
+   then
+       echo "Welcome to Pakistan"
+   else
+       echo "$i"
+   fi
+done
+
+#END
+```
+

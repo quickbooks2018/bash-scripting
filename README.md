@@ -1125,4 +1125,34 @@ Welcome to Pakistan
 Welcome to India
 China
 England
-``` 
+```
+- We can use shorter script instead of elif elif use CASE
+```bash
+#!/bin/bash
+
+world_countries=("Pakistan" "India" "China" "England" "America")
+
+for i in "${world_countries[@]}"
+do
+        case $i in
+            "Pakistan")
+                echo "Welcome to Pakistan" ;;
+            "India")
+                echo "Welcome to India" ;;
+            "China")
+                echo "Welcome to China" ;;
+            "England")
+                echo "Welcome to England" ;;
+            *)
+                echo "Unknown country" ;;
+        esac
+done
+#END
+
+./app.sh 
+Welcome to Pakistan
+Welcome to India
+Welcome to China
+Welcome to England
+Unknown country
+```

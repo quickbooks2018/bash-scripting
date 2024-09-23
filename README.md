@@ -1025,3 +1025,17 @@ file exists
 ```bash
 netstat -aplntu | grep :443 | awk -F ':' '{print $4}' | tr -d '[:space:]' && echo
 ```
+- Note: Whenuse strings comparison use =
+```bash
+#!/bin/bash
+
+nginx_port_443=$(netstat -aplntu | grep :443 | awk -F ':' '{print $4}' | tr -d [:space:] && echo)
+
+
+if [ "$nginx_port_443" = "443" ]
+then
+        echo "Nginx Service is Running"
+else
+        echo "Nginx Service is Down"
+fi
+```

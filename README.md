@@ -887,8 +887,7 @@ du -h -d 1 ~/Desktop/sand-box
 # Ubuntu/Debian
 
 apt install -y ncdu
-cd /
-ncdu
+ncdu /
 
 # Fedorora/Centos
 

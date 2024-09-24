@@ -1323,3 +1323,22 @@ find /var/log -type f -exec du -hs {} + | sort -hr | head -n 1 && echo
 ```bash
 cat -n app.sh | grep -iw 'asim\|taha\|hadi'
 ```
+
+- Positional Parameters
+```bash
+#!/bin/bash
+
+BAD_PARAM='165'
+
+echo "number of postion parameters passed: $#"
+
+if [ "$#" = "2" ]
+then
+        # Postional parameters
+        seq $1 $2
+else
+        echo "This script requires two arguments integers"
+        exit $BAD_PARAM
+fi
+#End
+```

@@ -1206,3 +1206,66 @@ Welcome to China
 Welcome to England
 Unknown country
 ```
+
+- Networking
+
+- check incoming outgoing packets
+```bash
+#########
+# tcpdump
+#########
+sudo apt-get install tcpdump
+sudo tcpdump -i any -n -c 100
+
+#######
+# iftop
+#######
+sudo apt-get install iftop
+iftop
+
+####
+# ss
+####
+# ss is a simpler tool for checking current network connections and statistics.
+To view all established connections from your Linux system to the ECS host
+ss -tuna 
+
+#####
+# MTR
+#####
+mtr google.com
+tracepath google.com
+
+MTR (My TraceRoute) is a network diagnostic tool used in Linux and other operating systems. The command "mtr" combines the functionality of traceroute and ping. 
+
+mtr --tcp <target_host_or_ip>
+
+mtr --tcp -P <port_number> <target_host_or_ip>
+
+mtr --tcp -P 80 google.com
+mtr -P 80 google.com
+This command would use TCP on port 80 instead of ICMP.
+
+######
+# NMAP
+######
+# (tcp & udp) ports
+(network scan of machine)
+
+apt install -y nmap
+nmap -p 1-65535 localhost
+sudo nmap -p 1-65535 -sS -sU localhost
+
+-p 1-65535: Specifies the range of ports to scan (all ports from 1 to 65535).
+-sS: TCP SYN scan (commonly used for fast and reliable detection of open TCP ports).
+-sU: UDP scan to detect open UDP ports.
+localhost: Refers to the machine you are scanning (in this case, your local system).
+
+#########
+# Netstat
+#########
+netstat -aplntu
+netstat -ant
+netstat -r
+```
+

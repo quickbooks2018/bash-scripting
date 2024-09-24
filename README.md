@@ -1318,3 +1318,8 @@ find /var/log -type f -exec du -hs {} + | sort -hr
 # list highest only
 find /var/log -type f -exec du -hs {} + | sort -hr | head -n 1 && echo
 ```
+
+- Match exact word in a file
+```bash
+cat -n app.sh | grep -iw 'asim\|taha\|hadi'
+```

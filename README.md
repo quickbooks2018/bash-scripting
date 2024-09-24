@@ -1301,3 +1301,16 @@ High: Logs detailed information about both allowed and denied connections, inclu
 - Additional layer of security
 AppArmor (in Ubuntu) and SELinux (in CentOS) are mandatory access control (MAC) systems used to enhance the security of Linux systems by restricting applications' access to system resources based on defined security policies. AppArmor uses path-based access control, while SELinux uses a more granular, label-based approach to enforce policies.
 
+- Linux Trouble Shooting
+```bash
+# ssh login failure debug
+tail -f /var/log/auth.log
+
+# disk full issues
+df -ihT (must check inodes as well)
+
+# solution
+find the larget file on the /var/log
+
+find /var/log -type f -exec du -hs {} + | sort -hr | head -n 1 && echo
+```

@@ -1342,3 +1342,10 @@ else
 fi
 #End
 ```
+
+- dns lookup
+```bash
+nslookup -type=SRV _mongodb._tcp.ENDPOINT
+dig SRV _mongodb._tcp.cluster-devops-0.rzkdltt.mongodb.net
+openssl s_client -connect shard-dns-00-00-pri-shard.mongodb.net:27017
+````

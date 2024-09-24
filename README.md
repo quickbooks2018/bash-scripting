@@ -987,6 +987,9 @@ This process ensures that GRUB's boot menu is up-to-date with the current system
 
 - Install specific version of kernel
 ```bash
+# check availabe version of kernel on system
+dpkg --list | grep linux-image
+
 # Install specific version
 sudo apt install linux-image-5.15.0-1023-aws
 

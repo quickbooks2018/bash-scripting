@@ -906,6 +906,55 @@ sudo amazon-linux-extras install epel -y
 sudo yum install ncdu -y
 ```
 
+- Mount a addtional on /data
+```bash
+##################################
+# Note: First create a file system EXT4 or XFS
+##################################
+
+
+# https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-attaching-volume.htm
+# https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html
+
+cp /etc/fstab /etc/fstab.orig
+
+
+1. lsblk
+
+2. mkdir /data
+
+3. Use the file -s command to get information about a specific device, such as its file system type. If the output shows simply data, as in the following example output, there is no file system on the device
+
+  file -s /dev/nvme1n1 always check ---> Check if there's an existing filesystem on the device and format it with EXT4 (otherwise disk will be formated with fresh file system)
+  
+  mkfs -t xfs /dev/nvme1n1
+  
+  test with this commmand  file -s /dev/nvme1n1
+  
+  mount /dev/nvme1n1 /data
+  
+  df -hT
+  
+ 4. lsblk -f 
+
+ 5. blkid  for Ubuntu18 ---> lsblk -o +UUID
+ 
+ 6. Replace the blkid with the id of your disk
+cat << EOF >> /etc/fstab
+UUID=0d652b48-0ad5-4aef-87ca-2243dd98d92d  /data  xfs  defaults,nofail  0  2
+EOF
+
+7. To verify that your entry works, run the following commands to unmount the device and then mount all file systems in /etc/fstab.
+
+umount /data
+
+df -hT
+
+mount -a
+
+df -ihT
+```
+
 - Replace values inside a file
 ```bash
 sed 's/global/UNIQ/g' search.txt (only shows the output)

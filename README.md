@@ -1348,4 +1348,36 @@ fi
 nslookup -type=SRV _mongodb._tcp.ENDPOINT
 dig SRV _mongodb._tcp.cluster-devops-0.rzkdltt.mongodb.net
 openssl s_client -connect shard-dns-00-00-pri-shard.mongodb.net:27017
-````
+```
+
+- Dockerfile Override both CMD and Entrypoint
+Overriding Both CMD and ENTRYPOINT
+You can override both ENTRYPOINT and CMD by using --entrypoint for the entrypoint and providing a new command at the end for the CMD:
+```bash
+docker run --name nginx -id --entrypoint sleep nginx:alpine 1000
+docker run --name busybox -id --entrypoint sleep busybox 1000
+```
+- same concept applies in kubernetes for debugging
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-sleep
+spec:
+  containers:
+  - name: nginx
+    image: nginx:alpine
+    command: ["sleep"]  # This overrides the ENTRYPOINT
+    args: ["1000"]      # This overrides the CMD
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox-sleep
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    command: ["sleep"]  # This overrides the ENTRYPOINT
+    args: ["1000"]      # This overrides the CMD
+```

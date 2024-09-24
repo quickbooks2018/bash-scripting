@@ -961,6 +961,53 @@ You can remove old kernels to free up space. Use the autoremove command to clean
 sudo apt autoremove --purge
 ```
 
+- Systemd install specfic of kernel (GRUB2 grand unified boot loader)
+```bash
+cat /etc/default/grub (configuration file)
+```
+# check the version of grub
+```bash
+grub-install --version
+```
+# update grub
+```bash
+update-grub
+```
+The command sudo update-grub regenerates the GRUB bootloader configuration by scanning available operating systems and kernels on the system. Here's a breakdown:
+
+Sourcing Configuration Files: GRUB reads configuration settings from /etc/default/grub and additional files in /etc/default/grub.d/, which modify GRUB behavior.
+
+GRUB_FORCE_PARTUUID: Indicates that the system is configured to use PARTUUID for booting without an initrd (initramfs) for the kernel.
+
+Found Kernel Images: GRUB identifies various Linux kernel versions available (e.g., vmlinuz-6.8.0-1015-aws, vmlinuz-6.8.0-45-generic) along with their associated initrd files for initializing the system.
+
+os-prober Warning: GRUB does not scan for other bootable operating systems because os-prober is disabled. To enable it, set GRUB_DISABLE_OS_PROBER=false in the configuration.
+
+This process ensures that GRUB's boot menu is up-to-date with the current system configuration.
+
+- Install specific version of kernel
+```bash
+# Install specific version
+sudo apt install linux-image-5.15.0-1023-aws
+
+# Update /etc/default/grub
+sudo sed -i 's/GRUB_DEFAULT=.*/GRUB_DEFAULT="Advanced options for Ubuntu>Ubuntu, with Linux 5.15.0-1023-aws"/' /etc/default/grub
+
+# Update grub
+sudo update-grub
+
+# verify version
+cat /etc/default/grub | grep GRUB_DEFAULT
+ls /boot/vmlinuz-5.15.0-1023-aws /boot/initrd.img-5.15.0-1023-aws
+
+# reboot
+
+# verify kernel
+uname -r
+```
+
+
+
 - find the largest file on the system
 ```bash
 find /root -type f -exec du -hs {} + | sort -hr | head -n 1

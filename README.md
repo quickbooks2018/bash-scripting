@@ -1312,5 +1312,9 @@ df -ihT (must check inodes as well)
 # solution
 find the larget file on the /var/log
 
+# list highest from low
+find /var/log -type f -exec du -hs {} + | sort -hr
+
+# list highest only
 find /var/log -type f -exec du -hs {} + | sort -hr | head -n 1 && echo
 ```

@@ -881,6 +881,30 @@ du -h -d 1 ~/Desktop/sand-box
 786M    /Users/asim/Desktop/sand-box/istio-ambient-mesh
  32K    /Users/asim/Desktop/sand-box/.idea
  26G    /Users/asim/Desktop/sand-box
+
+# NCDU
+
+# Ubuntu/Debian
+
+apt install -y ncdu
+cd /
+ncdu
+
+# Fedorora/Centos
+
+yum install -y ncdu
+
+
+# Networking (net cat)
+apt insatll -y nc
+yum install -y nc 
+netstat -plntu
+netstat -antp
+
+
+# AmazonLinux
+sudo amazon-linux-extras install epel -y
+sudo yum install ncdu -y
 ```
 
 - Replace values inside a file

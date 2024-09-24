@@ -1487,3 +1487,100 @@ spec:
     command: ["sleep"]  # This overrides the ENTRYPOINT
     args: ["1000"]      # This overrides the CMD
 ```
+
+- Package Management
+The difference between apt update and apt upgrade lies in what they do during package management on Debian-based systems (like Ubuntu):
+
+- Note: if you want to upgrade specific package only use package name
+
+```bash
+apt update -y
+apt upgrade nginx -y
+```
+
+1. apt update:
+Purpose: Updates the package list.
+Function: Downloads and refreshes the list of available packages and their versions from the repositories defined in your /etc/apt/sources.list file and /etc/apt/sources.list.d/ directory.
+Outcome: This command does not install or upgrade any packages. It only makes sure your system knows about the latest versions of all packages available in the repositories.
+Use Case: Run this command before checking for or installing updates so your package manager knows about the latest available versions.
+Command:
+
+```bash
+sudo apt update
+````
+2. apt upgrade:
+Purpose: Installs the latest available versions of installed packages.
+Function: After the package lists have been updated using apt update, this command upgrades all the installed packages to their latest versions, as long as there are no major conflicts or dependency issues. It upgrades the packages without removing or installing any new ones (i.e., it only upgrades the packages you already have installed).
+Outcome: Upgrades your system's installed packages to the latest versions based on the updated package list.
+Use Case: Run this command after apt update to apply the latest updates to your installed packages.
+Command:
+
+```bash
+sudo apt upgrade
+```
+Example of Workflow:
+First, update the package list to get information about the latest available versions:
+
+```bash
+sudo apt update
+```
+Then, upgrade the installed packages to the latest versions:
+
+```bash
+sudo apt upgrade
+```
+
+Differences in Practice:
+apt update does not install or upgrade anything. It only updates the list of packages.
+apt upgrade installs the newest versions of the currently installed packages based on the updated list.
+If you want a more comprehensive system upgrade, including the installation or removal of packages to meet new dependencies, you can use apt full-upgrade.
+
+Prevent Automatic Upgrades: If you downgrade a package and want to prevent it from being upgraded automatically in the future, you can "hold" the package:
+
+```bash
+sudo apt-mark hold <package_name>
+```
+- For example, to install an older version of Nginx:
+```bash
+sudo apt install nginx=1.17.10-0ubuntu1
+```
+
+- Remove package
+```bash
+apt remove nginx
+apt autoremove ( to remove the depencies, by default not removed automatically)
+```
+
+Note: IN Fedora/redhat/Centos you can simply undo new version or rollback to previous versions example below regarding update,upgrade, 
+rollback
+
+```bash
+# Update package list and upgrade all packages:
+sudo yum update
+sudo dnf update
+
+# Upgrade a specific package:
+sudo yum update <package>
+sudo dnf update <package>
+
+# View available versions of a package:
+yum list <package> --showduplicates
+dnf list <package> --showduplicates
+
+# Undo a transaction using history:
+sudo yum history undo <transaction_id>
+sudo dnf history undo <transaction_id>
+
+# Downgrade to a previous version of a package:
+sudo yum downgrade <package>
+sudo dnf downgrade <package>
+```
+Note: The yum and dnf package managers in Fedora, CentOS, and RHEL make rolling back and downgrading packages easier compared to APT-based systems like Ubuntu, as these tools have better built-in support for managing package versions and maintaining rollback histories.
+
+
+
+
+
+
+
+

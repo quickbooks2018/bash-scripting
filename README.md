@@ -1208,8 +1208,6 @@ Unknown country
 ```
 
 - Networking
-
-- check incoming outgoing packets
 ```bash
 #########
 # tcpdump

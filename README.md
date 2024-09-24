@@ -953,6 +953,40 @@ df -hT
 mount -a
 
 df -ihT
+
+# Increase the disk with out machine reboot
+
+#############
+# Disk Usage
+#############
+cd /
+du -d 1 -h
+
+########
+# EXT4
+########
+# Use growpart for ext4
+                
+lsblk
+               #disk       #partition number
+sudo growpart /dev/nvme0n1 1
+
+######
+# EXT4
+######
+df -hT   ---> pick the mount one
+
+sudo resize2fs /dev/nvme0n1p1
+
+#####
+# XFS
+#####
+df -hT --> pick the mount one
+sudo xfs_growfs /dev/nvme0n1p1
+
+
+df -hT
+fdisk -l
 ```
 
 - Replace values inside a file

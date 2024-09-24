@@ -996,14 +996,14 @@ sudo apt install linux-image-5.15.0-1023-aws
 # Update /etc/default/grub
 sudo sed -i 's/GRUB_DEFAULT=.*/GRUB_DEFAULT="Advanced options for Ubuntu>Ubuntu, with Linux 5.15.0-1023-aws"/' /etc/default/grub
 
+# verify before update
+cat /etc/default/grub | grep GRUB_DEFAULT
+
 # Update grub
 sudo update-grub
 
-# verify version
-cat /etc/default/grub | grep GRUB_DEFAULT
-ls /boot/vmlinuz-5.15.0-1023-aws /boot/initrd.img-5.15.0-1023-aws
-
-# reboot
+reboot
+init 6 (run level 6)
 
 # verify kernel
 uname -r

@@ -1267,3 +1267,37 @@ netstat -ant
 netstat -r
 ```
 
+- Ubuntu UFW (Uncomplecated fire Wall)
+- Centos Firewalld
+
+```bash
+ufw status
+ufw disable
+ufw enable
+
+# ufw log verbosity
+sudo ufw logging medium
+
+# allow
+sudo ufw allow <port_number>
+sudo ufw allow from 65.49.20.105 to any port 3306
+
+# deny
+sudo ufw deny 3306
+sudo ufw deny from 192.168.10.20 to any port 3306
+
+# rules number
+sudo ufw status numbered
+
+# delete rule
+sudo ufw delete 5
+```
+You can adjust the verbosity of UFW logging. The default is low, which logs blocked connections, but you can change it to medium or high for more detailed logs.
+
+Low (default): Logs denied connections.
+Medium: Logs denied connections, and basic information about allowed connections.
+High: Logs detailed information about both allowed and denied connections, including headers.
+
+- Additional layer of security
+AppArmor (in Ubuntu) and SELinux (in CentOS) are mandatory access control (MAC) systems used to enhance the security of Linux systems by restricting applications' access to system resources based on defined security policies. AppArmor uses path-based access control, while SELinux uses a more granular, label-based approach to enforce policies.
+

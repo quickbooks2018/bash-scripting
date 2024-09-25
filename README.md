@@ -1419,10 +1419,10 @@ df -ihT (must check inodes as well)
 find the larget file on the /var/log
 
 # list highest from low
-find /var/log -type f -exec du -hs {} + | sort -hr
+find . -type f -exec du -h --apparent-size {} + | sort -rh | head -n1
 
 # list highest only
-find /var/log -type f -exec du -hs {} + | sort -hr | head -n 1 && echo
+find . -type f -exec du -h --apparent-size {} + | sort -rh | head -n1
 ```
 
 - Match exact word in a file

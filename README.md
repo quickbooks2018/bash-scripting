@@ -1579,6 +1579,9 @@ Note: The yum and dnf package managers in Fedora, CentOS, and RHEL make rolling 
 
 
 - Run bash script as a systemd service example (mysql monitoring) check after 3 seconds
+  
+systemd timer that is enabled and associated with timers.target will automatically start when the system boots up
+
 - Create 3 scripts
 - 1. create-systemd-service.sh
 ```bash

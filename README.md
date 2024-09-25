@@ -1705,8 +1705,22 @@ fi
 # End
 ```
 
+- Move or Rename many files
+```bash
+#!/bin/bash
+# Pourpose: rename test files to asim.txt
+count=1
 
+for i in `ls -A test*`
+do
+        echo renaming $i
+        sleep 1
+        mv $i asim$count.txt
+        let "count += 1"
 
+done
+#End
+```
 
 
 

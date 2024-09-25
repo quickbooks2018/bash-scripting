@@ -1643,6 +1643,8 @@ done
 # Purpose: Monitoring
 # quick installation
 # docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:latest
+# docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -v mysql_data:/var/lib/mysql -d mysql:latest
+
 
 # check service mysql service is running or not
 netstat -ant | grep :3306 | grep -i listen 1> /dev/null

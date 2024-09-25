@@ -1631,7 +1631,7 @@ echo "Systemd service and timer for $SCRIPT_PATH created and started."
 #!/bin/bash
 while true; do
     /root/mysql_monitor.sh
-    sleep 5
+    sleep 3
 done
 ```
 - 3 mysql_monitor.sh

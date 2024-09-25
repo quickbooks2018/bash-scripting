@@ -1722,6 +1722,19 @@ done
 #End
 ```
 
+- Linux push process in bg (back ground) and fg (fore ground) or simply use tmux
+```bash
+ping google.com stop the job ---> ctrl+z
+
+now type jobs
+[1]+  Stopped                 ping google.com
+
+run the job in background. %1 is job id
+bg %1
+
+fg %1
+```
+
 
 
 

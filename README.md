@@ -1661,6 +1661,49 @@ else
 fi
 # End
 ```
+- postional parameters
+```bash
+#!/bin/bash
+# Purpose: Monitoring Service in Systemd
+# quick installation
+# docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:latest
+# check service mysql service is running or not
+
+service_name="$1"
+service_port="$2"
+script_name=`basename $0`
+
+
+
+if [ "$#" = "2" ]
+then
+
+   netstat -ant | grep :"${service_port}" | grep -i listen 1> /dev/null
+    if [ "$?" = "0" ]
+    then
+      echo "Service is running fine"
+      exit 0
+
+    netstat -ant | grep :"${service_port}" | grep -i listen 1> /dev/null
+    elif [ "$?" != "0" ]
+      then
+        echo "${service_name} Service is Down or Does not exist"
+        echo "Trying to start if exist ${service_name} service"
+        docker start "$service_name"
+
+    elif [ "$?" != "0" ]
+    then
+        echo "Incorrect Service Name or Port"
+        exit 165
+    fi
+
+else
+echo "This $script_name requires two arguments service name and service port"
+  exit 165
+
+fi
+# End
+```
 
 
 

@@ -1119,7 +1119,7 @@ uname -r
 
 - find the largest file on the system
 ```bash
-find /root -type f -exec du -hs {} + | sort -hr | head -n 1
+find . -type f -exec du -hs --apparent-size {} + | sort -rh | head -n1
 Explanation:
 
 find /root -type f: Finds only files (not directories) in the /root directory.

@@ -1704,7 +1704,7 @@ echo "This $script_name requires two arguments service name and service port"
 fi
 # End
 ```
-
+### To make scripts more portable use postional parameters
 - Move or Rename many files
 ```bash
 #!/bin/bash

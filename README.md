@@ -1578,6 +1578,85 @@ sudo dnf downgrade <package>
 Note: The yum and dnf package managers in Fedora, CentOS, and RHEL make rolling back and downgrading packages easier compared to APT-based systems like Ubuntu, as these tools have better built-in support for managing package versions and maintaining rollback histories.
 
 
+- Run bash script as a systemd service example (mysql monitoring) check after 3 seconds
+- Create 3 scripts
+- 1. create-systemd-service.sh
+```bash
+#!/bin/bash
+
+# Define variables
+SERVICE_NAME="mysql_service"
+SCRIPT_PATH="/root/mysql_systemd_service.sh"
+
+# Check if the script exists
+if [[ ! -f $SCRIPT_PATH ]]; then
+    echo "Script $SCRIPT_PATH not found!"
+    exit 1
+fi
+
+# Create the systemd service file
+sudo cat <<EOF > /etc/systemd/system/$SERVICE_NAME.service
+[Unit]
+Description=Run MySQL service script
+
+[Service]
+ExecStart=$SCRIPT_PATH
+EOF
+
+# Create the systemd timer file
+sudo cat <<EOF > /etc/systemd/system/$SERVICE_NAME.timer
+[Unit]
+Description=Run MySQL service script every 10 seconds
+
+[Timer]
+OnBootSec=10sec
+OnUnitActiveSec=10sec
+Unit=$SERVICE_NAME.service
+
+[Install]
+WantedBy=timers.target
+EOF
+
+# Reload systemd, enable, and start the timer
+sudo systemctl daemon-reload
+sudo systemctl enable $SERVICE_NAME.timer
+sudo systemctl start $SERVICE_NAME.timer
+
+echo "Systemd service and timer for $SCRIPT_PATH created and started."
+
+# End
+```
+- 2 mysql_systemd_service.sh
+```bash
+#!/bin/bash
+while true; do
+    /root/mysql_monitor.sh
+    sleep 5
+done
+```
+- 3 mysql_monitor.sh
+```bash
+#!/bin/bash
+# Purpose: Monitoring
+# quick installation
+# docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:latest
+
+# check service mysql service is running or not
+netstat -ant | grep :3306 | grep -i listen 1> /dev/null
+
+mysql_status="$?"
+
+if [ "$mysql_status" != "0" ]
+then
+  echo "Service is Down"
+  echo "Starting mysql service"
+  docker start mysql
+else
+  echo "Service is running fine"
+fi
+# End
+```
+
 
 
 

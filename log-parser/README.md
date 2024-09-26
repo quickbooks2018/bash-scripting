@@ -151,41 +151,47 @@ Note: In validate function, we are calling usage function
 We are calling in the main function, it is checking the log file path, exist or not.
 
 ### parse_logs function
-Function Parameters:
 
-It takes four parameters: start time, end time, log type, and log file path.
+The `parse_logs` function is the core of the log parsing script. It processes the log file and extracts entries based on the specified time range and log type.
 
+#### Function Parameters:
 
-AWK Command:
-The function uses awk to process the log file.
-It passes the start time, end time, and log type as variables to awk using the -v option.
+1. `start_time`: The start of the time range (Unix timestamp)
+2. `end_time`: The end of the time range (Unix timestamp)
+3. `log_type`: The type of log entries to filter (e.g., ERROR, INFO)
+4. `log_file`: The path to the log file to be parsed
 
+#### Implementation Details:
 
-Timestamp Conversion:
-Inside awk, there's a to_timestamp function that converts date strings to Unix timestamps.
-This function uses the date command (specifically tailored for macOS with the -j flag) to perform the conversion.
+1. The function uses `awk` to process the log file efficiently.
 
+2. It passes four variables to awk:
+   - `start`: Start time (Unix timestamp)
+   - `end`: End time (Unix timestamp)
+   - `type`: Log type to filter
+   - `ostype`: The operating system type ($OSTYPE)
 
-Log Entry Processing:
-For each line in the log file:
-It extracts the timestamp from the log entry (assuming a format like [YYYY-MM-DD HH:MM:SS]).
-It converts this timestamp to a Unix timestamp using the to_timestamp function.
+3. Inside awk, a `to_timestamp` function is defined:
+   - This function converts a date string to a Unix timestamp.
+   - It uses different `date` commands based on the operating system:
+      - For macOS (Darwin): `date -j -f "%Y-%m-%d %H:%M:%S"`
+      - For other Unix-like systems: `date -d`
+   - The function executes the appropriate `date` command and captures its output.
 
-Filtering:
-It checks if the extracted timestamp falls within the specified start and end times.
-It also checks if the log type (3rd field in the log entry) matches the specified type.
+4. The main awk processing block:
+   - Extracts the timestamp from each log entry (format: [YYYY-MM-DD HH:MM:SS]).
+   - Converts this timestamp to Unix format using the `to_timestamp` function.
+   - Checks if the converted timestamp falls within the specified time range.
+   - Verifies if the log type (3rd field in the log entry) matches the specified type.
+   - If both conditions are met, it prints the entire log entry.
 
-Output:
-If a log entry meets both the time range and log type criteria, it's printed to the output
+#### Usage in the Script:
 
-1. It uses `awk` to process the log file line by line.
-2. The function passes start time, end time, and log type as variables to awk.
-3. Inside awk, it defines a `to_timestamp` function to convert date strings to Unix timestamps.
-4. For each log entry:
-   - It extracts the timestamp and converts it to a Unix timestamp.
-   - It checks if the timestamp is within the specified range and if the log type matches.
-   - If both conditions are met, it prints the log entry.
+The `parse_logs` function is called from the `main` function after argument validation and time conversion:
 
+```bash
+parse_logs "$start_time" "$end_time" "$log_type" "$log_file"
+```
 
 ### main function
 The `main` function serves as the orchestrator for the entire log parsing process.

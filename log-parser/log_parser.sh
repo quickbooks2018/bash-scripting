@@ -1,4 +1,5 @@
 #!/bin/bash
+# Purpose: parsing log files based in specific time stamps
 
 # Display usage information
 usage() {

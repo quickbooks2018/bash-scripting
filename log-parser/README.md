@@ -151,8 +151,7 @@ Note: In validate function, we are calling usage function
 We are calling in the main function, it is checking the log file path, exist or not.
 
 ### parse_logs function
-
-The `parse_logs` function is the core of the log parsing script. It processes the log file and extracts entries based on the specified time range and log type.
+The `parse_logs` function is the core of the log parsing script. It processes the log file and extracts entries based on the specified time range and log type, while also counting the occurrences of each log type.
 
 #### Function Parameters:
 
@@ -182,8 +181,17 @@ The `parse_logs` function is the core of the log parsing script. It processes th
    - Extracts the timestamp from each log entry (format: [YYYY-MM-DD HH:MM:SS]).
    - Converts this timestamp to Unix format using the `to_timestamp` function.
    - Checks if the converted timestamp falls within the specified time range.
-   - Verifies if the log type (3rd field in the log entry) matches the specified type.
-   - If both conditions are met, it prints the entire log entry.
+   - Verifies if the log type (3rd field in the log entry) matches the specified type (case-insensitive).
+   - If both conditions are met, it prints the entire log entry and increments the counter for the corresponding log type.
+
+5. Log Entry Counting:
+   - The function keeps track of the number of entries for each log type (ERROR, INFO, WARNING, CRITICAL).
+   - After processing all entries, it prints a summary of log entry counts for each type.
+
+#### Output:
+The function produces two types of output:
+1. Matching log entries within the specified time range and of the specified type (if any).
+2. A summary of log entry counts for each log type.
 
 #### Usage in the Script:
 

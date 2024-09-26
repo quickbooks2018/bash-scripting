@@ -1822,4 +1822,14 @@ main() {
 main "$@"
 ```
 
+- Script Usage example
+```bash
+./log.sh "2024-08-07 00:00:00" "2024-08-07 10:19:32" ERROR
+[2024-08-07 10:15:32] ERROR - An error occurred
+[2024-08-07 10:18:05] ERROR - Failed to connect to database
+
+./log.sh "2024-08-07 00:00:00" "2024-08-07 10:16:00" ERROR
+[2024-08-07 10:15:32] ERROR - An error occurred
+```
+
 

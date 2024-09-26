@@ -88,10 +88,24 @@ The script includes error handling for:
 - Invalid log types
 - Missing or inaccessible log file
 
-## Contributing
+- Script Usage example
+```bash
+./log.sh "2024-08-07 00:00:00" "2024-08-07 10:19:32" ERROR ${PWD}/log.txt
+[2024-08-07 10:15:32] ERROR - An error occurred
+[2024-08-07 10:18:05] ERROR - Failed to connect to database ${PWD}/log.txt
 
-Contributions to improve the script are welcome. Please submit a pull request or open an issue to discuss proposed changes.
+./log.sh "2024-08-07 00:00:00" "2024-08-07 10:16:00" ERROR ${PWD}/log.txt
+[2024-08-07 10:15:32] ERROR - An error occurred
 
-## License
+./log.sh "2024-08-07 00:00:00" "2024-08-07 10:17:00" info ${PWD}/log.txt
+[2024-08-07 10:16:45] INFO - System is running
 
-This script is released under the MIT License. See the LICENSE file for details.
+./log.sh "2024-08-07 00:00:00" "2024-08-07 10:17:00" info ${PWD}/log.txt
+[2024-08-07 10:16:45] INFO - System is running
+
+./log.sh "2024-08-07 00:00:00" "2024-08-07 10:16:00" info ${PWD}/log.txt
+
+./log.sh "2024-08-07 00:00:00" "2024-08-07 10:30:00" info ${PWD}/log.txt
+[2024-08-07 10:16:45] INFO - System is running
+[2024-08-07 10:19:32] INFO - User logged in
+```

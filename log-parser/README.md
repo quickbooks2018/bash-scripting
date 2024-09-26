@@ -110,16 +110,14 @@ The script includes error handling for:
 [2024-08-07 10:19:32] INFO - User logged in
 ```
 
-### Commands and function Working
+## Commands and function Working
 
-##### usage() function
-```bash
+### usage() function
 usage funntion() is called from validate_args() function.
 usage function is only called if one of these conditions in validate_args "$@" is not met. If all arguments are correct, usage is never called.
-If usage is called, it prints the usage information and then exits the script with exit 1, preventing further execution. 
-```
+If usage is called, it prints the usage information and then exits the script with exit 1, preventing further execution.
 
-##### date_to_timestamp() function
+### date_to_timestamp() function
 The date_to_timestamp function is called twice in the main function:
 
 local start_time=$(date_to_timestamp "$1")
@@ -145,14 +143,14 @@ usage: date [-jnRu] [-I[date|hours|minutes|seconds]] [-f input_fmt]
             [[[[mm]dd]HH]MM[[cc]yy][.SS] | new_date] [+output_fmt]
 ```
 
-##### validate_args function
+### validate_args function
 We are calling in the main function
 Note: In validate function, we are calling usage function
 
 - check_log_file function
 We are calling in the main function, it is checking the log file path, exist or not.
 
-##### parse_logs function
+### parse_logs function
 Function Parameters:
 
 It takes four parameters: start time, end time, log type, and log file path.
@@ -189,7 +187,7 @@ If a log entry meets both the time range and log type criteria, it's printed to 
    - If both conditions are met, it prints the log entry.
 
 
-##### main function
+### main function
 The `main` function serves as the orchestrator for the entire log parsing process.
 
 1. Argument Validation:

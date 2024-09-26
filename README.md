@@ -1735,6 +1735,81 @@ bg %1
 fg %1
 ```
 
+- Parse log from a logfile with timestamp STARTTIME ENDTIME ERROR TYPE
+Example
+log.txt
+```txt
+[2024-08-07 10:15:32] ERROR - An error occurred
+[2024-08-07 10:16:45] INFO - System is running
+[2024-08-07 10:17:55] WARNING - Low memory
+[2024-08-07 10:18:05] ERROR - Failed to connect to database
+[2024-08-07 10:19:32] INFO - User logged in
+```
 
+- Solution 1
+```bash
+#!/bin/bash
+
+usage() {
+    echo "Usage: $0 <start_time> <end_time> <log_type>"
+    echo "Time format: YYYY-MM-DD HH:MM:SS"
+    echo "Log type: ERROR, INFO, WARNING, or CRITICAL"
+    exit 1
+}
+
+date_to_timestamp() {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        date -j -f "%Y-%m-%d %H:%M:%S" "$1" "+%s"
+    else
+        date -d "$1" +%s
+    fi
+}
+
+validate_args() {
+    [ $# -ne 3 ] && usage
+    valid_types=("ERROR" "INFO" "WARNING" "CRITICAL")
+    local log_type=$(echo "$3" | tr '[:lower:]' '[:upper:]')
+    [[ ! " ${valid_types[*]} " =~ $log_type ]] && echo "Invalid log type." && usage
+}
+
+check_log_file() {
+    local log_file="$1"
+    [ ! -f "$log_file" ] && echo "Error: Log file '$log_file' not found." && exit 1
+}
+
+parse_logs() {
+    local start_time="$1"
+    local end_time="$2"
+    local log_type="$3"
+    local log_file="$4"
+
+    awk -v start="$start_time" -v end="$end_time" -v type="$log_type" '
+        function to_timestamp(dt) {
+            cmd = "date -j -f \"%Y-%m-%d %H:%M:%S\" \"" dt "\" \"+%s\""
+            cmd | getline ts
+            close(cmd)
+            return ts
+        }
+        {
+            ts = to_timestamp(substr($1, 2) " " substr($2, 1, length($2)-1))
+            if (ts >= start && ts <= end && $3 == type) print
+        }
+    ' "$log_file"
+}
+
+main() {
+    validate_args "$@"
+
+    local start_time=$(date_to_timestamp "$1")
+    local end_time=$(date_to_timestamp "$2")
+    local log_type=$(echo "$3" | tr '[:lower:]' '[:upper:]')
+    local log_file="log.txt"
+
+    check_log_file "$log_file"
+    parse_logs "$start_time" "$end_time" "$log_type" "$log_file"
+}
+
+main "$@"
+```
 
 

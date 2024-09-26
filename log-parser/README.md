@@ -110,7 +110,8 @@ The script includes error handling for:
 [2024-08-07 10:19:32] INFO - User logged in
 ```
 
-- Commands and function Working
+### Commands and function Working
+
 - date_to_timestamp() function
 The date_to_timestamp function is called twice in the main function:
 

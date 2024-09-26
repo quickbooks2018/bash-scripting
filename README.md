@@ -1845,4 +1845,43 @@ main "$@"
 [2024-08-07 10:19:32] INFO - User logged in
 ```
 
+- Positional Parameters $@ and $#
+```bash
+# Comparison of `$#` and `$@` in Bash
+
+## `$#`
+
+- **Definition**: Represents the number of arguments passed to the script or function.
+- **Usage**: Used to check the number of arguments provided.
+- **Example**:
+  ```bash
+  #!/bin/bash
+  echo "Number of arguments: $#"
+  
+  # If run as: ./script.sh arg1 arg2 arg3
+  # Output: Number of arguments: 3
+
+## `$@`
+
+- **Definition**: Represents all the arguments passed to the script or function as separate strings.
+- **Usage**: Used to iterate over or pass all arguments.
+- **Example**:
+
+  #!/bin/bash
+  echo "All arguments: $@"
+  
+  for arg in "$@"
+  do
+      echo "Argument: $arg"
+  done
+  
+  # If run as: ./script.sh "hello world" 42 "bash scripting"
+  # Output:
+  # All arguments: hello world 42 bash scripting
+  
+  # Argument: hello world
+  # Argument: 42
+  # Argument: bash scripting
+```
+
 

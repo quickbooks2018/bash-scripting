@@ -109,3 +109,30 @@ The script includes error handling for:
 [2024-08-07 10:16:45] INFO - System is running
 [2024-08-07 10:19:32] INFO - User logged in
 ```
+
+- Commands and function Working
+- date_to_timestamp() function
+The date_to_timestamp function is called twice in the main function:
+
+local start_time=$(date_to_timestamp "$1")
+local end_time=$(date_to_timestamp "$2")
+
+```bash
+date -j -f "%Y-%m-%d %H:%M:%S" "2024-08-07 10:30:00" "+%s"
+
+-date: The basic command to work with dates in Unix-like systems.
+-j: This flag tells date not to set the date, but just to parse the input.
+-f "%Y-%m-%d %H:%M:%S": This specifies the format of the input date string.
+"2024-08-07 10:30:00": This is the actual date and time.
+"+%s": This tells date to output the result as a Unix timestamp (seconds since the Unix epoch).
+
+The result, 1723008600, is the Unix timestamp corresponding to August 7, 2024, at 10:30:00 AM. 
+
+# Darwin (macOS)
+date -d "%Y-%m-%d %H:%M:%S" "2024-08-07 10:30:00" "+%s"
+
+date: illegal option -- d
+usage: date [-jnRu] [-I[date|hours|minutes|seconds]] [-f input_fmt]
+            [-r filename|seconds] [-v[+|-]val[y|m|w|d|H|M|S]]
+            [[[[mm]dd]HH]MM[[cc]yy][.SS] | new_date] [+output_fmt]
+```

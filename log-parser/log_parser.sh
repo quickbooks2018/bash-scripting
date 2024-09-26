@@ -2,7 +2,7 @@
 # Purpose: parsing log files based in specific time stamps
 
 # Display usage information
-usage() {
+function usage() {
     local script_name=$(basename "$0")
     echo "Usage: $script_name <start_time> <end_time> <log_type> <log_file>"
     echo "Time format: YYYY-MM-DD HH:MM:SS"
@@ -12,30 +12,48 @@ usage() {
 }
 
 # Convert date to Unix timestamp
-date_to_timestamp() {
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        date -j -f "%Y-%m-%d %H:%M:%S" "$1" "+%s"
-    else
-        date -d "$1" +%s
+function date_to_timestamp() {
+    local input_date="$1"
+    # Add ":00" for seconds if only hours and minutes are provided
+    if [[ "$input_date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}\ [0-9]{2}:[0-9]{2}$ ]]; then
+        input_date="${input_date}:00"
     fi
+
+    local result
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        result=$(date -j -f "%Y-%m-%d %H:%M:%S" "$input_date" "+%s" 2>&1)
+    else
+        result=$(date -d "$input_date" +%s 2>&1)
+    fi
+
+    if [[ $? -ne 0 ]]; then
+        echo "Error: Invalid date format - $1" >&2
+        return 1
+    fi
+    echo "$result"
 }
 
 # Validate command-line arguments
-validate_args() {
-    [ $# -ne 4 ] && usage
+function validate_args() {
+    if [ $# -ne 4 ]; then
+        usage
+    fi
     valid_types=("ERROR" "INFO" "WARNING" "CRITICAL")
     local log_type=$(echo "$3" | tr '[:lower:]' '[:upper:]')
-    [[ ! " ${valid_types[*]} " =~ $log_type ]] && echo "Invalid log type." && usage
+    if [[ ! " ${valid_types[*]} " =~ $log_type ]]; then
+        echo "Invalid log type."
+        usage
+    fi
 }
 
 # Check if log file exists
-check_log_file() {
+function check_log_file() {
     local log_file="$1"
     [ ! -f "$log_file" ] && echo "Error: Log file '$log_file' not found." && exit 1
 }
 
 # Parse logs based on given criteria
-parse_logs() {
+function parse_logs() {
     local start_time="$1"
     local end_time="$2"
     local log_type="$3"
@@ -59,11 +77,11 @@ parse_logs() {
 }
 
 # Main function to orchestrate log parsing
-main() {
-    validate_args "$@"
+function main() {
+    validate_args "$@" # calling validate_args function # Note: In validate_args function, it will call usage function if the number of arguments is not equal to 4
 
-    local start_time=$(date_to_timestamp "$1")
-    local end_time=$(date_to_timestamp "$2")
+    local start_time=$(date_to_timestamp "$1") # calling date_to_timestamp function
+    local end_time=$(date_to_timestamp "$2")   # calling date_to_timestamp function
     local log_type=$(echo "$3" | tr '[:lower:]' '[:upper:]')
     local log_file="$4"
 

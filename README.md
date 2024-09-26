@@ -1884,4 +1884,17 @@ main "$@"
   # Argument: bash scripting
 ```
 
+- functions local variables and global variables
+
+Local Variables:
+variables declared with local are only accessible within the function where they're declared.
+They exist only for the duration of that function's execution.
+They don't interfere with variables of the same name in other functions or the global scope.
+you cannot directly access local variables of one function from another function.
+
+Global Variables:
+variables declared outside of functions, are global variables.
+
+
+
 

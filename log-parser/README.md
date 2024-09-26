@@ -112,6 +112,12 @@ The script includes error handling for:
 
 ### Commands and function Working
 
+- usage() function
+```bash
+usage function is only called if one of these conditions in validate_args "$@" is met in the main() function. If all arguments are correct, usage is never called.
+If usage is called, it prints the usage information and then exits the script with exit 1, preventing further execution. 
+```
+
 - date_to_timestamp() function
 The date_to_timestamp function is called twice in the main function:
 

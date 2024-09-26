@@ -3,7 +3,8 @@
 
 # Display usage information
 usage() {
-    echo "Usage: $0 <start_time> <end_time> <log_type> <log_file>"
+    local script_name=$(basename "$0")
+    echo "Usage: $script_name <start_time> <end_time> <log_type> <log_file>"
     echo "Time format: YYYY-MM-DD HH:MM:SS"
     echo "Log type: ERROR, INFO, WARNING, or CRITICAL"
     echo "Log file: Path to the log file"

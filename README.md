@@ -1752,9 +1752,10 @@ log.txt
 
 # Display usage information
 usage() {
-    echo "Usage: $0 <start_time> <end_time> <log_type>"
+    echo "Usage: $0 <start_time> <end_time> <log_type> <log_file>"
     echo "Time format: YYYY-MM-DD HH:MM:SS"
     echo "Log type: ERROR, INFO, WARNING, or CRITICAL"
+    echo "Log file: Path to the log file"
     exit 1
 }
 
@@ -1769,7 +1770,7 @@ date_to_timestamp() {
 
 # Validate command-line arguments
 validate_args() {
-    [ $# -ne 3 ] && usage
+    [ $# -ne 4 ] && usage
     valid_types=("ERROR" "INFO" "WARNING" "CRITICAL")
     local log_type=$(echo "$3" | tr '[:lower:]' '[:upper:]')
     [[ ! " ${valid_types[*]} " =~ $log_type ]] && echo "Invalid log type." && usage
@@ -1812,7 +1813,7 @@ main() {
     local start_time=$(date_to_timestamp "$1")
     local end_time=$(date_to_timestamp "$2")
     local log_type=$(echo "$3" | tr '[:lower:]' '[:upper:]')
-    local log_file="log.txt"
+    local log_file="$4"
 
     check_log_file "$log_file"
     parse_logs "$start_time" "$end_time" "$log_type" "$log_file"
@@ -1824,22 +1825,22 @@ main "$@"
 
 - Script Usage example
 ```bash
-./log.sh "2024-08-07 00:00:00" "2024-08-07 10:19:32" ERROR
+./log.sh "2024-08-07 00:00:00" "2024-08-07 10:19:32" ERROR ${PWD}/log.txt
 [2024-08-07 10:15:32] ERROR - An error occurred
-[2024-08-07 10:18:05] ERROR - Failed to connect to database
+[2024-08-07 10:18:05] ERROR - Failed to connect to database ${PWD}/log.txt
 
-./log.sh "2024-08-07 00:00:00" "2024-08-07 10:16:00" ERROR
+./log.sh "2024-08-07 00:00:00" "2024-08-07 10:16:00" ERROR ${PWD}/log.txt
 [2024-08-07 10:15:32] ERROR - An error occurred
 
-./log.sh "2024-08-07 00:00:00" "2024-08-07 10:17:00" info
+./log.sh "2024-08-07 00:00:00" "2024-08-07 10:17:00" info ${PWD}/log.txt
 [2024-08-07 10:16:45] INFO - System is running
 
-./log.sh "2024-08-07 00:00:00" "2024-08-07 10:17:00" info
+./log.sh "2024-08-07 00:00:00" "2024-08-07 10:17:00" info ${PWD}/log.txt
 [2024-08-07 10:16:45] INFO - System is running
 
-./log.sh "2024-08-07 00:00:00" "2024-08-07 10:16:00" info
+./log.sh "2024-08-07 00:00:00" "2024-08-07 10:16:00" info ${PWD}/log.txt
 
-./log.sh "2024-08-07 00:00:00" "2024-08-07 10:30:00" info
+./log.sh "2024-08-07 00:00:00" "2024-08-07 10:30:00" info ${PWD}/log.txt
 [2024-08-07 10:16:45] INFO - System is running
 [2024-08-07 10:19:32] INFO - User logged in
 ```

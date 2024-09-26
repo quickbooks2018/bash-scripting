@@ -1,0 +1,5 @@
+[2024-08-07 10:15:32] ERROR - An error occurred
+[2024-08-07 10:16:45] INFO - System is running
+[2024-08-07 10:17:55] WARNING - Low memory
+[2024-08-07 10:18:05] ERROR - Failed to connect to database
+[2024-08-07 10:19:32] INFO - User logged in

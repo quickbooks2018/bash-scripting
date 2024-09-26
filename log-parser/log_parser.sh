@@ -59,9 +59,13 @@ function parse_logs() {
     local log_type="$3"
     local log_file="$4"
 
-    awk -v start="$start_time" -v end="$end_time" -v type="$log_type" '
+    awk -v start="$start_time" -v end="$end_time" -v type="$log_type" -v ostype="$OSTYPE" '
         function to_timestamp(dt) {
-            cmd = "date -j -f \"%Y-%m-%d %H:%M:%S\" \"" dt "\" \"+%s\""
+            if (ostype ~ /^darwin/) {
+                cmd = "date -j -f \"%Y-%m-%d %H:%M:%S\" \"" dt "\" \"+%s\""
+            } else {
+                cmd = "date -d \"" dt "\" +%s"
+            }
             cmd | getline ts
             close(cmd)
             return ts
@@ -78,10 +82,10 @@ function parse_logs() {
 
 # Main function to orchestrate log parsing
 function main() {
-    validate_args "$@" # calling validate_args function # Note: In validate_args function, it will call usage function if the number of arguments is not equal to 4
+    validate_args "$@"
 
-    local start_time=$(date_to_timestamp "$1") # calling date_to_timestamp function
-    local end_time=$(date_to_timestamp "$2")   # calling date_to_timestamp function
+    local start_time=$(date_to_timestamp "$1")
+    local end_time=$(date_to_timestamp "$2")
     local log_type=$(echo "$3" | tr '[:lower:]' '[:upper:]')
     local log_file="$4"
 

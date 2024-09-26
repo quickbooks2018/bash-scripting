@@ -1,5 +1,6 @@
 #!/bin/bash
 # Purpose: parsing log files based in specific time stamps
+# data format: ISO 8601 format: YYYY-MM-DD HH:MM:SS.
 
 # Display usage information
 function usage() {

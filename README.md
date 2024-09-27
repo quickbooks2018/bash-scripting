@@ -1895,6 +1895,13 @@ you cannot directly access local variables of one function from another function
 Global Variables:
 variables declared outside of functions, are global variables.
 
+### Run Scripts
 
+| Command | Shell Used | Effect on Current Shell | Runs in New Shell | Requires Execute Permission |
+|---------|------------|-------------------------|-------------------|------------------------------|
+| `source scriptname.sh` | Current Shell | Yes | No | No |
+| `./scriptname.sh` | Shebang or Default | No | Yes | Yes |
+| `sh scriptname.sh` | sh Shell (Bourne) | No | Yes | No |
+| `bash scriptname.sh` | bash Shell | No | Yes | No |
 
 

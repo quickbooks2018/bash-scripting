@@ -1904,4 +1904,29 @@ variables declared outside of functions, are global variables.
 | `sh scriptname.sh` | sh Shell (Bourne) | No | Yes | No |
 | `bash scriptname.sh` | bash Shell | No | Yes | No |
 
+- Grub2 (Grand Unified Boot Loader)
 
+### GRUB2 Locations and Update Procedures
+
+#### Ubuntu
+
+#### Location
+- Configuration file: `/etc/default/grub`
+- GRUB files: `/boot/grub/`
+
+#### Update Procedure
+1. Edit `/etc/default/grub` as needed
+2. Run: `sudo update-grub`
+
+#### CentOS
+
+#### Location
+- Configuration file: `/etc/default/grub`
+- GRUB files: `/boot/grub2/`
+
+#### Update Procedure
+1. Edit `/etc/default/grub` as needed
+2. For BIOS systems, run: `sudo grub2-mkconfig -o /boot/grub2/grub.cfg`
+3. For UEFI systems, run: `sudo grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg`
+
+> Note: Always back up your configuration before making changes.

@@ -27,6 +27,7 @@ check_domain() {
 check_internet() {
     local domain="$1"
     local port=443
+
     # Capture the current date and time
     local current_datetime=$(date +"%Y-%m-%d %H:%M:%S")
 

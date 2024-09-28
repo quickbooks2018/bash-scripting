@@ -1,0 +1,38 @@
+#!/bin/bash
+#Author: Muhammad Asim
+#Purpose: This script monitors internet connectivity
+#Date: 28 sept 2024
+
+# Exit status
+# 124: The command was terminated by timeout because it exceeded the specified duration.
+# 125: The timeout command itself encountered an error (e.g., invalid syntax).
+# 126: The command specified by timeout could not be invoked (permission issue or invalid path).
+# 127: The command specified by timeout was not found.
+
+# -z: This option tells nc to scan for listening daemons without sending any data. It's used for port scanning.
+# -w3: This sets the timeout for the connection attempt to 3 second.
+# -w is the timeout option
+# 1 specifies the number of seconds to wait
+# -v is the verbose option
+
+domain='google.com'
+port=443
+
+# Function to check internet connectivity
+check_internet() {
+    # Capture the current date and time
+    local current_datetime=$(date +"%Y-%m-%d %H:%M:%S")
+
+    if nc -zw3 "$domain" "$port" 2>/dev/null; then
+        echo "$current_datetime - Internet is working"
+        return 0
+    else
+        echo "$current_datetime - Internet is not working"
+        return 1
+    fi
+}
+
+# Perform the check
+check_internet
+
+#End

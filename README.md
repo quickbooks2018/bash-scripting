@@ -1930,3 +1930,78 @@ variables declared outside of functions, are global variables.
 3. For UEFI systems, run: `sudo grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg`
 
 > Note: Always back up your configuration before making changes.
+
+### Linux Boot Methods
+
+Linux systems can boot using a variety of methods, depending on the hardware and configuration. This README provides an overview of the primary boot methods for Linux.
+
+#### 1. BIOS Boot (Legacy Boot)
+
+- The traditional boot method, which involves the **Basic Input/Output System (BIOS)**.
+- BIOS initializes hardware components and looks for the **Master Boot Record (MBR)** on the bootable device (typically the first 512 bytes of a disk).
+- The MBR contains the **bootloader** (e.g., GRUB or LILO) that loads the Linux kernel.
+- Suitable for systems with older hardware.
+- Limitation: MBR supports a maximum disk size of 2TB and only four primary partitions.
+
+#### 2. UEFI Boot
+
+- Stands for **Unified Extensible Firmware Interface** and is a modern replacement for BIOS.
+- UEFI can handle larger disk sizes (up to 9 ZB) and has better hardware initialization.
+- Uses the **GUID Partition Table (GPT)** instead of MBR.
+- UEFI boots by looking for an EFI System Partition (ESP) with a bootloader file (e.g., `grubx64.efi`).
+- Supports Secure Boot, which ensures that only trusted OS loaders are executed.
+- Supports a more advanced boot management interface and can store multiple bootloaders.
+
+#### 3. PXE (Preboot Execution Environment) Boot
+
+- Allows booting a system over a network.
+- The system's firmware (BIOS/UEFI) initializes the NIC (Network Interface Card) and fetches the bootloader (usually via TFTP).
+- Typically used in environments where systems need to be deployed or managed remotely, such as datacenters or diskless workstations.
+- The bootloader can then load the kernel and initrd from a network server.
+
+#### 4. Live CD/USB Boot
+
+- Allows booting Linux from a **Live CD**, **DVD**, or **USB drive**.
+- Useful for system recovery, troubleshooting, testing a distribution, or running a system without installing it.
+- Most Linux distributions provide an ISO file that can be written to a USB drive.
+- The system loads the kernel and filesystem image from the USB/CD and boots into a live session.
+
+#### 5. Booting from ISO
+
+- Booting directly from an ISO file, either mounted in a virtual environment or via specialized bootloader options.
+- Can be used in virtual machines (e.g., VirtualBox, VMware) or with tools like GRUB to boot into a Linux installer without physically burning an ISO.
+
+#### 6. iSCSI Boot
+
+- Allows booting a system from an **iSCSI target** (a disk or partition on a remote server).
+- Used in enterprise environments where centralized storage is preferred.
+- Firmware must support iSCSI or have an iSCSI boot ROM for this option.
+
+#### 7. USB Mass Storage Device Boot
+
+- Similar to a Live USB boot, but can include configurations for fully-installed operating systems.
+- Often used when no internal storage is available or for portable installations.
+
+#### 8. Booting with a Hypervisor (Virtualization Boot)
+
+- Systems boot within a virtual environment using a hypervisor like **KVM**, **Xen**, or **VMware**.
+- Bootloader and disk configurations are handled through virtual machine configurations.
+
+#### 9. System Rescue Boot
+
+- Some distributions and tools (like **SystemRescueCD**) are designed specifically to boot into a rescue mode for troubleshooting and system repair.
+- Usually, they contain utilities like `fsck`, `parted`, `chroot`, and other diagnostic tools.
+
+#### 10. Embedded Systems Boot (U-Boot)
+
+- For embedded systems, bootloaders like **Das U-Boot** are used.
+- U-Boot initializes hardware and boots the kernel in ARM, PowerPC, or other embedded architectures.
+
+#### Common Linux Bootloaders
+
+- **GRUB (GRand Unified Bootloader)**: The most widely used bootloader for Linux systems. Supports both BIOS and UEFI systems.
+- **GRUB2**: A modernized version of GRUB with better support for complex configurations.
+- **LILO (Linux Loader)**: An older bootloader, less common today.
+- **Syslinux/ISOLINUX**: Lightweight bootloaders often used for booting from removable media or network.
+
+These boot methods depend on the system's hardware, firmware (BIOS or UEFI), and the specific use case.

@@ -2005,3 +2005,41 @@ Linux systems can boot using a variety of methods, depending on the hardware and
 - **Syslinux/ISOLINUX**: Lightweight bootloaders often used for booting from removable media or network.
 
 These boot methods depend on the system's hardware, firmware (BIOS or UEFI), and the specific use case.
+
+### Linux `daemon-reload` Command
+
+#### Overview
+
+In Linux, `daemon-reload` refers to a command used to reload the systemd manager configuration. Specifically, it means using the `systemctl daemon-reload` command to tell systemd to re-read all its unit files (such as service, timer, and target files) without restarting the system.
+
+#### Usage
+
+You typically run `systemctl daemon-reload` after making changes to the unit files located in directories like `/etc/systemd/system/` or `/lib/systemd/system/`.
+
+#### Common Scenarios
+
+1. **After editing an existing service file** to change configurations.
+2. **After creating a new service file** to define a new systemd service.
+3. **After removing a service file** to ensure that systemd is aware of the changes.
+
+#### Importance
+
+`systemctl daemon-reload` updates the systemd manager's internal representation of the unit files. Without running this command, systemd may not detect changes made to the service files, causing the system to continue using old or missing configurations.
+
+#### Syntax
+
+```bash
+systemctl daemon-reload
+```
+
+#### Note
+
+Remember to run this command with sudo privileges if you're not logged in as the root user:
+
+```bash
+sudo systemctl daemon-reload
+```
+
+#### Additional Resources
+
+For more information on systemd and its commands, refer to the official systemd documentation or your Linux distribution's manual pages.

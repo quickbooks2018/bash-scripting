@@ -2043,8 +2043,6 @@ sudo systemctl daemon-reload
 
 ### Linux Boot Process
 
-This README explains the boot process of a Linux system as illustrated in the provided diagram.
-
 #### Steps
 
 1. **BIOS/UEFI**: The process begins with either the BIOS (Basic Input/Output System) or UEFI (Unified Extensible Firmware Interface). This firmware initializes the hardware and looks for a bootable device.

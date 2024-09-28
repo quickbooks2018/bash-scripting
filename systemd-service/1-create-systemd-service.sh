@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# mysql_service.timer) is linked to the timers.target. This indicates that the timer should be started whenever the timers.target is active. Typically, timers.target is activated early in the boot process, and timers configured to start at WantedBy=timers.target will automatically activate at this point.
 # Define variables
 SERVICE_NAME="mysql_service"
 SCRIPT_PATH="/root/mysql_systemd_service.sh"

@@ -2039,7 +2039,3 @@ Remember to run this command with sudo privileges if you're not logged in as the
 ```bash
 sudo systemctl daemon-reload
 ```
-
-#### Additional Resources
-
-For more information on systemd and its commands, refer to the official systemd documentation or your Linux distribution's manual pages.

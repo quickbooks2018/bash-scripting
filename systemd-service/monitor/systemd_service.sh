@@ -51,7 +51,7 @@ SERVICE_PORT="$2"
 SCRIPT_PATH="/usr/local/bin/${SERVICE_NAME}_monitor.sh"
 
 # Function to log messages
-log() {
+function log() {
     local message="[$(date +'%Y-%m-%d %H:%M:%S')] $1"
     if [ -n "$LOG_FILE" ]; then
         echo "$message" >> "$LOG_FILE"
@@ -61,7 +61,7 @@ log() {
 }
 
 # Function to check if a command exists
-command_exists() {
+function command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
@@ -75,7 +75,7 @@ for cmd in netstat systemctl curl
 done
 
 # Create the service monitor script
-create_monitor_script() {
+function create_monitor_script() {
     cat <<EOF > "$SCRIPT_PATH"
 #!/bin/bash
 
@@ -121,7 +121,7 @@ EOF
 }
 
 # Create the systemd service file
-create_service_file() {
+function create_service_file() {
     cat <<EOF | sudo tee "/etc/systemd/system/${SERVICE_NAME}_monitor.service" > /dev/null
 [Unit]
 Description=$SERVICE_NAME Monitor Service
@@ -140,7 +140,7 @@ EOF
 }
 
 # Create the systemd timer file
-create_timer_file() {
+function create_timer_file() {
     cat <<EOF | sudo tee "/etc/systemd/system/${SERVICE_NAME}_monitor.timer" > /dev/null
 [Unit]
 Description=Run $SERVICE_NAME Monitor Service every $MONITOR_INTERVAL
@@ -158,7 +158,7 @@ EOF
 }
 
 # Main execution
-main() {
+function main() {
     log "Starting $SERVICE_NAME Monitor Systemd Service Creator"
 
     create_monitor_script
@@ -175,4 +175,4 @@ main() {
     log "$SERVICE_NAME Monitor Service setup complete."
 }
 
-main
+main "$@"

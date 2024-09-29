@@ -2099,8 +2099,8 @@ A sparse file is a type of file that intelligently manages disk space. It doesn'
 - **Physical Size**: The actual space used on disk (210M in this case).
 - **Apparent Size**: The logical size of the file, including empty regions (1.0G for `app.log`).
 
-Physical Size (du -h without --apparent-size): Represents the actual space occupied on the disk.
-Apparent Size (--apparent-size): Represents the total size of the file as if all blocks were fully used.
+- **Physical Size**: (du -h without --apparent-size): Represents the actual space occupied on the disk.
+- **Apparent Size**: (--apparent-size): Represents the total size of the file as if all blocks were fully used.
 
 #### Verification Commands
 

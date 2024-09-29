@@ -2078,3 +2078,66 @@ Dracut is an event-driven initramfs infrastructure. It's a tool used to create t
 - The specific details may vary slightly between different Linux distributions.
 - Understanding this process can be crucial for troubleshooting boot issues or customizing the boot process.
 - Tools like Dracut play a crucial role in creating a flexible and efficient boot process across diverse hardware configurations.
+
+### Understanding Sparse Files and Disk Usage
+
+### Observed Behavior
+
+1. `du -hs /var/log/` shows a total size of 210M.
+2. `find /var/log/ -type f -exec du -hs --apparent-size {} + | sort -hr | head -n1` shows `app.log` with an apparent size of 1.0G.
+
+#### Explanation
+
+The discrepancy is due to the presence of a sparse file, specifically `app.log`.
+
+#### What is a Sparse File?
+
+A sparse file is a type of file that intelligently manages disk space. It doesn't allocate disk space for empty regions, only storing meaningful data. This results in a file that appears larger than the physical space it occupies on disk.
+
+#### Key Points
+
+- **Physical Size**: The actual space used on disk (210M in this case).
+- **Apparent Size**: The logical size of the file, including empty regions (1.0G for `app.log`).
+
+#### Verification Commands
+
+1a. Show physical size of all files: (actual size on disk)
+   ```bash
+   find /var/log/ -type f -exec du -h {} + | sort -hr | head
+   ```
+1b. Show apparent size of all files: (logical size)
+   ```bash
+   find /var/log/ -type f -exec du -h --apparent-size {} + | sort -hr | head
+   ```
+
+
+2. Compare apparent size and physical size:
+   ```bash
+   stat /var/log/app.log
+   ```
+
+3. Calculate disk usage including sparse files:
+   ```bash
+   du -hs --apparent-size /var/log/
+   ```
+
+#### Resolving the Discrepancy
+
+To make the physical size match the apparent size, you can rewrite the sparse file with actual data:
+
+```bash
+dd if=/dev/zero of=/var/log/app.log bs=1M count=1024
+```
+
+Note: dd bs is the block size, and count is the number of blocks. This command writes 1024 blocks of 1M each, filling the file with zeros.
+
+```bash
+dd --help
+truncate --help
+```
+
+After this, `du -hs /var/log/` should show a size closer to 1.0G plus the size of other files.
+
+#### Conclusion
+
+Understanding sparse files is crucial for accurately interpreting disk usage. While they save physical space, they can lead to confusion when comparing different disk usage reporting methods.

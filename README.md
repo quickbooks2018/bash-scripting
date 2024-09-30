@@ -2144,3 +2144,152 @@ After this, `du -hs /var/log/` should show a size closer to 1.0G plus the size o
 #### Conclusion
 
 Understanding sparse files is crucial for accurately interpreting disk usage. While they save physical space, they can lead to confusion when comparing different disk usage reporting methods.
+
+### Linux kernel Modules
+
+# Loading and Blacklisting Kernel Modules on Boot
+
+Kernel modules are pieces of code that can be loaded and unloaded into the kernel on demand. They extend the functionality of the kernel without the need to reboot the system. Loading modules automatically on boot ensures that your system has all the necessary functionality available from startup. Conversely, blacklisting modules prevents them from loading, which can be useful for troubleshooting or when a module is causing conflicts.
+
+## Loading Modules
+
+There are two main methods to load kernel modules on boot:
+
+### Using /etc/modules
+
+1. Open the `/etc/modules` file with root privileges:
+
+   ```
+   sudo nano /etc/modules
+   ```
+
+2. Add the name of the module you want to load, one per line. For example:
+
+   ```
+   # /etc/modules
+   nvidia
+   vboxdrv
+   ```
+
+3. Save the file and exit.
+
+### Using /etc/modules-load.d/
+
+1. Create a new .conf file in the `/etc/modules-load.d/` directory. Name it descriptively, e.g., `mymodules.conf`:
+
+   ```
+   sudo nano /etc/modules-load.d/mymodules.conf
+   ```
+
+2. Add the names of the modules you want to load, one per line:
+
+   ```
+   # /etc/modules-load.d/mymodules.conf
+   nvidia
+   vboxdrv
+   ```
+
+3. Save the file and exit.
+
+## Adding Module Parameters
+
+If your module requires parameters, you can set them in the `/etc/modprobe.d/` directory:
+
+1. Create a new .conf file in `/etc/modprobe.d/`. For example:
+
+   ```
+   sudo nano /etc/modprobe.d/mymodule_params.conf
+   ```
+
+2. Add the module options using this format:
+
+   ```
+   options module_name parameter1=value1 parameter2=value2
+   ```
+
+   For example:
+
+   ```
+   options nvidia NVreg_EnableMSI=0
+   ```
+
+3. Save the file and exit.
+
+## Blacklisting Modules
+
+Blacklisting a module prevents it from loading automatically. This is useful when you want to disable a module that's causing problems or conflicts with other modules.
+
+1. Create a new .conf file in the `/etc/modprobe.d/` directory. A common naming convention is `blacklist-<module>.conf`:
+
+   ```
+   sudo nano /etc/modprobe.d/blacklist-nouveau.conf
+   ```
+
+2. Add the blacklist directive for each module you want to prevent from loading:
+
+   ```
+   # /etc/modprobe.d/blacklist-nouveau.conf
+   blacklist nouveau
+   ```
+
+3. You can blacklist multiple modules in the same file:
+
+   ```
+   blacklist nouveau
+   blacklist radeon
+   blacklist amdgpu
+   ```
+
+4. Save the file and exit.
+
+5. After blacklisting, you may need to update the initial ramdisk (initramfs). On Ubuntu and Debian-based systems:
+
+   ```
+   sudo update-initramfs -u
+   ```
+
+   On Fedora or CentOS:
+
+   ```
+   sudo dracut --force
+   ```
+
+6. Reboot your system for the changes to take effect.
+
+Note: Blacklisting a module doesn't guarantee it won't be loaded if another module depends on it. In such cases, you might need to use the `install` directive to force the module to do nothing:
+
+```
+install nouveau /bin/false
+```
+
+This tells the system to run `/bin/false` instead of loading the module, effectively preventing it from loading.
+
+## Troubleshooting
+
+- If a module fails to load, check the system logs:
+
+  ```
+  journalctl -b | grep 'module'
+  ```
+
+- Ensure that the module is available in your kernel:
+
+  ```
+  modinfo module_name
+  ```
+
+- Verify that all dependencies are met. You can check module dependencies with:
+
+  ```
+  modprobe --show-depends module_name
+  ```
+
+- To check if a module is currently loaded:
+
+  ```
+  lsmod | grep module_name
+  ```
+
+- If a blacklisted module is still loading, check if it's being loaded as a dependency. You can use `modprobe` with the `--show-depends` option to see the dependency tree.
+
+Remember to replace `module_name` with the actual name of your module in the examples above.

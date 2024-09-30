@@ -2339,7 +2339,7 @@ Remember to replace `module_name` with the actual name of your module in the exa
 
 These commands are crucial for system administrators and developers working with Linux kernel modules, allowing for efficient management and troubleshooting of kernel functionality.
 
-**Note**: **modprobe is top layer used by human which actually points to insmod, just like ufw actually make changes on iptables.**
+**Note: The modprobe command operates at a higher abstraction level, serving as a user-facing interface that ultimately invokes insmod for kernel module management. This is conceptually similar to how ufw modifies firewall rules by interacting directly with iptables at a lower level.**
 
 #### Amazon Ubuntu Box 22lts
 ```bash

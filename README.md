@@ -2293,3 +2293,217 @@ This tells the system to run `/bin/false` instead of loading the module, effecti
 - If a blacklisted module is still loading, check if it's being loaded as a dependency. You can use `modprobe` with the `--show-depends` option to see the dependency tree.
 
 Remember to replace `module_name` with the actual name of your module in the examples above.
+
+### Linux Kernel Module Management Commands
+
+#### insmod and rmmod
+
+#### insmod (Insert Module)
+- **Purpose**: Inserts a module into the Linux kernel.
+- **Usage**: `insmod [module_name.ko]`
+- **Example**: `insmod mymodule.ko`
+- **Note**: Requires the full path to the module file and doesn't handle dependencies.
+
+#### rmmod (Remove Module)
+- **Purpose**: Removes a module from the Linux kernel.
+- **Usage**: `rmmod [module_name]`
+- **Example**: `rmmod mymodule`
+- **Note**: The module must not be in use by any process or other module.
+
+#### modprobe and lsmod
+
+#### modprobe
+- **Purpose**: Intelligently adds or removes modules from the Linux kernel.
+- **Usage**:
+    - To load: `modprobe [module_name]`
+    - To unload: `modprobe -r [module_name]`
+- **Example**:
+    - Load: `modprobe bluetooth`
+    - Unload: `modprobe -r bluetooth`
+- **Note**: Handles dependencies automatically using the module database.
+
+#### lsmod
+- **Purpose**: Shows the status of modules in the Linux kernel.
+- **Usage**: `lsmod`
+- **Output**: Displays a list of loaded kernel modules, their sizes, and dependencies.
+
+#### depmod
+
+#### depmod
+- **Purpose**: Generates a list of dependency descriptions for kernel modules.
+- **Usage**: `depmod [-a]`
+- **Note**:
+    - Usually run automatically when installing a new kernel or modules.
+    - The `-a` option forces a probe of all modules.
+- **Function**: Creates the module dependency file used by modprobe.
+
+These commands are crucial for system administrators and developers working with Linux kernel modules, allowing for efficient management and troubleshooting of kernel functionality.
+
+Note: modprobe is top layer used by human which actually points insmod, just like ufw actually make changes on iptables.
+#### Amazon Ubuntu Box 22lts
+```bash
+sudo modprobe toshiba_bluetooth
+root@d8d3ed90041c:/lib/modules/6.8.0-1015-aws# lsmod | grep -i blue
+toshiba_bluetooth      16384  0
+sudo depmod -a
+root@d8d3ed90041c:/lib/modules/6.8.0-1015-aws# sudo modprobe -r toshiba_bluetooth
+root@d8d3ed90041c:/lib/modules/6.8.0-1015-aws# lsmod | grep -i blue
+root@d8d3ed90041c:/lib/modules/6.8.0-1015-aws# cat /etc/os-release 
+PRETTY_NAME="Ubuntu 22.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="22.04"
+VERSION="22.04.4 LTS (Jammy Jellyfish)"
+VERSION_CODENAME=jammy
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=jammy
+root@d8d3ed90041c:/lib/modules/6.8.0-1015-aws# hostnamectl 
+ Static hostname: d8d3ed90041c.mylabserver.com
+       Icon name: computer-vm
+         Chassis: vm
+      Machine ID: ec2781cfcdcece29b987d3b72c65f0dd
+         Boot ID: 219e41a31d2646ae99bcd83ca76eb302
+  Virtualization: amazon
+Operating System: Ubuntu 22.04.4 LTS              
+          Kernel: Linux 6.8.0-1015-aws
+    Architecture: x86-64
+ Hardware Vendor: Amazon EC2
+  Hardware Model: t3a.large
+root@d8d3ed90041c:/lib/modules/6.8.0-1015-aws# ls /lib/mod
+modprobe.d/     modules/        modules-load.d/ 
+root@d8d3ed90041c:/lib/modules/6.8.0-1015-aws# ls /lib/modules
+modules/        modules-load.d/ 
+root@d8d3ed90041c:/lib/modules/6.8.0-1015-aws# ls /lib/modules/
+5.15.0-1023-aws/ 5.15.0-1030-aws/ 5.19.0-1027-aws/ 6.2.0-1013-aws/  6.5.0-1014-aws/  6.5.0-1023-aws/  6.8.0-1015-aws/  
+5.15.0-1026-aws/ 5.19.0-1023-aws/ 6.2.0-1009-aws/  6.2.0-1017-aws/  6.5.0-1022-aws/  6.5.0-1024-aws/  
+root@d8d3ed90041c:/lib/modules/6.8.0-1015-aws# uname -a
+Linux d8d3ed90041c.mylabserver.com 6.8.0-1015-aws #16~22.04.1-Ubuntu SMP Mon Aug 19 19:38:17 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux
+root@d8d3ed90041c:/lib/modules/6.8.0-1015-aws# uname -r
+6.8.0-1015-aws
+root@d8d3ed90041c:/lib/modules/6.8.0-1015-aws# cd /lib/modules/6.8.0-1015-aws/
+root@d8d3ed90041c:/lib/modules/6.8.0-1015-aws# ls
+build   kernel         modules.alias.bin  modules.builtin.alias.bin  modules.builtin.modinfo  modules.dep.bin  modules.order    modules.symbols      vdso
+initrd  modules.alias  modules.builtin    modules.builtin.bin        modules.dep              modules.devname  modules.softdep  modules.symbols.bin
+root@d8d3ed90041c:/lib/modules/6.8.0-1015-aws# ls kernel/
+arch  block  crypto  drivers  fs  kernel  lib  mm  net  samples  sound  ubuntu  v4l2loopback  virt  zfs
+root@d8d3ed90041c:/lib/modules/6.8.0-1015-aws# ls kernel/sound/
+soundcore.ko
+root@d8d3ed90041c:/lib/modules/6.8.0-1015-aws# ls -l /lib/modules/$(uname -r)/kernel/drivers/
+total 460
+drwxr-xr-x  5 root root  4096 Sep 30 11:17 accel
+drwxr-xr-x  5 root root  4096 Sep 27 11:25 acpi
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 android
+drwxr-xr-x  3 root root  4096 Sep 30 11:18 ata
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 atm
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 auxdisplay
+drwxr-xr-x  3 root root  4096 Sep 30 11:17 base
+drwxr-xr-x  2 root root  4096 Sep 27 11:25 bcma
+drwxr-xr-x  9 root root  4096 Sep 30 11:18 block
+drwxr-xr-x  3 root root  4096 Sep 30 11:17 bus
+drwxr-xr-x  8 root root  4096 Sep 30 11:18 char
+drwxr-xr-x  3 root root  4096 Sep 30 11:18 clk
+drwxr-xr-x  4 root root  4096 Sep 30 11:18 comedi
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 counter
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 cpufreq
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 cpuidle
+drwxr-xr-x  9 root root  4096 Sep 30 11:18 crypto
+drwxr-xr-x  3 root root  4096 Sep 30 11:18 cxl
+drwxr-xr-x  3 root root  4096 Sep 30 11:18 dax
+drwxr-xr-x  2 root root  4096 Sep 27 11:25 dca
+drwxr-xr-x 10 root root  4096 Sep 30 11:18 dma
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 edac
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 extcon
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 firewire
+drwxr-xr-x  3 root root  4096 Sep 30 11:18 firmware
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 fpga
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 gnss
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 gpio
+drwxr-xr-x  3 root root  4096 Sep 27 11:25 gpu
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 greybus
+drwxr-xr-x  6 root root 12288 Sep 30 11:18 hid
+drwxr-xr-x  3 root root  4096 Sep 30 11:18 hsi
+drwxr-xr-x  2 root root  4096 Sep 27 11:25 hv
+drwxr-xr-x  4 root root 12288 Sep 30 11:18 hwmon
+drwxr-xr-x  4 root root  4096 Sep 30 11:18 hwtracing
+drwxr-xr-x  5 root root  4096 Sep 30 11:18 i2c
+drwxr-xr-x  3 root root  4096 Sep 30 11:18 i3c
+drwxr-xr-x 31 root root  4096 Sep 30 11:18 iio
+drwxr-xr-x  6 root root  4096 Sep 30 11:18 infiniband
+drwxr-xr-x 11 root root  4096 Sep 30 11:18 input
+drwxr-xr-x  3 root root  4096 Sep 27 11:25 iommu
+drwxr-xr-x  4 root root  4096 Sep 30 11:18 ipack
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 irqchip
+drwxr-xr-x  4 root root  4096 Sep 30 11:18 isdn
+drwxr-xr-x  6 root root  4096 Sep 30 11:18 leds
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 macintosh
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 mailbox
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 mcb
+drwxr-xr-x  4 root root  4096 Sep 27 11:25 md
+drwxr-xr-x 19 root root  4096 Sep 30 11:18 media
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 memory
+drwxr-xr-x  4 root root  4096 Sep 30 11:18 memstick
+drwxr-xr-x  3 root root  4096 Sep 27 11:25 message
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 mfd
+drwxr-xr-x 20 root root  4096 Sep 30 11:18 misc
+drwxr-xr-x  4 root root  4096 Sep 30 11:18 mmc
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 most
+drwxr-xr-x 11 root root  4096 Sep 30 11:18 mtd
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 mux
+drwxr-xr-x 33 root root  4096 Sep 30 11:18 net
+drwxr-xr-x 12 root root  4096 Sep 30 11:18 nfc
+drwxr-xr-x  4 root root  4096 Sep 30 11:18 ntb
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 nvdimm
+drwxr-xr-x  5 root root  4096 Sep 27 11:25 nvme
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 nvmem
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 parport
+drwxr-xr-x  6 root root  4096 Sep 30 11:18 pci
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 pcmcia
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 peci
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 perf
+drwxr-xr-x  9 root root  4096 Sep 30 11:18 phy
+drwxr-xr-x  4 root root  4096 Sep 30 11:18 pinctrl
+drwxr-xr-x  5 root root  4096 Sep 30 11:18 platform
+drwxr-xr-x  4 root root  4096 Sep 30 11:18 power
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 powercap
+drwxr-xr-x  3 root root  4096 Sep 30 11:18 pps
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 ptp
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 pwm
+drwxr-xr-x  4 root root  4096 Sep 30 11:18 rapidio
+drwxr-xr-x  2 root root 12288 Sep 30 11:18 regulator
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 reset
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 rpmsg
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 rtc
+drwxr-xr-x 34 root root  4096 Sep 30 11:18 scsi
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 siox
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 slimbus
+drwxr-xr-x  4 root root  4096 Sep 30 11:18 soc
+drwxr-xr-x  2 root root  4096 Sep 27 11:25 soundwire
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 spi
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 spmi
+drwxr-xr-x  2 root root  4096 Sep 27 11:25 ssb
+drwxr-xr-x 20 root root  4096 Sep 30 11:18 staging
+drwxr-xr-x  7 root root  4096 Sep 30 11:18 target
+drwxr-xr-x  3 root root  4096 Sep 30 11:18 tee
+drwxr-xr-x  3 root root  4096 Sep 30 11:18 thermal
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 thunderbolt
+drwxr-xr-x  4 root root  4096 Sep 30 11:18 tty
+drwxr-xr-x  4 root root  4096 Sep 30 11:18 ufs
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 uio
+drwxr-xr-x 24 root root  4096 Sep 30 11:18 usb
+drwxr-xr-x 10 root root  4096 Sep 30 11:18 vdpa
+drwxr-xr-x  4 root root  4096 Sep 27 11:25 vfio
+drwxr-xr-x  2 root root  4096 Sep 27 11:25 vhost
+drwxr-xr-x  4 root root  4096 Sep 30 11:18 video
+drwxr-xr-x  6 root root  4096 Sep 30 11:18 virt
+drwxr-xr-x  2 root root  4096 Sep 27 11:25 virtio
+drwxr-xr-x  4 root root  4096 Sep 30 11:18 w1
+drwxr-xr-x  2 root root  4096 Sep 30 11:18 watchdog
+drwxr-xr-x  4 root root  4096 Sep 27 11:25 xen
+root@d8d3ed90041c:/lib/modules/6.8.0-1015-aws# find /lib/modules/$(uname -r) -type f -name '*bluetooth*.ko*'
+/lib/modules/6.8.0-1015-aws/kernel/drivers/platform/x86/toshiba_bluetooth.ko
+root@d8d3ed90041c:/lib/modules/6.8.0-1015-aws# 
+```

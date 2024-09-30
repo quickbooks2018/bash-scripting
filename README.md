@@ -2147,15 +2147,15 @@ Understanding sparse files is crucial for accurately interpreting disk usage. Wh
 
 ### Linux kernel Modules
 
-# Loading and Blacklisting Kernel Modules on Boot
+#### Loading and Blacklisting Kernel Modules on Boot
 
 Kernel modules are pieces of code that can be loaded and unloaded into the kernel on demand. They extend the functionality of the kernel without the need to reboot the system. Loading modules automatically on boot ensures that your system has all the necessary functionality available from startup. Conversely, blacklisting modules prevents them from loading, which can be useful for troubleshooting or when a module is causing conflicts.
 
-## Loading Modules
+#### Loading Modules
 
 There are two main methods to load kernel modules on boot:
 
-### Using /etc/modules
+#### Using /etc/modules
 
 1. Open the `/etc/modules` file with root privileges:
 
@@ -2173,7 +2173,7 @@ There are two main methods to load kernel modules on boot:
 
 3. Save the file and exit.
 
-### Using /etc/modules-load.d/
+#### Using /etc/modules-load.d/
 
 1. Create a new .conf file in the `/etc/modules-load.d/` directory. Name it descriptively, e.g., `mymodules.conf`:
 
@@ -2191,7 +2191,7 @@ There are two main methods to load kernel modules on boot:
 
 3. Save the file and exit.
 
-## Adding Module Parameters
+#### Adding Module Parameters
 
 If your module requires parameters, you can set them in the `/etc/modprobe.d/` directory:
 
@@ -2215,7 +2215,7 @@ If your module requires parameters, you can set them in the `/etc/modprobe.d/` d
 
 3. Save the file and exit.
 
-## Blacklisting Modules
+#### Blacklisting Modules
 
 Blacklisting a module prevents it from loading automatically. This is useful when you want to disable a module that's causing problems or conflicts with other modules.
 
@@ -2264,7 +2264,7 @@ install nouveau /bin/false
 
 This tells the system to run `/bin/false` instead of loading the module, effectively preventing it from loading.
 
-## Troubleshooting
+#### Troubleshooting
 
 - If a module fails to load, check the system logs:
 

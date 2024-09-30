@@ -2,7 +2,7 @@
 # Purpose: Docker container monitoring & alerting
 # Usage: ./container_monitor.sh container_name example: ./container_monitor.sh mysql
 
-SLACK_WEBHOOK_URL="https://hooks.slack.com/services/YOURSCLACK"
+SLACK_WEBHOOK_URL="https://hooks.slack.com/services/YOURSLACK"
 HOSTNAME=$(hostname)
 CONTAINER_NAME="$1"
 

@@ -9,7 +9,7 @@ SEND_SUCCESS_ALERTS="${2:-false}"  # Default to false if not provided
 if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]
 then
     echo "Usage: $0 <container_name> [send_success_alerts(true/false)]"
-    exit 126
+    exit 165
 fi
 
 # Function to get container logs

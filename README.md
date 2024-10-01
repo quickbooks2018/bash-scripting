@@ -410,6 +410,9 @@ Enter the new value, or press ENTER for the default
         Login Shell [/usr/bin/zsh]: /bin/bash
 
 type bash
+or
+type chsh -s /bin/bash
+
 type sudo -i
 type echo $0
 ```

@@ -1,104 +1,138 @@
-# Docker Container Monitor Script
+# Docker Container Monitoring Script
 
-This Bash script monitors Docker containers and sends alerts to Slack. It checks if a specified container is running and sends appropriate messages to a Slack channel using a webhook URL.
+This bash script monitors a specified Docker container and sends alerts to Slack based on its status. Below is a detailed explanation of each part of the script.
 
-## Features
-
-- Checks if a specified Docker container is running
-- Sends alerts to Slack when a container is down
-- Provides container status information when the container is running
-- Includes recent container logs in the Slack message
-
-## Usage
-
-```bash
-./container_monitor.sh <container_name>
-```
-
-Example:
-```bash
-./container_monitor.sh mysql
-```
-
-## Requirements
-
-- Docker installed and running on the host system
-- `curl` command-line tool for sending HTTP requests
-- A valid Slack webhook URL
-
-## Script Breakdown
-
-Here's a line-by-line explanation of the script:
+## Script Header
 
 ```bash
 #!/bin/bash
 # Purpose: Docker container monitoring & alerting
-# Usage: ./container_monitor.sh container_name example: ./container_monitor.sh mysql
 ```
-These lines specify the script interpreter and provide a brief description of the script's purpose and usage.
+
+- `#!/bin/bash`: This shebang line specifies that the script should be executed by the Bash shell.
+- The comment describes the purpose of the script.
+
+## Variable Declarations
 
 ```bash
-SLACK_WEBHOOK_URL="https://hooks.slack.com/services/YOURSCLACK"
+SLACK_WEBHOOK_URL="https://hooks.slack.com/services/YourSlack"
 HOSTNAME=$(hostname)
 CONTAINER_NAME="$1"
+SEND_SUCCESS_ALERTS="${2:-false}"  # Default to false if not provided
 ```
-- Sets the Slack webhook URL (replace with your actual URL)
-- Gets the hostname of the current machine
-- Sets the container name from the first command-line argument
+
+- `SLACK_WEBHOOK_URL`: Stores the Slack webhook URL for sending alerts.
+- `HOSTNAME`: Captures the current system's hostname.
+- `CONTAINER_NAME`: Stores the name of the container to monitor (passed as the first argument).
+- `SEND_SUCCESS_ALERTS`: Determines whether to send alerts for successful checks (passed as the second argument, defaults to false).
+
+## Argument Validation
 
 ```bash
-if [ "$#" != "1" ]
+if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]
 then
-    echo "This script requires 1 argument, name of docker container"
+    echo "Usage: $0 <container_name> [send_success_alerts(true/false)]"
     exit 126
 fi
 ```
-Checks if exactly one argument is provided; if not, it displays an error message and exits.
+
+This block checks if the correct number of arguments (1 or 2) is provided. If not, it displays the usage message and exits with status code 126.
+
+## Function Definitions
+
+### get_container_logs Function
 
 ```bash
 get_container_logs() {
     docker logs --tail 5 ${CONTAINER_NAME} 2>&1 || echo "Unable to retrieve container logs"
 }
 ```
-Defines a function to get the last 5 lines of container logs.
+
+This function retrieves the last 5 lines of logs from the specified container. If it fails, it returns an error message.
+
+### send_slack_alert Function
+
+```bash
+send_slack_alert() {
+    local message="$1"
+    local is_failure="$2"
+
+    if [ "$is_failure" = "true" ] || [ "$SEND_SUCCESS_ALERTS" = "true" ]; then
+        curl -X POST -H 'Content-type: application/json' --data "$message" "$SLACK_WEBHOOK_URL"
+    else
+        echo "Success alert not sent (success alerts disabled)"
+    fi
+}
+```
+
+This function sends an alert to Slack. It takes two parameters:
+1. `message`: The JSON-formatted message to send.
+2. `is_failure`: A boolean indicating if this is a failure alert.
+
+It sends the alert if it's a failure or if success alerts are enabled.
+
+## Container Status Check
 
 ```bash
 if ! docker ps --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
-    # ... (code for when container is down)
+    # Container is down
+    # ... (alert preparation for down container)
 else
-    # ... (code for when container is running)
+    # Container is running
+    # ... (status message preparation for running container)
 fi
 ```
-Checks if the container is running. If not, it prepares a "container down" message; otherwise, it prepares a "container running" message.
+
+This block checks if the specified container is running. It uses `docker ps` to list running containers and `grep` to search for the exact container name.
+
+## Alert Preparation for Down Container
+
+Inside the `if` block, the script:
+1. Logs that the container is down.
+2. Gets the recent container logs.
+3. Prepares a JSON-formatted message for Slack, including:
+    - An alert header
+    - Host and container details
+    - Container logs
+    - A call to action
+4. Sends the failure alert using the `send_slack_alert` function.
+
+## Status Message for Running Container
+
+Inside the `else` block, the script:
+1. Logs that the container is running.
+2. Gets the recent container logs.
+3. Retrieves additional container status details.
+4. Prepares a JSON-formatted message for Slack, including:
+    - A success header
+    - Host and container details
+    - Container status and uptime
+    - Container logs
+    - An informational message
+5. Sends the success alert using the `send_slack_alert` function (only if enabled).
+
+## Script Completion
 
 ```bash
-MESSAGE=$(cat <<EOF
-{
-    "blocks": [
-        # ... (Slack message JSON structure)
-    ]
-}
-EOF
-)
+echo "Script execution completed."
 ```
-Prepares the Slack message in JSON format with appropriate status information and container logs.
 
+This line indicates that the script has finished executing.
+
+## Usage
+
+To use this script:
+
+1. Save it with a `.sh` extension (e.g., `monitor_container.sh`).
+2. Make it executable: `chmod +x monitor_container.sh`
+3. Run it with a container name: `./monitor_container.sh my_container`
+4. Optionally, enable success alerts: `./monitor_container.sh my_container true`
+
+Ensure that you have the necessary permissions to run Docker commands and that the Slack webhook URL is correct.
+
+## Permission
+
+- Other user's permissions for docker
 ```bash
-curl -X POST -H 'Content-type: application/json' --data "$MESSAGE" "$SLACK_WEBHOOK_URL"
+usermod cloud_user -aG docker 
 ```
-Sends the prepared message to Slack using the webhook URL.
-
-## Customization
-
-- Update the `SLACK_WEBHOOK_URL` variable with your actual Slack webhook URL.
-- Modify the Slack message structure in the `MESSAGE` variable to customize the alert format.
-
-## Note
-
-Ensure that the script has execute permissions:
-
-```bash
-chmod +x container_monitor.sh
-```
-
-You can set up a cron job to run this script at regular intervals for continuous monitoring.

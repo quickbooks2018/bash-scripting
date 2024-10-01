@@ -1,14 +1,14 @@
 #!/bin/bash
 # Purpose: Docker container monitoring & alerting
-# Usage: ./container_monitor.sh container_name example: ./container_monitor.sh mysql
 
-SLACK_WEBHOOK_URL="https://hooks.slack.com/services/YOURSLACK"
+SLACK_WEBHOOK_URL="https://hooks.slack.com/services/YourSlack"
 HOSTNAME=$(hostname)
 CONTAINER_NAME="$1"
+SEND_SUCCESS_ALERTS="${2:-false}"  # Default to false if not provided
 
-if [ "$#" != "1" ]
+if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]
 then
-    echo "This script requires 1 argument, name of docker container"
+    echo "Usage: $0 <container_name> [send_success_alerts(true/false)]"
     exit 126
 fi
 
@@ -17,9 +17,21 @@ get_container_logs() {
     docker logs --tail 5 ${CONTAINER_NAME} 2>&1 || echo "Unable to retrieve container logs"
 }
 
+# Function to send Slack alert
+send_slack_alert() {
+    local message="$1"
+    local is_failure="$2"
+
+    if [ "$is_failure" = "true" ] || [ "$SEND_SUCCESS_ALERTS" = "true" ]; then
+        curl -X POST -H 'Content-type: application/json' --data "$message" "$SLACK_WEBHOOK_URL"
+    else
+        echo "Success alert not sent (success alerts disabled)"
+    fi
+}
+
 # Check if container is running
 if ! docker ps --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
-    echo "$CONTAINER_NAME container is down, sending a Slack alert"
+    echo "$CONTAINER_NAME container is down, sending alert"
 
     # Get the last 5 lines of container logs
     CONTAINER_LOG=$(get_container_logs)
@@ -70,8 +82,10 @@ if ! docker ps --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
 }
 EOF
 )
+    # Send the failure alert (always sent)
+    send_slack_alert "$MESSAGE" "true"
 else
-    echo "$CONTAINER_NAME container is running"
+    echo "$CONTAINER_NAME container is running, preparing status message"
 
     # Get the last 5 lines of container logs
     CONTAINER_LOG=$(get_container_logs)
@@ -130,9 +144,8 @@ else
 }
 EOF
 )
+    # Send the success alert (only if SEND_SUCCESS_ALERTS is true)
+    send_slack_alert "$MESSAGE" "false"
 fi
 
-# Send the Slack alert
-curl -X POST -H 'Content-type: application/json' --data "$MESSAGE" "$SLACK_WEBHOOK_URL"
-
-# End
+echo "Script execution completed."

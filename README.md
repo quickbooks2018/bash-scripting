@@ -2511,3 +2511,270 @@ root@d8d3ed90041c:/lib/modules/6.8.0-1015-aws# find /lib/modules/$(uname -r) -ty
 /lib/modules/6.8.0-1015-aws/kernel/drivers/platform/x86/toshiba_bluetooth.ko
 root@d8d3ed90041c:/lib/modules/6.8.0-1015-aws# 
 ```
+### Linux Networking
+
+#### Route
+
+- What is your gateway address?
+```bash
+route -n 
+
+ip route
+```
+
+- trouble shoot correct and in correct flags
+```bash
+ 
+root@d8d3ed90041c:/home/cloud_user# netstat -r
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+default         _gateway        0.0.0.0         UG        0 0          0 ens5
+172.17.0.0      0.0.0.0         255.255.0.0     U         0 0          0 docker0
+172.31.0.2      _gateway        255.255.255.255 UGH       0 0          0 ens5
+172.31.32.0     0.0.0.0         255.255.240.0   U         0 0          0 ens5
+_gateway        0.0.0.0         255.255.255.255 UH        0 0          0 ens5
+root@d8d3ed90041c:/home/cloud_user# ping 172.17.0.0
+PING 172.17.0.0 (172.17.0.0) 56(84) bytes of data.
+From 172.17.0.1 icmp_seq=1 Destination Host Unreachable
+From 172.17.0.1 icmp_seq=2 Destination Host Unreachable
+From 172.17.0.1 icmp_seq=3 Destination Host Unreachable
+From 172.17.0.1 icmp_seq=4 Destination Host Unreachable
+From 172.17.0.1 icmp_seq=5 Destination Host Unreachable
+From 172.17.0.1 icmp_seq=6 Destination Host Unreachable
+From 172.17.0.1 icmp_seq=7 Destination Host Unreachable
+From 172.17.0.1 icmp_seq=8 Destination Host Unreachable
+From 172.17.0.1 icmp_seq=9 Destination Host Unreachable
+^C
+--- 172.17.0.0 ping statistics ---
+12 packets transmitted, 0 received, +9 errors, 100% packet loss, time 11270ms
+pipe 4
+root@d8d3ed90041c:/home/cloud_user# route
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+default         _gateway        0.0.0.0         UG    100    0        0 ens5
+172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 docker0
+172.31.0.2      _gateway        255.255.255.255 UGH   100    0        0 ens5
+172.31.32.0     0.0.0.0         255.255.240.0   U     100    0        0 ens5
+_gateway        0.0.0.0         255.255.255.255 UH    100    0        0 ens5
+root@d8d3ed90041c:/home/cloud_user# route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         172.31.32.1     0.0.0.0         UG    100    0        0 ens5
+172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 docker0
+172.31.0.2      172.31.32.1     255.255.255.255 UGH   100    0        0 ens5
+172.31.32.0     0.0.0.0         255.255.240.0   U     100    0        0 ens5
+172.31.32.1     0.0.0.0         255.255.255.255 UH    100    0        0 ens5
+root@d8d3ed90041c:/home/cloud_user# ping 172.31.32.1
+PING 172.31.32.1 (172.31.32.1) 56(84) bytes of data.
+64 bytes from 172.31.32.1: icmp_seq=1 ttl=64 time=0.081 ms
+64 bytes from 172.31.32.1: icmp_seq=2 ttl=64 time=0.076 ms
+64 bytes from 172.31.32.1: icmp_seq=3 ttl=64 time=0.144 ms
+^C
+--- 172.31.32.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2068ms
+rtt min/avg/max/mdev = 0.076/0.100/0.144/0.030 ms
+
+ip route                                                                                                                                  10/02/2024 03:43:22 AM
+default via 172.31.32.1 dev ens5 proto dhcp src 172.31.44.189 metric 100 
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown 
+172.31.0.2 via 172.31.32.1 dev ens5 proto dhcp src 172.31.44.189 metric 100 
+172.31.32.0/20 dev ens5 proto kernel scope link src 172.31.44.189 metric 100 
+172.31.32.1 dev ens5 proto dhcp scope link src 172.31.44.189 metric 100 
+```
+
+Routing Table Analysis
+netstat -r and route Outputs: The routing table lists different routes based on the destination network, gateway, netmask, flags, and the interface associated with each route.
+
+default: The default route (0.0.0.0), typically used for forwarding packets to destinations not specified in other routes. It uses the gateway _gateway, which corresponds to 172.31.32.1 as seen in the route -n output.
+172.17.0.0: This route is associated with the docker0 interface. It covers the IP range 172.17.0.0/16, which is commonly used by Docker for its container networking. It has a direct connection (U flag) without requiring a gateway.
+172.31.0.2: This specific host route (255.255.255.255 netmask) indicates a route to 172.31.0.2 via _gateway. It uses the ens5 interface.
+172.31.32.0: This route points to the subnet 172.31.32.0/20 and is directly connected to the ens5 interface, indicating a local subnet.
+_gateway: This entry shows the specific gateway _gateway (corresponding to 172.31.32.1) used for some routes. This is common when using private subnets in a cloud environment.
+route -n Output: The same routing table is displayed but with numerical values for IP addresses. This view is useful for understanding the exact IP addresses used by routes.
+
+Default Route (0.0.0.0): Uses 172.31.32.1 as the gateway, which is the main route for traffic leaving the local network.
+172.17.0.0: Route associated with the docker0 interface.
+172.31.0.2: Host route with 172.31.32.1 as the gateway.
+172.31.32.0: Directly connected to the ens5 interface.
+172.31.32.1: This route indicates a host route pointing directly to the gateway.
+Ping Analysis
+Pinging 172.17.0.0: The ping command to 172.17.0.0 fails with "Destination Host Unreachable". This is because 172.17.0.0 is a network address, not a valid host address. Network addresses represent the start of a subnet, and they cannot be used to reach a specific host. The error message originates from 172.17.0.1, which is likely the local gateway for the Docker network (docker0).
+
+Pinging 172.31.32.1: The ping to 172.31.32.1 is successful, indicating that this IP is reachable. This IP is the gateway for your system, typically managed by the cloud network provider (AWS, GCP, etc.), and serves as the primary route for outbound traffic.
+
+Summary
+The network routing table indicates that the system is using ens5 for cloud-based routing (172.31.x.x subnets), while docker0 is used for internal Docker networking (172.17.0.0/16).
+Pinging a network address (172.17.0.0) will fail because it is not a valid host IP, whereas pinging a gateway IP (172.31.32.1) will succeed as long as the network is properly configured.
+
+### DNS Tool
+
+#### dig (Domain Information Groper)
+
+`dig` is a flexible tool for interrogating DNS name servers. It performs DNS lookups and displays the answers returned from the queried name server(s).
+
+#### Basic Usage
+
+```bash
+dig example.com
+```
+
+#### Specify Record Type
+
+```bash
+dig example.com A    # IPv4 address
+dig example.com AAAA # IPv6 address
+dig example.com MX   # Mail exchanger
+dig example.com NS   # Name servers
+```
+
+#### Use a Specific DNS Server
+
+```bash
+dig @8.8.8.8 example.com
+```
+
+#### Short Answer
+
+```bash
+dig example.com +short
+```
+
+#### Reverse DNS Lookup
+
+```bash
+dig -x 192.0.2.1
+```
+
+#### nslookup (Name Server Lookup)
+
+`nslookup` is a program to query Internet domain name servers. It has two modes: interactive and non-interactive.
+
+#### Basic Usage (Non-interactive)
+
+```bash
+nslookup example.com
+```
+
+#### Specify Record Type
+
+```bash
+nslookup -type=A example.com    # IPv4 address
+nslookup -type=AAAA example.com # IPv6 address
+nslookup -type=MX example.com   # Mail exchanger
+nslookup -type=NS example.com   # Name servers
+```
+
+#### Use a Specific DNS Server
+
+```bash
+nslookup example.com 8.8.8.8
+```
+
+#### Reverse DNS Lookup
+
+```bash
+nslookup 192.0.2.1
+```
+
+#### host
+
+`host` is a simple utility for performing DNS lookups. It is normally used to convert names to IP addresses and vice versa.
+
+#### Basic Usage
+
+```bash
+host example.com
+```
+
+#### Specify Record Type
+
+```bash
+host -t A example.com    # IPv4 address
+host -t AAAA example.com # IPv6 address
+host -t MX example.com   # Mail exchanger
+host -t NS example.com   # Name servers
+```
+
+#### Use a Specific DNS Server
+
+```bash
+host example.com 8.8.8.8
+```
+
+#### Reverse DNS Lookup
+
+```bash
+host 192.0.2.1
+```
+
+#### Verbose Output
+
+```bash
+host -v example.com
+```
+
+#### Note on Using Specific DNS Servers
+
+For all these tools, if you want to use a specific DNS server instead of your default DNS server, you can specify it in the command. For example:
+
+```bash
+dig @1.1.1.1 google.com
+nslookup google.com 1.1.1.1
+host google.com 1.1.1.1
+```
+
+This will use Cloudflare's DNS server (1.1.1.1) instead of your system's default DNS server.
+
+### Modifying /etc/hosts Lookup Behavior
+
+This guide explains how to modify the default behavior of `/etc/hosts` lookup by adjusting the configuration in the Name Service Switch (NSS) file.
+
+#### Location of NSS Configuration
+
+The NSS configuration file is located at:
+
+```
+/etc/nsswitch.conf
+```
+
+#### How to Modify nsswitch.conf
+
+Follow these steps to modify the `nsswitch.conf` file:
+
+1. Open the file using a text editor, such as `nano` or `vim`:
+
+   ```bash
+   sudo nano /etc/nsswitch.conf
+   ```
+
+2. Look for the line that starts with `hosts:`. By default, it may look something like this:
+
+   ```
+   hosts: files dns
+   ```
+
+    - `files` means the system will first look at `/etc/hosts`.
+    - `dns` indicates that DNS will be checked next if no match is found in `/etc/hosts`.
+
+3. To change the order or remove `/etc/hosts` lookup, modify this line. For example:
+
+    - **Use only DNS**:
+      ```
+      hosts: dns
+      ```
+
+    - **Use `/etc/hosts` after DNS**:
+      ```
+      hosts: dns files
+      ```
+
+4. Save the file and exit the editor (`Ctrl + X` and then `Y` in `nano`).
+
+#### Important Notes
+
+- This setting controls the order in which name resolution occurs for all programs using the system's libraries.
+- It's crucial to carefully test the changes to ensure that name resolution behaves as expected.
+
+#### Caution
+
+Modifying system files can have significant impacts on your system's behavior. Always make a backup of the original file before making changes, and ensure you have a way to revert changes if needed.

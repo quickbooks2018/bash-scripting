@@ -35,11 +35,14 @@ if [ $count -le $threshold ]
 then
 # Create the tar archive
 tar -czvf "${backup_file}.tar.gz" -C "$source_dir" "$source_base"
-
+if [ "$?" != "0" ]
+then
+echo "Error creating backup"
+else
 echo "Backup created: ${backup_file}.tar.gz"
+fi
 
-# You add a logic to copy to aws s3 and add life cycle policies on that bucket regarding retention
-
+# You can add a logic to copy to aws s3 and add life cycle policies on that bucket regarding retention
 else
    echo "Can not create new backup, 3 backups already taken"
 fi

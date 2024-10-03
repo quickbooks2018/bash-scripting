@@ -19,13 +19,16 @@ if [ "$#" != "2" ]; then
     exit 1
 fi
 
+function backup_dir() {
 if [ ! -e "$backup_destination" ]; then
     echo "Creating $backup_destination"
     mkdir "$backup_destination"
 else
     echo "$backup_destination already exists"
 fi
+}
 
+function backup() {
 # Get the directory and basename of the backup source
 source_dir=$(dirname "$backup_source")
 source_base=$(basename "$backup_source")
@@ -45,4 +48,9 @@ tar -czvf "${backup_file}.tar.gz" -C "$source_dir" "$source_base"
 else
    echo "Can not create new backup, 3 backups already taken"
 fi
+}
+# Call the function
+backup_dir
+backup
+
 # End

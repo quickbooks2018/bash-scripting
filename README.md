@@ -2778,3 +2778,14 @@ Follow these steps to modify the `nsswitch.conf` file:
 #### Caution
 
 Modifying system files can have significant impacts on your system's behavior. Always make a backup of the original file before making changes, and ensure you have a way to revert changes if needed.
+
+### Internal & External Commands
+
+- How we check command is internal or external?
+```bash
+type echo
+echo is a shell builtin
+
+type mv
+mv is /usr/bin/mv
+```

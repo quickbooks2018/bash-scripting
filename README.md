@@ -2789,3 +2789,31 @@ echo is a shell builtin
 type mv
 mv is /usr/bin/mv
 ```
+
+### Alternative command for cd in Linux
+
+- How to change directory in Linux without using cd command?
+```bash
+pushd /path/to/directory
+```
+
+- Command popd is used to remove the top directory from the stack and perform a cd to the new top directory.
+```bash
+popd
+```
+
+- Debian based systems network
+```bash
+/etc/network/interfaces # ubuntu 16.04
+/etc/netplan/50-cloud-init.yaml # ubuntu 18.04
+```
+
+- Network management commands in Debian based systems
+```bash
+sudo netplan apply
+sudo netplan --debug generate
+systemctl status NetworkManager
+systemctl status systemd-networkd
+networkctl status
+```
+

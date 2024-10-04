@@ -3025,4 +3025,17 @@ dockerd (8)          - Enable daemon mode
 Dockerfile (5)       - automate the steps of creating a Docker image
 ```
 
+### Persistent environment variables
+
+- How to set environment variables permanently in Linux?
+```bash
+echo "export VARIABLE=value" >> ~/.profile
+source ~/.profile
+
+echo "export VARIABLE=value" >> ~/.pam_environment
+source ~/.pam_environment
+```
+
+- Note: if variable is not exported then it will not be available in subshell
+
 

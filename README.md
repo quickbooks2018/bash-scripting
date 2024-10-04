@@ -2817,3 +2817,20 @@ systemctl status systemd-networkd
 networkctl status
 ```
 
+### Linux help
+
+```bash
+man test
+help test
+date --help
+```
+
+- apropos command is used to search the manual page names and descriptions.
+```bash
+apropos modp
+modprobe (8)         - Add and remove modules from the Linux Kernel
+modprobe.d (5)       - Configuration directory for modprobe
+
+
+
+

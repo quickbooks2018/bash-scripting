@@ -31,6 +31,9 @@ fi
 function backup() {
 # Get the directory and basename of the backup source
 source_dir=$(dirname "$backup_source")
+# dirname give us the directory name of the path
+# example: dirname bash-scripting/log-parser/log_parser.sh
+           #output: bash-scripting/log-parser
 source_base=$(basename "$backup_source")
 
 

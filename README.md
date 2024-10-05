@@ -3067,4 +3067,17 @@ source ~/.pam_environment
 
 - Note: if variable is not exported then it will not be available in subshell
 
+### PS1 Variable
 
+PS1 is a primary prompt variable. It is used to define the primary prompt string. The default value of PS1 is '\s-\v\$ '.
+
+```bash
+man bash
+
+/PROMPTING
+
+man bash | grep -A 15 'PROMPTING'
+
+echo $PS1
+\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$
+```

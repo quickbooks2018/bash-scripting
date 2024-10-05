@@ -414,7 +414,31 @@ or
 type chsh -s /bin/bash
 
 type sudo -i
-type echo $0
+echo $SHELL
+```
+
+Change the SHELL for Bob from bash to Bourne Shell
+
+Bob's password is caleston123
+
+Note: - Normal users can not execute the high-level tasks so add sudo before the command.
+
+```bash
+sudo chsh -s /bin/sh bob
+bob@caleston-lp10:~$ echo $SHELL
+/bin/bash
+
+# Note: It will be still shows /bin/bash but to verify the change
+grep "^bob" /etc/passwd
+bob:x:1000:1000::/home/bob:/bin/sh
+
+# Open a new tab
+$ echo $SHELL
+/bin/sh
+$ whoami
+bob
+$ grep 'bob' /etc/passwd  
+bob:x:1000:1000::/home/bob:/bin/sh
 ```
 
 - how to write multi line comment in bash

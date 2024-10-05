@@ -1374,6 +1374,11 @@ localhost: Refers to the machine you are scanning (in this case, your local syst
 netstat -aplntu
 netstat -ant
 netstat -r
+
+#########
+# Gateway
+#########
+route -n
 ```
 
 - Ubuntu UFW (Uncomplecated fire Wall)

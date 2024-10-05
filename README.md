@@ -3101,3 +3101,238 @@ runlevel 4 -> multi-user.target
 runlevel 5 -> graphical.target
 
 runlevel 6 -> reboot.target
+
+
+# linux disk management
+
+root@d8d3ed90041c:~# ls -l /dev/block/
+total 0
+lrwxrwxrwx 1 root root 10 Oct  5 22:54 259:0 -> ../nvme0n1
+lrwxrwxrwx 1 root root 12 Oct  5 22:54 259:1 -> ../nvme0n1p1
+lrwxrwxrwx 1 root root 13 Oct  5 22:54 259:2 -> ../nvme0n1p14
+lrwxrwxrwx 1 root root 13 Oct  5 22:54 259:3 -> ../nvme0n1p15
+lrwxrwxrwx 1 root root  8 Oct  5 22:54 7:0 -> ../loop0
+lrwxrwxrwx 1 root root  8 Oct  5 22:54 7:1 -> ../loop1
+lrwxrwxrwx 1 root root  9 Oct  5 22:54 7:10 -> ../loop10
+lrwxrwxrwx 1 root root  9 Oct  5 22:54 7:11 -> ../loop11
+lrwxrwxrwx 1 root root  8 Oct  5 22:54 7:2 -> ../loop2
+lrwxrwxrwx 1 root root  8 Oct  5 22:54 7:3 -> ../loop3
+lrwxrwxrwx 1 root root  8 Oct  5 22:54 7:4 -> ../loop4
+lrwxrwxrwx 1 root root  8 Oct  5 22:54 7:5 -> ../loop5
+lrwxrwxrwx 1 root root  8 Oct  5 22:54 7:6 -> ../loop6
+lrwxrwxrwx 1 root root  8 Oct  5 22:54 7:7 -> ../loop7
+lrwxrwxrwx 1 root root  8 Oct  5 22:54 7:8 -> ../loop8
+lrwxrwxrwx 1 root root  8 Oct  5 22:54 7:9 -> ../loop9
+root@d8d3ed90041c:~#
+root@d8d3ed90041c:~# cat /proc/partitions
+major minor  #blocks  name
+
+7        0      25500 loop0
+7        1      26360 loop1
+7        2      56996 loop2
+7        3      56692 loop3
+7        4      65480 loop4
+7        5      65508 loop5
+7        6      76028 loop6
+7        7      89120 loop7
+259        0   20971520 nvme0n1
+259        1   20857839 nvme0n1p1
+259        2       4096 nvme0n1p14
+259        3     108544 nvme0n1p15
+7        8      89128 loop8
+7        9      41400 loop9
+7       10      39760 loop10
+root@d8d3ed90041c:~# lsblk
+NAME         MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+loop0          7:0    0 24.9M  1 loop /snap/amazon-ssm-agent/7628
+loop1          7:1    0 25.7M  1 loop /snap/amazon-ssm-agent/9565
+loop2          7:2    0 55.7M  1 loop /snap/core18/2829
+loop3          7:3    0 55.4M  1 loop /snap/core18/2846
+loop4          7:4    0 63.9M  1 loop /snap/core20/2318
+loop5          7:5    0   64M  1 loop /snap/core20/2379
+loop6          7:6    0 74.2M  1 loop /snap/core22/1621
+loop7          7:7    0   87M  1 loop /snap/lxd/28373
+loop8          7:8    0   87M  1 loop /snap/lxd/29351
+loop9          7:9    0 40.4M  1 loop /snap/snapd/20671
+loop10         7:10   0 38.8M  1 loop /snap/snapd/21759
+nvme0n1      259:0    0   20G  0 disk
+├─nvme0n1p1  259:1    0 19.9G  0 part /
+├─nvme0n1p14 259:2    0    4M  0 part
+└─nvme0n1p15 259:3    0  106M  0 part /boot/efi
+root@d8d3ed90041c:~# fdisk -l
+Disk /dev/loop0: 24.9 MiB, 26112000 bytes, 51000 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop1: 25.74 MiB, 26992640 bytes, 52720 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop2: 55.66 MiB, 58363904 bytes, 113992 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop3: 55.36 MiB, 58052608 bytes, 113384 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop4: 63.95 MiB, 67051520 bytes, 130960 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop5: 63.97 MiB, 67080192 bytes, 131016 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop6: 74.25 MiB, 77852672 bytes, 152056 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop7: 87.03 MiB, 91258880 bytes, 178240 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/nvme0n1: 20 GiB, 21474836480 bytes, 41943040 sectors
+Disk model: Amazon Elastic Block Store              
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disklabel type: gpt
+Disk identifier: 3E71004C-6554-4CC5-893B-909ACC543283
+
+Device           Start      End  Sectors  Size Type
+/dev/nvme0n1p1  227328 41943006 41715679 19.9G Linux filesystem
+/dev/nvme0n1p14   2048    10239     8192    4M BIOS boot
+/dev/nvme0n1p15  10240   227327   217088  106M EFI System
+
+Partition table entries are not in disk order.
+
+
+Disk /dev/loop8: 87.04 MiB, 91267072 bytes, 178256 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop9: 40.43 MiB, 42393600 bytes, 82800 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop10: 38.83 MiB, 40714240 bytes, 79520 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+root@d8d3ed90041c:~# 
+
+### New tools for linux disk management
+
+- parted (non gui)
+- gparted (gui)
+- fdisk (non gui) - command line tool which is used to manage disk partitions
+
+### fdisk
+
+
+root@d8d3ed90041c:~# lsblk
+NAME         MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+loop0          7:0    0 24.9M  1 loop /snap/amazon-ssm-agent/7628
+loop1          7:1    0 25.7M  1 loop /snap/amazon-ssm-agent/9565
+loop2          7:2    0 55.7M  1 loop /snap/core18/2829
+loop3          7:3    0 55.4M  1 loop /snap/core18/2846
+loop4          7:4    0 63.9M  1 loop /snap/core20/2318
+loop5          7:5    0   64M  1 loop /snap/core20/2379
+loop6          7:6    0 74.2M  1 loop /snap/core22/1621
+loop7          7:7    0   87M  1 loop /snap/lxd/28373
+loop8          7:8    0   87M  1 loop /snap/lxd/29351
+loop9          7:9    0 40.4M  1 loop /snap/snapd/20671
+loop10         7:10   0 38.8M  1 loop /snap/snapd/21759
+nvme0n1      259:0    0   20G  0 disk
+├─nvme0n1p1  259:1    0 19.9G  0 part /
+├─nvme0n1p14 259:2    0    4M  0 part
+└─nvme0n1p15 259:3    0  106M  0 part /boot/efi
+root@d8d3ed90041c:~# fdisk /dev/
+/dev/loop0       /dev/loop10      /dev/loop3       /dev/loop5       /dev/loop7       /dev/loop9       /dev/nvme0n1p1   /dev/nvme0n1p15  
+/dev/loop1       /dev/loop2       /dev/loop4       /dev/loop6       /dev/loop8       /dev/nvme0n1     /dev/nvme0n1p14  
+root@d8d3ed90041c:~# fdisk /dev/nvme0n1
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+This disk is currently in use - repartitioning is probably a bad idea.
+It's recommended to umount all file systems, and swapoff all swap
+partitions on this disk.
+
+
+Command (m for help): m
+
+Help:
+
+GPT
+M   enter protective/hybrid MBR
+
+Generic
+d   delete a partition
+F   list free unpartitioned space
+l   list known partition types
+n   add a new partition
+p   print the partition table
+t   change a partition type
+v   verify the partition table
+i   print information about a partition
+
+Misc
+m   print this menu
+x   extra functionality (experts only)
+
+Script
+I   load disk layout from sfdisk script file
+O   dump disk layout to sfdisk script file
+
+Save & Exit
+w   write table to disk and exit
+q   quit without saving changes
+
+Create a new label
+g   create a new empty GPT partition table
+G   create a new empty SGI (IRIX) partition table
+o   create a new empty DOS partition table
+s   create a new empty Sun partition table
+
+
+Command (m for help): p
+
+Disk /dev/nvme0n1: 20 GiB, 21474836480 bytes, 41943040 sectors
+Disk model: Amazon Elastic Block Store              
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disklabel type: gpt
+Disk identifier: 3E71004C-6554-4CC5-893B-909ACC543283
+
+Device           Start      End  Sectors  Size Type
+/dev/nvme0n1p1  227328 41943006 41715679 19.9G Linux filesystem
+/dev/nvme0n1p14   2048    10239     8192    4M BIOS boot
+/dev/nvme0n1p15  10240   227327   217088  106M EFI System
+
+Partition table entries are not in disk order.
+
+Command (m for help): 

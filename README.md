@@ -3336,3 +3336,56 @@ Device           Start      End  Sectors  Size Type
 Partition table entries are not in disk order.
 
 Command (m for help): 
+
+### Linux questions and answers
+
+Q. What is the init process used by this system?
+
+Ans
+cat /proc/1/comm
+systemd
+
+ls -l /sbin/init
+lrwxrwxrwx 1 root root 20 Nov 21  2023 /sbin/init -> /lib/systemd/systemd
+root@d8d3ed90041c:~# 
+
+Q.what is your current or default runlevel?
+
+Ans
+systemctl | grep -i target
+basic.target                                                                 loaded active     active    Basic System
+cloud-config.target                                                          loaded active     active    Cloud-config availability
+cloud-init.target                                                            loaded active     active    Cloud-init target
+cryptsetup.target                                                            loaded active     active    Local Encrypted Volumes
+getty-pre.target                                                             loaded active     active    Preparation for Logins
+getty.target                                                                 loaded active     active    Login Prompts
+graphical.target                                                             loaded active     active    Graphical Interface
+local-fs-pre.target                                                          loaded active     active    Preparation for Local File Systems
+local-fs.target                                                              loaded active     active    Local File Systems
+multi-user.target                                                            loaded active     active    Multi-User System
+network-online.target                                                        loaded active     active    Network is Online
+network-pre.target                                                           loaded active     active    Preparation for Network
+network.target                                                               loaded active     active    Network
+nss-lookup.target                                                            loaded active     active    Host and Network Name Lookups
+paths.target                                                                 loaded active     active    Path Units
+remote-fs-pre.target                                                         loaded active     active    Preparation for Remote File Systems
+remote-fs.target                                                             loaded active     active    Remote File Systems
+slices.target                                                                loaded active     active    Slice Units
+snapd.mounts-pre.target                                                      loaded active     active    Mounting snaps
+snapd.mounts.target                                                          loaded active     active    Mounted snaps
+sockets.target                                                               loaded active     active    Socket Units
+swap.target                                                                  loaded active     active    Swaps
+sysinit.target                                                               loaded active     active    System Initialization
+time-set.target                                                              loaded active     active    System Time Set
+time-sync.target                                                             loaded active     active    System Time Synchronized
+timers.target                                                                loaded active     active    Timer Units
+veritysetup.target                                                           loaded active     active    Local Verity Protected Volumes
+root@d8d3ed90041c:~# runlevel
+N 5
+root@d8d3ed90041c:~# 
+
+Q. change the target to multi-user.target
+systemccntl set-default multi-user.target
+
+Q. What is the name of the vendor for the Ethernet Controller used in this system?
+lspci | grep -i ethernet

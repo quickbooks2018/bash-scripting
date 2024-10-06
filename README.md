@@ -3408,3 +3408,171 @@ systemccntl set-default multi-user.target
 
 Q. What is the name of the vendor for the Ethernet Controller used in this system?
 lspci | grep -i ethernet
+
+### linux disk scanning
+lsblk -f
+
+- disk scanning is usally disable with -1 Max mount count
+  tune2fs -l /dev/nvme0n1p1
+  tune2fs 1.46.5 (30-Dec-2021)
+  Filesystem volume name:   cloudimg-rootfs
+  Last mounted on:          /
+  Filesystem UUID:          4a8f1382-2078-4ed0-aa98-28106fe6a808
+  Filesystem magic number:  0xEF53
+  Filesystem revision #:    1 (dynamic)
+  Filesystem features:      has_journal ext_attr resize_inode dir_index filetype needs_recovery extent 64bit flex_bg sparse_super large_file huge_file dir_nlink extra_isize metadata_csum
+  Filesystem flags:         signed_directory_hash
+  Default mount options:    user_xattr acl
+  Filesystem state:         clean
+  Errors behavior:          Continue
+  Filesystem OS type:       Linux
+  Inode count:              2580480
+  Block count:              5214459
+  Reserved block count:     0
+  Overhead clusters:        180811
+  Free blocks:              3717778
+  Free inodes:              2394307
+  First block:              0
+  Block size:               4096
+  Fragment size:            4096
+  Group descriptor size:    64
+  Reserved GDT blocks:      253
+  Blocks per group:         32768
+  Fragments per group:      32768
+  Inodes per group:         16128
+  Inode blocks per group:   1008
+  Flex block group size:    16
+  Filesystem created:       Fri Nov 18 02:11:30 2022
+  Last mount time:          Sat Oct  5 22:54:10 2024
+  Last write time:          Sun Oct  6 01:27:10 2024
+  Mount count:              32
+  **Maximum mount count:      -1**
+  Last checked:             Fri Nov 18 02:16:08 2022
+  Check interval:           0 (<none>)
+  Lifetime writes:          41 GB
+  Reserved blocks uid:      0 (user root)
+  Reserved blocks gid:      0 (group root)
+  First inode:              11
+  Inode size:               256
+  Required extra isize:     32
+  Desired extra isize:      32
+  Journal inode:            8
+  Default directory hash:   half_md4
+  Directory Hash Seed:      07b93017-1e70-4f8d-8ff6-b76e12556f46
+  Journal backup:           inode blocks
+  Checksum type:            crc32c
+  Checksum:                 0x476c2da8
+
+- We can change the max mount count to 1
+```bash
+  tune2fs -c 10 /dev/nvme0n1p1
+```
+
+tune2fs 1.46.5 (30-Dec-2021)
+Setting maximal mount count to 10
+root@d8d3ed90041c:~# tune2fs -l /dev/nvme0n1p1
+tune2fs 1.46.5 (30-Dec-2021)
+Filesystem volume name:   cloudimg-rootfs
+Last mounted on:          /
+Filesystem UUID:          4a8f1382-2078-4ed0-aa98-28106fe6a808
+Filesystem magic number:  0xEF53
+Filesystem revision #:    1 (dynamic)
+Filesystem features:      has_journal ext_attr resize_inode dir_index filetype needs_recovery extent 64bit flex_bg sparse_super large_file huge_file dir_nlink extra_isize metadata_csum
+Filesystem flags:         signed_directory_hash
+Default mount options:    user_xattr acl
+Filesystem state:         clean
+Errors behavior:          Continue
+Filesystem OS type:       Linux
+Inode count:              2580480
+Block count:              5214459
+Reserved block count:     0
+Overhead clusters:        180811
+Free blocks:              3717778
+Free inodes:              2394307
+First block:              0
+Block size:               4096
+Fragment size:            4096
+Group descriptor size:    64
+Reserved GDT blocks:      253
+Blocks per group:         32768
+Fragments per group:      32768
+Inodes per group:         16128
+Inode blocks per group:   1008
+Flex block group size:    16
+Filesystem created:       Fri Nov 18 02:11:30 2022
+Last mount time:          Sat Oct  5 22:54:10 2024
+Last write time:          Sun Oct  6 02:38:28 2024
+Mount count:              32
+Maximum mount count:      10
+Last checked:             Fri Nov 18 02:16:08 2022
+Check interval:           0 (<none>)
+Lifetime writes:          41 GB
+Reserved blocks uid:      0 (user root)
+Reserved blocks gid:      0 (group root)
+First inode:              11
+Inode size:               256
+Required extra isize:     32
+Desired extra isize:      32
+Journal inode:            8
+Default directory hash:   half_md4
+Directory Hash Seed:      07b93017-1e70-4f8d-8ff6-b76e12556f46
+Journal backup:           inode blocks
+Checksum type:            crc32c
+Checksum:                 0x24e6dc8f
+
+reboot
+
+cloudimg-rootfs
+Last mounted on:          /
+Filesystem UUID:          4a8f1382-2078-4ed0-aa98-28106fe6a808
+Filesystem magic number:  0xEF53
+Filesystem revision #:    1 (dynamic)
+Filesystem features:      has_journal ext_attr resize_inode dir_index filetype needs_recovery extent 64bit flex_bg sparse_super large_file huge_file dir_nlink extra_isize metadata_csum
+Filesystem flags:         signed_directory_hash
+Default mount options:    user_xattr acl
+Filesystem state:         clean
+Errors behavior:          Continue
+Filesystem OS type:       Linux
+Inode count:              2580480
+Block count:              5214459
+Reserved block count:     0
+Overhead clusters:        180811
+Free blocks:              3717763
+Free inodes:              2394325
+First block:              0
+Block size:               4096
+Fragment size:            4096
+Group descriptor size:    64
+Reserved GDT blocks:      253
+Blocks per group:         32768
+Fragments per group:      32768
+Inodes per group:         16128
+Inode blocks per group:   1008
+Flex block group size:    16
+Filesystem created:       Fri Nov 18 02:11:30 2022
+Last mount time:          Sun Oct  6 02:41:16 2024
+Last write time:          Sun Oct  6 02:40:52 2024
+Mount count:              1
+Maximum mount count:      10
+Last checked:             Sun Oct  6 02:40:52 2024
+Check interval:           0 (<none>)
+Lifetime writes:          41 GB
+Reserved blocks uid:      0 (user root)
+Reserved blocks gid:      0 (group root)
+First inode:              11
+Inode size:               256
+Required extra isize:     32
+Desired extra isize:      32
+Journal inode:            8
+Default directory hash:   half_md4
+Directory Hash Seed:      07b93017-1e70-4f8d-8ff6-b76e12556f46
+Journal backup:           inode blocks
+Checksum type:            crc32c
+Checksum:                 0x8afbe38a
+root@d8d3ed90041c:~# fsck /dev/nvme0n1p1
+fsck from util-linux 2.37.2
+e2fsck 1.46.5 (30-Dec-2021)
+/dev/nvme0n1p1 is mounted.
+e2fsck: Cannot continue, aborting.
+
+- Caution: In case of big data disk, time to scan the disk will be high

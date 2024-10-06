@@ -3159,6 +3159,25 @@ nvme0n1      259:0    0   20G  0 disk
 ├─nvme0n1p1  259:1    0 19.9G  0 part /
 ├─nvme0n1p14 259:2    0    4M  0 part
 └─nvme0n1p15 259:3    0  106M  0 part /boot/efi
+
+lsblk -f
+NAME         FSTYPE   FSVER LABEL           UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
+loop0                                                                                  0   100% /snap/amazon-ssm-agent/7628
+loop1                                                                                  0   100% /snap/amazon-ssm-agent/9565
+loop2                                                                                  0   100% /snap/core18/2829
+loop3                                                                                  0   100% /snap/core18/2846
+loop4                                                                                  0   100% /snap/core20/2318
+loop5                                                                                  0   100% /snap/core20/2379
+loop6                                                                                  0   100% /snap/core22/1621
+loop7                                                                                  0   100% /snap/lxd/28373
+loop8        squashfs 4.0                                                              0   100% /snap/lxd/29351
+loop9        squashfs 4.0                                                              0   100% /snap/snapd/20671
+loop10       squashfs 4.0                                                              0   100% /snap/snapd/21759
+nvme0n1                                                                                         
+├─nvme0n1p1  ext4     1.0   cloudimg-rootfs 4a8f1382-2078-4ed0-aa98-28106fe6a808   14.2G    26% /
+├─nvme0n1p14                                                                                    
+└─nvme0n1p15 vfat     FAT32 UEFI            9DD2-0054                              98.3M     6% /boot/efi
+
 root@d8d3ed90041c:~# fdisk -l
 Disk /dev/loop0: 24.9 MiB, 26112000 bytes, 51000 sectors
 Units: sectors of 1 * 512 = 512 bytes

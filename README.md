@@ -3583,3 +3583,49 @@ e2fsck 1.46.5 (30-Dec-2021)
 e2fsck: Cannot continue, aborting.
 
 - Caution: In case of big data disk, time to scan the disk will be high
+
+### Bash Script Conditionals: Single vs. Double Brackets
+
+This README explains the difference between using single brackets `[ ]` and double brackets `[[ ]]` in Bash script conditionals.
+
+#### Single Brackets `[ ]`
+
+Single brackets `[ ]` are the traditional test command in Bash. They are POSIX-compliant and work in most shells.
+
+
+Key points:
+- /bin/sh will work in docker container
+- More portable across different shells
+- Requires quoting variables to prevent word splitting
+- Uses `-a` for AND, `-o` for OR
+- Requires escaping certain characters like `<` and `>`
+
+Example:
+```bash
+if [ "$a" = "foo" ]; then
+    echo "a is foo"
+fi
+```
+
+#### Double Brackets `[[ ]]`
+
+Double brackets `[[ ]]` are a Bash-specific extension and provide more features.
+
+Key points:
+- Bash-specific (not POSIX-compliant)
+- No need to quote variables (prevents word splitting automatically)
+- Uses `&&` for AND, `||` for OR
+- Supports pattern matching and regular expressions
+- Performs better as it's a built-in Bash keyword
+
+Example:
+```bash
+if [[ $a == foo* ]]; then
+    echo "a starts with foo"
+fi
+```
+
+#### When to Use Which
+
+- Use `[ ]` for maximum portability across different shells
+- Use `[[ ]]` in Bash scripts for advanced features and better performance

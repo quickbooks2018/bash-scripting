@@ -3586,8 +3586,6 @@ e2fsck: Cannot continue, aborting.
 
 ### Bash Script Conditionals: Single vs. Double Brackets
 
-This README explains the difference between using single brackets `[ ]` and double brackets `[[ ]]` in Bash script conditionals.
-
 #### Single Brackets `[ ]`
 
 Single brackets `[ ]` are the traditional test command in Bash. They are POSIX-compliant and work in most shells.

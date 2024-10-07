@@ -1586,6 +1586,13 @@ apt autoremove ( to remove the depencies, by default not removed automatically)
 Note: IN Fedora/redhat/Centos you can simply undo new version or rollback to previous versions example below regarding update,upgrade, 
 rollback
 
+apt remove: Uninstalls a package but keeps its configuration files.
+apt purge: Completely uninstalls a package along with its configuration files.
+apt autoremove: Removes unnecessary dependencies that are no longer used.
+
+apt vs apt-get: apt is a newer, more user-friendly package manager that combines the functionality of apt-get and apt-cache. It provides a more intuitive interface and better dependency resolution compared to apt-get.
+
+
 ```bash
 # Update package list and upgrade all packages:
 sudo yum update

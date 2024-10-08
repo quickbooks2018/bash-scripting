@@ -3627,3 +3627,123 @@ fi
 
 - Use `[ ]` for maximum portability across different shells
 - Use `[[ ]]` in Bash scripts for advanced features and better performance
+
+### Linux Logical Volume Manager (LVM) Commands
+
+#### Introduction to LVM
+
+LVM (Logical Volume Manager) is a device mapper framework that provides logical volume management for the Linux kernel. It allows for more flexible disk space management than traditional partitioning schemes.
+
+### Physical Volume (PV) Commands
+
+#### Create a Physical Volume
+```
+pvcreate /dev/sdb
+```
+
+#### Display PV Information
+```
+pvdisplay
+pvs
+```
+
+#### Remove a Physical Volume
+```
+pvremove /dev/sdb
+```
+
+### Volume Group (VG) Commands
+
+#### Create a Volume Group
+```
+vgcreate vg_name /dev/sdb /dev/sdc
+```
+
+#### Display VG Information
+```
+vgdisplay
+vgs
+```
+
+#### Extend a Volume Group
+```
+vgextend vg_name /dev/sdd
+```
+
+#### Remove a Volume Group
+```
+vgremove vg_name
+```
+
+### Logical Volume (LV) Commands
+
+#### Create a Logical Volume
+```
+lvcreate -L 10G -n lv_name vg_name
+```
+
+#### Display LV Information
+```
+lvdisplay
+lvs
+```
+
+#### Remove a Logical Volume
+```
+lvremove /dev/vg_name/lv_name
+```
+
+### Resizing Operations
+
+#### Extend a Logical Volume
+```
+lvextend -L +5G /dev/vg_name/lv_name
+resize2fs /dev/vg_name/lv_name
+```
+
+#### Reduce a Logical Volume
+```
+resize2fs /dev/vg_name/lv_name 15G
+lvreduce -L 15G /dev/vg_name/lv_name
+```
+
+### Snapshot Operations
+
+#### Create a Snapshot
+```
+lvcreate -L 1G -s -n snap_name /dev/vg_name/lv_name
+```
+
+#### Merge a Snapshot
+```
+lvconvert --merge /dev/vg_name/snap_name
+```
+
+### Troubleshooting
+
+#### Scan for Volume Groups
+```
+vgscan
+```
+
+#### Activate All Volume Groups
+```
+vgchange -ay
+```
+
+#### Check and Repair Volume Group Metadata
+```
+vgck vg_name
+```
+
+#### Display Detailed LVM Records
+```
+lvmdump
+```
+
+#### Recover Physical Volume Metadata
+```
+pvck -v /dev/sdb
+```
+
+Remember to use these commands with caution, especially when modifying existing volumes. Always back up important data before making changes to your LVM configuration.

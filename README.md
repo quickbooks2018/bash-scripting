@@ -1035,11 +1035,11 @@ sed 's|https://github.com/kodekloudhub/solar-system-9.git|"$1"|
 g' /home/bob/script/clone_project.sh
 #!/bin/bash
 project="$1"
-project_dir="$(basename "$1" .git)"
+project_dir="$(basename "$project" .git)"
 
 clone_project() {
 cd /home/bob/git/
-git clone "$1"
+git clone "$project"
 }
 
 find_files() {

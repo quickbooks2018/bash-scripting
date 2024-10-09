@@ -1031,6 +1031,25 @@ global
 
 sed -i 's/global/UNIQ/g' search.txt (make it persistent)
 ```
+sed 's|https://github.com/kodekloudhub/solar-system-9.git|"$1"|
+g' /home/bob/script/clone_project.sh
+#!/bin/bash
+project="$1"
+project_dir="$(basename "$1" .git)"
+
+clone_project() {
+cd /home/bob/git/
+git clone "$1"
+}
+
+find_files() {
+find "/home/bob/git/${project_dir}" -type f | wc -l
+}
+clone_project "$@"
+find_files
+
+sed -i 's|https://github.com/kodekloudhub/solar-system-9.git|"$1"|g' /home/bob/script/clone_project.sh
+
 - list of insatlled packages
 ```bash
 apt list --installed (debian)

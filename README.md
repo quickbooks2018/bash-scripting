@@ -3858,7 +3858,7 @@ sudo ip route del 192.168.1.0/24
 ```
 Removes the specified route.
 
-### Making Changes Persistent
+#### Making Changes Persistent
 
 #### Ubuntu (18.04 and later using Netplan)
 

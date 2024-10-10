@@ -3798,3 +3798,239 @@ This number represents the maximum length, in bytes, of the arguments and enviro
 #### Note
 
 The exact value of `ARG_MAX` can vary between different systems and configurations. Always check the value on your specific system if you need to rely on it for your operations.
+
+### Linux Networking Administration and Troubleshooting
+
+### Viewing Network Information
+
+#### Display Network Interfaces
+```bash
+ip link
+```
+Shows all network interfaces on the system.
+
+#### View IP Addresses
+```bash
+ip addr
+```
+Displays IP addresses assigned to all interfaces.
+
+#### Show Routing Table
+```bash
+ip route
+# or
+route -n
+```
+These commands display the system's routing table.
+
+#### Configuring Network Interfaces
+
+##### Add an IP Address
+```bash
+sudo ip addr add 192.168.1.10/24 dev eth0
+```
+Adds the IP 192.168.1.10 with a /24 subnet mask to eth0.
+
+#### Delete an IP Address
+```bash
+sudo ip addr del 192.168.1.10/24 dev eth0
+```
+Removes the specified IP address from eth0.
+
+#### Bring Interface Up/Down
+```bash
+sudo ip link set eth0 up
+sudo ip link set eth0 down
+```
+Enables or disables the eth0 interface.
+
+#### Managing Routes
+
+##### Add a Static Route
+```bash
+sudo ip route add 192.168.1.0/24 via 192.168.2.1
+```
+Adds a route to the 192.168.1.0/24 network via the gateway 192.168.2.1.
+
+#### Delete a Route
+```bash
+sudo ip route del 192.168.1.0/24
+```
+Removes the specified route.
+
+### Making Changes Persistent
+
+#### Ubuntu (18.04 and later using Netplan)
+
+1. Edit or create a .yaml file in `/etc/netplan/`, e.g., `/etc/netplan/01-netcfg.yaml`:
+
+```yaml
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      addresses:
+        - 192.168.1.10/24
+      routes:
+        - to: 192.168.1.0/24
+          via: 192.168.2.1
+      nameservers:
+        addresses: [8.8.8.8, 8.8.4.4]
+```
+
+2. Apply changes:
+```bash
+sudo netplan apply
+```
+
+#### CentOS 7 and 8
+
+1. Edit the interface configuration file, e.g., `/etc/sysconfig/network-scripts/ifcfg-eth0`:
+
+```
+DEVICE=eth0
+BOOTPROTO=static
+IPADDR=192.168.1.10
+NETMASK=255.255.255.0
+ONBOOT=yes
+```
+
+2. For static routes, create or edit `/etc/sysconfig/network-scripts/route-eth0`:
+
+```
+192.168.1.0/24 via 192.168.2.1
+```
+
+3. Restart the network service:
+```bash
+sudo systemctl restart network
+```
+
+#### Expanded Troubleshooting Section
+
+#### Basic Connectivity Tests
+
+##### Ping a Host
+```bash
+ping -c 4 8.8.8.8
+```
+Tests connectivity to Google's DNS server. The `-c 4` option limits it to 4 packets.
+
+##### Trace Route to a Host
+```bash
+traceroute google.com
+```
+Shows the path packets take to reach google.com.
+
+##### Check DNS Resolution
+```bash
+nslookup google.com
+# or
+dig google.com
+```
+Queries DNS to resolve the IP address of google.com. `dig` provides more detailed DNS information.
+
+#### Network Interface and Traffic Analysis
+
+##### View Network Statistics
+```bash
+netstat -tuln
+# or
+ss -tuln
+```
+Displays active network connections and listening ports. `ss` is a more modern replacement for `netstat`.
+
+##### Monitor Network Traffic in Real-time
+```bash
+sudo tcpdump -i eth0
+```
+Captures and displays packet data on the eth0 interface.
+
+#### Show Network Interface Details
+```bash
+ethtool eth0
+```
+Displays detailed information about the eth0 network interface, including speed and duplex settings.
+
+#### Firewall and Port Checking
+
+##### Check if a Port is Open
+```bash
+nc -zv 192.168.1.1 22
+# or
+curl -v telnet://192.168.1.1:22
+```
+Tests if port 22 (SSH) is open on 192.168.1.1.
+
+#### List Firewall Rules (Ubuntu/Debian)
+```bash
+sudo iptables -L
+```
+
+#### List Firewall Rules (CentOS 7/8)
+```bash
+sudo firewall-cmd --list-all
+```
+
+#### Advanced Diagnostics
+
+##### View ARP Cache
+```bash
+arp -e
+```
+Displays the ARP (Address Resolution Protocol) cache, showing IP to MAC address mappings.
+
+##### Check Network Interface Errors
+```bash
+ifconfig eth0
+# or
+ip -s link show eth0
+```
+Shows detailed statistics for the eth0 interface, including packet errors.
+
+##### Monitor Network Connections
+```bash
+watch ss -tup
+```
+Continuously updates and displays active network connections.
+
+##### View Routing Information
+```bash
+netstat -rn
+```
+Displays the routing table with numeric addresses.
+
+#### Network Service Diagnostics
+
+##### Check if NetworkManager is Running
+```bash
+systemctl status NetworkManager
+```
+
+##### Restart NetworkManager
+```bash
+sudo systemctl restart NetworkManager
+```
+
+##### View Network-Related Log Messages
+```bash
+journalctl -u NetworkManager
+```
+Displays log messages related to NetworkManager.
+
+#### Performance Testing
+
+##### Test Network Throughput
+```bash
+iperf3 -c iperf.server.com
+```
+Measures network throughput to an iperf3 server. (Requires iperf3 to be installed)
+
+##### Check Network Interface Speed
+```bash
+ethtool eth0 | grep Speed
+```
+Displays the current speed of the eth0 interface.
+
+Remember to use `sudo` for commands that require administrative privileges. Always backup configuration files before making changes.

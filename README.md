@@ -3852,9 +3852,71 @@ sudo ip route add 192.168.1.0/24 via 192.168.2.1
 ```
 Adds a route to the 192.168.1.0/24 network via the gateway 192.168.2.1.
 
+##### Add a default Route
+route -n
+
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         172.16.238.187  0.0.0.0         UG    0      0        0 eth0
+172.16.238.0    0.0.0.0         255.255.255.0   U     0      0        0 eth0
+172.16.239.0    0.0.0.0         255.255.255.0   U     0      0        0 eth1
+172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 eth2
+bob@caleston-lp10:~$ ifconfig
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+inet 172.16.238.187  netmask 255.255.255.0  broadcast 172.16.238.255
+ether 02:42:ac:10:ee:bb  txqueuelen 0  (Ethernet)
+RX packets 0  bytes 0 (0.0 B)
+RX errors 0  dropped 0  overruns 0  frame 0
+TX packets 21  bytes 882 (882.0 B)
+TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+eth1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+inet 172.16.239.187  netmask 255.255.255.0  broadcast 172.16.239.255
+ether 02:42:ac:10:ef:bb  txqueuelen 0  (Ethernet)
+RX packets 274  bytes 37665 (37.6 KB)
+RX errors 0  dropped 0  overruns 0  frame 0
+TX packets 458  bytes 39461 (39.4 KB)
+TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+eth2: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1410
+inet 172.17.0.4  netmask 255.255.0.0  broadcast 172.17.255.255
+ether 02:42:ac:11:00:04  txqueuelen 0  (Ethernet)
+RX packets 2703  bytes 8329010 (8.3 MB)
+RX errors 0  dropped 0  overruns 0  frame 0
+TX packets 2026  bytes 361817 (361.8 KB)
+TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+inet 127.0.0.1  netmask 255.0.0.0
+loop  txqueuelen 1000  (Local Loopback)
+RX packets 44  bytes 4508 (4.5 KB)
+RX errors 0  dropped 0  overruns 0  frame 0
+TX packets 44  bytes 4508 (4.5 KB)
+TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+#### Task
+While we are at it, there is also a missing default route on the server devapp01.
+
+Add the default route via eth0 gateway.
+
+Bob's default password is caleston123
+
+#### Solution
+```bash
+sudo ip route add default via 172.16.238.187 dev eth0
+
+route -n
+```
+##### Delete a default Route
+```bash
+sudo ip route del default
+```
+
 #### Delete a Route
 ```bash
 sudo ip route del 192.168.1.0/24
+sudo ip route del 172.16.238.0/24 dev eth0
+sudo ip route del 172.16.239.0/24 dev eth1
 ```
 Removes the specified route.
 

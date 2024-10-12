@@ -4128,3 +4128,21 @@ bob: This is the username you are creating.
 ```bash
 userdel -r bob
 ```
+
+Fix the issue manually, if user directory is not created
+
+To resolve this, you can manually create the home directory for "bob" using the following steps:
+
+Create the home directory:
+
+```bash
+mkdir /home/robert
+```
+Set the correct ownership for the home directory:
+```bash
+chown bob:robert_group /home/robert
+```
+Optionally, copy the skeleton files (like .bashrc, .profile, etc.) into the new home directory:
+```bash
+cp -r /etc/skel/. /home/robert/
+```

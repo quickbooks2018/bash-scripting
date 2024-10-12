@@ -4096,3 +4096,35 @@ ethtool eth0 | grep Speed
 Displays the current speed of the eth0 interface.
 
 Remember to use `sudo` for commands that require administrative privileges. Always backup configuration files before making changes.
+
+### Linux Ubuntu User Management
+
+#### Creating group in ubuntu
+
+Create a new group with ID 1009 before creating the user
+You can create the group first using the groupadd command:
+```bash
+groupadd -g 1009 robert_group
+```
+
+delete a group in ubuntu
+```bash
+groupdel robert_group
+```
+
+#### Creating a user in ubuntu
+```bash
+useradd -u 1009 -g 1009 -d /home/robert -s /bin/bash -c "Mercury Project member" bob
+```
+flag/swtiches/options explanation:
+-u 1009: Sets the user ID for bob to 1009. This is unique for each user.
+-g 1009: Sets the group ID for bob to 1009. The user will be assigned to this group.
+-d /home/robert: This specifies the home directory for bob as /home/robert. The correct option for home directory specification is -d.
+-s /bin/bash: Sets /bin/bash as the login shell for bob, meaning when bob logs in, they will be placed in a Bash shell.
+-c "Mercury Project member": Adds the comment "Mercury Project member" to the user's details, usually visible in the GECOS field when you check user details.
+bob: This is the username you are creating.
+
+#### delete a user in ubuntu
+```bash
+userdel -r bob
+```

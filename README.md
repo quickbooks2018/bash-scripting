@@ -3863,6 +3863,7 @@ Adds a route to the 192.168.1.0/24 network via the gateway 192.168.2.1.
 ##### Add a default Route
 route -n
 
+```bash
 Kernel IP routing table
 Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 0.0.0.0         172.16.238.187  0.0.0.0         UG    0      0        0 eth0
@@ -3901,6 +3902,7 @@ RX packets 44  bytes 4508 (4.5 KB)
 RX errors 0  dropped 0  overruns 0  frame 0
 TX packets 44  bytes 4508 (4.5 KB)
 TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+```
 
 #### Task
 While we are at it, there is also a missing default route on the server devapp01.

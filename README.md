@@ -3328,7 +3328,7 @@ This disk is currently in use - repartitioning is probably a bad idea.
 It's recommended to umount all file systems, and swapoff all swap
 partitions on this disk.
 
-
+```bash
 Command (m for help): m
 
 Help:
@@ -3383,6 +3383,7 @@ Device           Start      End  Sectors  Size Type
 Partition table entries are not in disk order.
 
 Command (m for help): 
+```
 
 ### Linux questions and answers
 

@@ -66,7 +66,7 @@ $ pwd
 As you can see, when using `source`, the environment variables and directory changes remain in the current shell. With `./script.sh`, those changes are isolated to the subshell and do not affect the current shell.
 
 ### Running script in background
-
+```bash
 ps -aux | grep -i bash
 root         462  0.0  0.0  11724  7296 ?        Ss   00:55   0:00 /bin/bash /opt/websh/start-websh.sh
 cloud_u+    2729  0.0  0.0   9100  5120 pts/0    Ss   04:12   0:00 -bash
@@ -82,7 +82,7 @@ root        2744    2743  0 04:12 pts/1    00:00:00 -bash
 cloud_u+    2885    2836  0 04:15 pts/2    00:00:00 -bash
 cloud_u+    2935    2885  0 04:24 pts/2    00:00:00 /bin/bash ./sleep.sh
 root        2943    2744  0 04:24 pts/1    00:00:00 grep --color=auto -i bash
-
+````
 see process id 2885 is running a script sleep.sh in background, and parent process id is 2885
 
 ```bash

@@ -3131,6 +3131,7 @@ runlevel 6 -> reboot.target
 
 # linux disk management
 
+```bash
 root@d8d3ed90041c:~# ls -l /dev/block/
 total 0
 lrwxrwxrwx 1 root root 10 Oct  5 22:54 259:0 -> ../nvme0n1
@@ -3286,6 +3287,7 @@ Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
 root@d8d3ed90041c:~# 
+```
 
 ### New tools for linux disk management
 
@@ -3295,7 +3297,7 @@ root@d8d3ed90041c:~#
 
 ### fdisk
 
-
+```bash
 root@d8d3ed90041c:~# lsblk
 NAME         MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
 loop0          7:0    0 24.9M  1 loop /snap/amazon-ssm-agent/7628
@@ -3317,7 +3319,7 @@ root@d8d3ed90041c:~# fdisk /dev/
 /dev/loop0       /dev/loop10      /dev/loop3       /dev/loop5       /dev/loop7       /dev/loop9       /dev/nvme0n1p1   /dev/nvme0n1p15  
 /dev/loop1       /dev/loop2       /dev/loop4       /dev/loop6       /dev/loop8       /dev/nvme0n1     /dev/nvme0n1p14  
 root@d8d3ed90041c:~# fdisk /dev/nvme0n1
-
+```
 Welcome to fdisk (util-linux 2.37.2).
 Changes will remain in memory only, until you decide to write them.
 Be careful before using the write command.
@@ -3395,7 +3397,7 @@ lrwxrwxrwx 1 root root 20 Nov 21  2023 /sbin/init -> /lib/systemd/systemd
 root@d8d3ed90041c:~# 
 
 Q.what is your current or default runlevel?
-
+```bash
 Ans
 systemctl | grep -i target
 basic.target                                                                 loaded active     active    Basic System
@@ -3428,6 +3430,7 @@ veritysetup.target                                                           loa
 root@d8d3ed90041c:~# runlevel
 N 5
 root@d8d3ed90041c:~# 
+```
 
 Q. change the target to multi-user.target
 systemccntl set-default multi-user.target
@@ -3438,6 +3441,7 @@ lspci | grep -i ethernet
 ### linux disk scanning
 lsblk -f
 
+```bash
 - disk scanning is usally disable with -1 Max mount count
   tune2fs -l /dev/nvme0n1p1
   tune2fs 1.46.5 (30-Dec-2021)
@@ -3488,14 +3492,17 @@ lsblk -f
   Journal backup:           inode blocks
   Checksum type:            crc32c
   Checksum:                 0x476c2da8
-
+```
 - We can change the max mount count to 1
 ```bash
   tune2fs -c 10 /dev/nvme0n1p1
 ```
 
+```bash
 tune2fs 1.46.5 (30-Dec-2021)
 Setting maximal mount count to 10
+
+
 root@d8d3ed90041c:~# tune2fs -l /dev/nvme0n1p1
 tune2fs 1.46.5 (30-Dec-2021)
 Filesystem volume name:   cloudimg-rootfs
@@ -3600,6 +3607,7 @@ fsck from util-linux 2.37.2
 e2fsck 1.46.5 (30-Dec-2021)
 /dev/nvme0n1p1 is mounted.
 e2fsck: Cannot continue, aborting.
+```
 
 - Caution: In case of big data disk, time to scan the disk will be high
 
@@ -4146,3 +4154,121 @@ Optionally, copy the skeleton files (like .bashrc, .profile, etc.) into the new 
 ```bash
 cp -r /etc/skel/. /home/robert/
 ```
+
+### Linux File Permissions and Ownership
+
+#### Understanding File Permissions
+
+#### File types in Linux
+
+- `-`: Regular file
+- `d`: Directory
+- `l`: Symbolic link
+- `c`: Character device
+- `b`: Block device
+- `p`: Named pipe
+- `s`: Socket
+- `D`: Door (Solaris)
+- `n`: Network file (special file type in Linux)
+
+#### File Permission Notations
+
+- `r`: Read permission
+- `w`: Write permission
+- `x`: Execute permission
+- `-`: No permission
+- `s`: Setuid or setgid permission
+- `t`: Sticky bit
+- `u`: User permission
+- `g`: Group permission
+- `o`: Others permission
+- `a`: All users permission
+- `+`: Add permission
+- `-`: Remove permission
+- `=`: Set permission
+- `rwx`: Read, write, and execute permissions
+- `rw-`: Read and write permissions
+- `r--`: Read-only permission
+- `---`: No permission
+- `r-x`: Read and execute permissions
+- `r-xr-xr-x`: Common permission notation
+- `777`: Octal permission notation
+- `u+x`: Add execute permission for the user
+- `g-w`: Remove write permission for the group
+- `o=r`: Set read-only permission for others
+- `u=rw,g=r,o=r`: Set read and write permission for the user, read-only permission for the group and others
+- `u=rwx,g=rx,o=r`: Set read, write, and execute permission for the user, read and execute permission for the group, and read-only permission for others
+- `u=rwx,g=rx,o=rx`: Set read, write, and execute permission for the user, read and execute permission for the group and others
+- `u=rwx,g=rx,o=`: Set read, write, and execute permission for the user, read and execute permission for the group, and no permission for others
+- `u=rwx,g=,o=`: Set read, write, and execute permission for the user, and no permission for the group and others
+- `u=rwx,g=u+r,o=`: Set read, write, and execute permission for the user, add read permission for the group, and no permission for others
+
+#### Changing File Permissions
+
+#### Change File Permissions Numerically
+
+- `chmod 777 file.txt`: Set read, write, and execute permissions for all users
+- `chmod 755 file.txt`: Set read, write, and execute permissions for the user, and read and execute permissions for the group and others
+- `chmod 644 file.txt`: Set read and write permissions for the user, and read-only permissions for the group and others
+- `chmod 600 file.txt`: Set read and write permissions for the user, and no permissions for the group and others
+- `chmod 666 file.txt`: Set read and write permissions for all users
+- `chmod 644 *.txt`: Set read and write permissions for the user, and read-only permissions for the group and others for all .txt files in the directory
+- `chmod -R 755 directory`: Recursively set read, write, and execute permissions for the user, and read and execute permissions for the group and others for all files and directories in the directory
+- `chmod -R 644 directory`: Recursively set read and write permissions for the user, and read-only permissions for the group and others for all files and directories in the directory
+- `chmod -R 600 directory`: Recursively set read and write permissions for the user, and no permissions for the group and others for all files and directories in the directory
+- `chmod -R 777 directory`: Recursively set read, write, and execute permissions for all users for all files and directories in the directory
+- `chmod -R 666 directory`: Recursively set read and write permissions for all users for all files and directories in the directory
+- `chmod -R 644 *.txt`: Recursively set read and write permissions for the user, and read-only permissions for the group and others for all .txt files in the directory
+- `chmod -R 755 *.txt`: Recursively set read, write, and execute permissions for the user, and read and execute permissions for the group and others for all .txt files in the directory
+- `chmod -R 600 *.txt`: Recursively set read and write permissions for the user, and no permissions for the group and others for all .txt files in the directory
+- `chmod -R 777 *.txt`: Recursively set read, write, and execute permissions for all users for all .txt files in the directory
+- `chmod -R 666 *.txt`: Recursively set read and write permissions for all users for all .txt files in the directory
+- `chmod -R 644 /path/to/directory`: Recursively set read and write permissions for the user, and read-only permissions for the group and others for all files and directories in the specified directory path
+- `chmod -R 755 /path/to/directory`: Recursively set read, write, and execute permissions for the user, and read and execute permissions for the group and others for all files and directories in the specified directory path
+- `chmod -R 600 /path/to/directory`: Recursively set read and write permissions for the user, and no permissions for the group and others for all files and directories in the specified directory path
+- `chmod -R 777 /path/to/directory`: Recursively set read, write, and execute permissions for all users for all files and directories in the specified directory path
+- `chmod -R 666 /path/to/directory`: Recursively set read and write permissions for all users for all files and directories in the specified directory path
+
+Here is a table format summarizing the Linux file permissions and their corresponding values:
+
+| **Permission** | **Symbol** | **Binary Value** | **Octal Value** | **Description**           |
+|----------------|------------|------------------|-----------------|---------------------------|
+| Read (r)       | `r`        | 100              | 4               | Allows reading the file    |
+| Write (w)      | `w`        | 010              | 2               | Allows writing to the file |
+| Execute (x)    | `x`        | 001              | 1               | Allows executing the file  |
+| No Permission  | `-`        | 000              | 0               | No permission              |
+
+### Example of Permission Combinations:
+
+| **Permission String** | **Owner (User)** | **Group** | **Others** | **Octal Representation** |
+|-----------------------|------------------|-----------|------------|--------------------------|
+| `rwxr-xr--`           | rwx (7)          | r-x (5)   | r-- (4)    | 754                      |
+| `rw-r--r--`           | rw- (6)          | r-- (4)   | r-- (4)    | 644                      |
+| `rwx------`           | rwx (7)          | --- (0)   | --- (0)    | 700                      |
+| `rwxrwxrwx`           | rwx (7)          | rwx (7)   | rwx (7)    | 777                      |
+
+In the octal representation:
+- The first digit represents the permissions for the **owner (user)**.
+- The second digit represents the permissions for the **group**.
+- The third digit represents the permissions for **others**.
+
+### File Ownership
+
+#### Changing File Ownership
+
+- `chown user:group file.txt`: Change the owner and group of the file to user and group.
+- `chown user file.txt`: Change the owner of the file to user.
+- `chown :group file.txt`: Change the group of the file to group.
+- `chown -R user:group directory`: Recursively change the owner and group of the directory and its contents to user and group.
+- `chown -R user directory`: Recursively change the owner of the directory and its contents to user.
+- `chown -R :group directory`: Recursively change the group of the directory and its contents to group.
+- `chown -R user:group /path/to/directory`: Recursively change the owner and group of the specified directory path and its contents to user and group.
+- `chown -R user /path/to/directory`: Recursively change the owner of the specified directory path and its contents to user.
+- `chown -R :group /path/to/directory`: Recursively change the group of the specified directory path and its contents to group.
+
+chgrp command is used to change the group ownership of a file or directory.
+
+- `chgrp group file.txt`: Change the group of the file to group.
+- `chgrp -R group directory`: Recursively change the group of the directory and its contents to group.
+- `chgrp group /path/to/directory`: Change the group of the specified directory path to group.
+- `chgrp -R group /path/to/directory`: Recursively change the group of the specified directory path and its contents to group.

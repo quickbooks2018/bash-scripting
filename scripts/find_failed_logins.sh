@@ -42,12 +42,12 @@ fi
 source_file="/var/log/auth.log"
 
 # Define the search message
-search_message="failed password for $USER"
+search_message="failed password for $user"
 
 
 # Parse file for failed login attempts
 
-records=$(grep -i "$search_message" $source_file) || echo "No failed login attempts found for $USER"
+records=$(grep -i "$search_message" $source_file) || echo "No failed login attempts found for $user"
 
 if [ -n "$records" ]
 then

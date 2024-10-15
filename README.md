@@ -4474,6 +4474,8 @@ Sure! Let me explain **striping** and **parity** in simple terms:
     - **mkfs.ext4**: This command is used to format the device with the ext4 filesystem, which is a popular Linux filesystem.
     - **/dev/md0**: This is the RAID device that was just created. By formatting it with ext4, you are making it ready for use as a mountable filesystem.
 
+7. **`lsblk`**
+    - This command lists information about block devices, including disks and partitions. It shows the disk name, size, and partitions associated with each disk. you will see raid device `md0` in the output.
 ---
 
 ### Reason to Create a Partition in a Disk:
@@ -4491,8 +4493,6 @@ Partitions are created on disks for several important reasons:
 5. **Flexibility**: With partitions, you can allocate different filesystems, formats, or security settings for each partition, giving you flexibility in how you manage storage.
 
 6. **RAID Setup**: As shown in this example, partitions are necessary when creating RAID arrays. Each partition becomes part of the array, and the RAID configuration can spread data across multiple partitions for redundancy and performance benefits.
-
-7. lsblk: This command lists information about block devices, including disks and partitions. It shows the disk name, size, and partitions associated with each disk.
 
 By creating partitions and using RAID, you achieve fault tolerance (especially with RAID 5) and better data management on the disks.
 

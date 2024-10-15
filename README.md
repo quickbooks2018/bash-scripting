@@ -4492,6 +4492,8 @@ Partitions are created on disks for several important reasons:
 
 6. **RAID Setup**: As shown in this example, partitions are necessary when creating RAID arrays. Each partition becomes part of the array, and the RAID configuration can spread data across multiple partitions for redundancy and performance benefits.
 
+7. lsblk: This command lists information about block devices, including disks and partitions. It shows the disk name, size, and partitions associated with each disk.
+
 By creating partitions and using RAID, you achieve fault tolerance (especially with RAID 5) and better data management on the disks.
 
 ### Copy Files and Directories in Linux

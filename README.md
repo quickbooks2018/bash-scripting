@@ -4597,3 +4597,70 @@ By creating partitions and using RAID, you achieve fault tolerance (especially w
 - For transferring large datasets or directories where preserving file ownership, permissions, and timestamps is important.
 - When you need to sync directories or resume interrupted transfers.
 - For regular backups, synchronizations, or when you need to optimize bandwidth with compression.
+
+
+### What are Shell Keywords?
+
+Shell keywords are reserved words that have special meaning to the shell. They are fundamental to shell scripting and command-line operations. Examples include `if`, `else`, `for`, `while`, etc.
+
+#### How to Count Shell Keywords
+
+To count the number of shell keywords available in your system, use the following command:
+
+```bash
+compgen -k | wc -l
+```
+
+This command typically outputs 22 on most modern Unix-like systems.
+
+#### How it Works
+
+- `compgen -k`: Lists all shell keywords
+- `|`: Pipes the output to the next command
+- `wc -l`: Counts the number of lines in the input
+
+#### Examples
+
+1. Count the keywords:
+   ```bash
+   $ compgen -k | wc -l
+   22
+   ```
+
+2. List all keywords:
+   ```bash
+   $ compgen -k
+   if
+   then
+   else
+   elif
+   fi
+   case
+   esac
+   for
+   select
+   while
+   until
+   do
+   done
+   in
+   function
+   time
+   {
+   }
+   !
+   [[
+   ]]
+   coproc
+   ```
+
+3. Compare with built-in commands:
+   ```bash
+   $ compgen -b | wc -l
+   61
+   ```
+   This shows there are more built-in commands than keywords.
+
+#### Note
+
+The exact number of keywords may vary slightly between different shell implementations or versions. Always test on your specific system.

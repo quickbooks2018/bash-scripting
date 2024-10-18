@@ -4679,7 +4679,7 @@ To list the current IP tables rules, use the following command:
 sudo iptables -L
 ```
 
-task 1
+##### Task 1
 On devapp01, add an incoming rule permitting SSH and HTTP connection from Bob's Laptop.
 Bob's Laptop has an IP address of 172.16.238.187.
 

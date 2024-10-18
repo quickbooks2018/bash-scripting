@@ -4806,3 +4806,26 @@ Once you've applied these rules, verify them with:
 ```bash
 sudo iptables -L OUTPUT -v
 ```
+
+#### Task 4
+Add an OUTPUT rule to the top of the chain which will allow https connection to google.com on devapp01
+Note: https connection uses port 443
+
+To add an **OUTPUT** rule that permits **HTTPS** connections to `google.com` on `devapp01`, you can follow this approach:
+
+1. **Allow outgoing HTTPS (port 443) traffic to google.com:**
+   Since the IP address of `google.com` in your example is `173.194.194.139`, you would allow traffic specifically to that IP address over port 443. Run the following command:
+
+   ```bash
+   sudo iptables -I OUTPUT 1 -p tcp -d 173.194.194.139 --dport 443 -j ACCEPT
+   ```
+
+   This rule uses `-I OUTPUT 1` to insert the rule at the top of the **OUTPUT** chain.
+
+2. **Verify the rules:**
+   After adding the rule, list the **OUTPUT** rules to verify it was added at the top:
+   ```bash
+   sudo iptables -L OUTPUT -v
+   ```
+
+This should allow HTTPS traffic specifically to google.com while maintaining the previous restrictions on other outgoing traffic.

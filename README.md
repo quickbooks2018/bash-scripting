@@ -4777,3 +4777,32 @@ sudo iptables -L
 This should show:
 - SSH and HTTP rules for `172.16.238.187`.
 - A final `DROP` rule for everything else.
+
+#### Task 3
+On devapp01, add an outgoing rule permitting access to port 5432 on devdb01 and HTTP access to caleston-repo-01. Once this is done, block outgoing traffic to any destination on http/https ports from devapp01
+Note: caleston-repo-01 has the ip address of 172.16.238.15
+
+IP address for `devdb01` (172.16.238.11):
+
+1. **Allow outgoing traffic to `devdb01` on port 5432:**
+   ```bash
+   sudo iptables -A OUTPUT -p tcp -d 172.16.238.11 --dport 5432 -j ACCEPT
+   ```
+
+2. **Allow HTTP access to `caleston-repo-01` on port 80:**
+   Since `caleston-repo-01` has the IP address 172.16.238.15, allow outgoing HTTP traffic:
+   ```bash
+   sudo iptables -A OUTPUT -p tcp -d 172.16.238.15 --dport 80 -j ACCEPT
+   ```
+
+3. **Block all other outgoing traffic on HTTP (port 80) and HTTPS (port 443):**
+   Block outgoing traffic to all other destinations on ports 80 and 443:
+   ```bash
+   sudo iptables -A OUTPUT -p tcp --dport 80 -j DROP
+   sudo iptables -A OUTPUT -p tcp --dport 443 -j DROP
+   ```
+
+Once you've applied these rules, verify them with:
+```bash
+sudo iptables -L OUTPUT -v
+```

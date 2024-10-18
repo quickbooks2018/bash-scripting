@@ -217,3 +217,51 @@ for i in {1..7}; do echo $i; done
 ### bash && vs ||
 - `&&`: The `&&` operator is used to execute the second command only if the first command is successful (i.e., returns an exit status of 0).
 - `||`: The `||` operator is used to execute the second command only if the first command fails (i.e., returns a non-zero exit status).
+
+### Understanding the Shebang in Bash Scripts
+
+#### What is a Shebang?
+
+The shebang (`#!/bin/bash`) is a special line at the beginning of a script that specifies which interpreter should be used to run the script.
+
+#### Why use a Shebang?
+
+While your bash script may work fine without a shebang, there are several reasons to include it:
+
+1. **Portability**: It ensures your script runs with the intended shell, even if the user's default shell is different.
+2. **Execution as a program**: It allows you to run the script directly (e.g., `./myscript.sh`) instead of explicitly calling bash (e.g., `bash myscript.sh`).
+3. **Clarity**: It immediately tells anyone reading the script what type of script it is.
+
+#### Examples
+
+##### Example 1: Basic Usage
+
+```bash
+#!/bin/bash
+
+echo "Hello, World!"
+```
+
+This script will always run with bash, even if the user's default shell is different.
+
+#### Example 2: Using env for Better Portability
+
+```bash
+#!/usr/bin/env bash
+
+echo "This script will use the bash found in the user's PATH"
+```
+
+This version is more portable as it uses the `env` command to locate bash, which might be in different locations on different systems.
+
+#### Example 3: Script Without Shebang
+
+```bash
+echo "This script will run with whatever shell is used to execute it"
+```
+
+This script will work, but it might behave differently depending on which shell is used to run it.
+
+#### Conclusion
+
+While scripts can work without a shebang, including one is generally considered best practice for clarity, portability, and ease of execution.

@@ -4664,3 +4664,86 @@ This command typically outputs 22 on most modern Unix-like systems.
 #### Note
 
 The exact number of keywords may vary slightly between different shell implementations or versions. Always test on your specific system.
+
+### IP Tables Setup on ubuntu
+
+Ip Tables installation on ubuntu
+```bash
+sudo apt update -y && sudo apt install -y iptables
+```
+
+#### List IP Tables Rules
+
+To list the current IP tables rules, use the following command:
+```bash
+sudo iptables -L
+```
+
+task 1
+On devapp01, add an incoming rule permitting SSH and HTTP connection from Bob's Laptop.
+Bob's Laptop has an IP address of 172.16.238.187.
+
+To set up an `iptables` rule that permits incoming SSH (port 22) and HTTP (port 80) connections from Bob's Laptop with IP address `172.16.238.187`, you can add the following rules:
+
+1. Allow incoming SSH traffic:
+   ```bash
+   sudo iptables -A INPUT -p tcp -s 172.16.238.187 --dport 22 -j ACCEPT
+   ```
+
+2. Allow incoming HTTP traffic:
+   ```bash
+   sudo iptables -A INPUT -p tcp -s 172.16.238.187 --dport 80 -j ACCEPT
+   ```
+
+These commands will append (`-A`) new rules to the `INPUT` chain to allow traffic from the specified IP address for SSH (port 22) and HTTP (port 80). You can verify the new rules using:
+```bash
+sudo iptables -L
+```
+
+Sure! Here's a breakdown of each option used in the `iptables` command:
+
+### 1. `iptables`
+This is the command-line utility for configuring the Linux kernel's IP packet filter rules, also known as the firewall.
+
+### 2. `-A INPUT`
+- **`-A`**: This stands for **append**. It means you're adding a new rule to the specified chain.
+- **`INPUT`**: This is the name of the chain where you're adding the rule. The `INPUT` chain is used to filter packets destined for the local system (i.e., incoming traffic). We're specifying that this rule applies to all incoming packets.
+
+### 3. `-p tcp`
+- **`-p`**: This specifies the protocol. In this case, we are using **TCP** (Transmission Control Protocol), which is the protocol used by SSH and HTTP.
+
+### 4. `-s 172.16.238.187`
+- **`-s`**: This option sets the **source IP address**. Here, we are specifying that the rule only applies to packets coming from **172.16.238.187** (Bob's Laptop). This restricts the rule to allow traffic only from this IP address.
+
+### 5. `--dport 22` (for SSH) or `--dport 80` (for HTTP)
+- **`--dport`**: This option sets the **destination port** for the rule.
+    - For SSH, the destination port is **22** (the default SSH port).
+    - For HTTP, the destination port is **80** (the default HTTP port).
+
+This means the rule applies to traffic that is trying to connect to port 22 (for SSH) or port 80 (for HTTP) on your machine.
+
+### 6. `-j ACCEPT`
+- **`-j`**: This option specifies the **target** of the rule, i.e., what to do with packets that match the rule. In this case, the target is **ACCEPT**.
+- **`ACCEPT`**: This means that packets matching the rule will be allowed to pass through.
+
+### Full Example:
+
+#### For SSH:
+```bash
+sudo iptables -A INPUT -p tcp -s 172.16.238.187 --dport 22 -j ACCEPT
+```
+This allows incoming TCP traffic from Bob's Laptop (IP `172.16.238.187`) destined for port 22 (SSH) and accepts it.
+
+#### For HTTP:
+```bash
+sudo iptables -A INPUT -p tcp -s 172.16.238.187 --dport 80 -j ACCEPT
+```
+This allows incoming TCP traffic from Bob's Laptop (IP `172.16.238.187`) destined for port 80 (HTTP) and accepts it.
+
+### Summary:
+- **iptables**: The command-line tool to manage firewall rules.
+- **-A INPUT**: Add a rule to the `INPUT` chain, which handles incoming traffic.
+- **-p tcp**: The protocol is TCP.
+- **-s 172.16.238.187**: Specifies the source IP address (Bob's Laptop).
+- **--dport 22/80**: Specifies the destination port (SSH is 22, HTTP is 80).
+- **-j ACCEPT**: Accept the traffic if it matches the rule.

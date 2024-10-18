@@ -4,6 +4,7 @@
 
 # Define USER variable
 # -n switch means "True if string is not empty."
+# -n "length of the string" is not equal to zero.
 
 user_list=$(cat /etc/passwd | awk -F ':' '{print $1}')
 

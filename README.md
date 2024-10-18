@@ -4808,8 +4808,8 @@ sudo iptables -L OUTPUT -v
 ```
 
 #### Task 4
-Add an OUTPUT rule to the top of the chain which will allow https connection to google.com on devapp01
-Note: https connection uses port 443
+Add an OUTPUT rule to the top of the chain which will allow https connection to google.com on devapp01 
+- Note: https connection uses port 443
 
 To add an **OUTPUT** rule that permits **HTTPS** connections to `google.com` on `devapp01`, you can follow this approach:
 

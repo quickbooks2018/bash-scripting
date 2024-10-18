@@ -213,3 +213,7 @@ touch file{1..7}.txt
 for i in `seq 7`; do echo $i; done
 for i in {1..7}; do echo $i; done
 ```
+
+### bash && vs ||
+- `&&`: The `&&` operator is used to execute the second command only if the first command is successful (i.e., returns an exit status of 0).
+- `||`: The `||` operator is used to execute the second command only if the first command fails (i.e., returns a non-zero exit status).

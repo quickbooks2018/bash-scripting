@@ -197,3 +197,19 @@ The `strace` output you're observing indicates that you're tracing a Bash shell 
 In summary, the `strace` output shows a Bash process (PID 3116) waiting for a child process (PID 3136, which is the `/bin/bash ./sleep.sh` process) to finish. It successfully detects the child’s termination and handles signals related to the terminal and process control.
 
 If you have any specific questions or need further clarification about the output, feel free to ask!
+
+
+### Brace expansion & for loop example
+
+- brace expansion example
+```bash
+mkdir {1..7}
+mkdir dir{1..7}
+touch file{1..7}.txt
+```
+
+- for loop examole
+```bash
+for i in `seq 7`; do echo $i; done
+for i in {1..7}; do echo $i; done
+```

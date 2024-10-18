@@ -4747,3 +4747,33 @@ This allows incoming TCP traffic from Bob's Laptop (IP `172.16.238.187`) destine
 - **-s 172.16.238.187**: Specifies the source IP address (Bob's Laptop).
 - **--dport 22/80**: Specifies the destination port (SSH is 22, HTTP is 80).
 - **-j ACCEPT**: Accept the traffic if it matches the rule.
+
+#### Task 2
+Now, lockdown incoming traffic on devapp01. Drop incoming connections from any source on any destination port for any protocol (TCP/UDP).
+Remember, this rule should be at the bottom of the chain for the SSH and HTTP access from caleston-lp10 to work.
+
+
+To block all incoming traffic except the allowed SSH and HTTP connections from Bob's Laptop, you need to add a rule to drop all other traffic at the end of the `INPUT` chain. This ensures that the SSH and HTTP access you've already allowed will still work, and all other traffic will be dropped.
+
+You can do this by appending the following rule to block all remaining incoming connections:
+
+```bash
+sudo iptables -A INPUT -j DROP
+```
+
+### Explanation:
+- **`-A INPUT`**: This appends the rule to the `INPUT` chain, meaning it applies to all incoming packets.
+- **`-j DROP`**: This tells `iptables` to **drop** all packets that do not match any previous rules in the chain (i.e., all incoming connections from other sources or ports).
+
+### The order of rules is crucial:
+The rules that allow traffic from Bob’s Laptop for SSH and HTTP must be placed **before** this drop rule, which blocks everything else. Since you have already added the SSH and HTTP rules, appending this `DROP` rule at the end ensures that all other traffic will be blocked.
+
+You can verify the rules by running:
+
+```bash
+sudo iptables -L
+```
+
+This should show:
+- SSH and HTTP rules for `172.16.238.187`.
+- A final `DROP` rule for everything else.
